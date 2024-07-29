@@ -3,4 +3,9 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 /blob-report/
-
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+tests/example.spec.js
+tests-examples/demo-todo-app.spec.js

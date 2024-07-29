@@ -12,6 +12,7 @@ import { ChooseRecipientsPage } from '../../pages/chooseRecipientspage_1446';
 import { SendReferralPage } from '../../pages/sendReferralPage_176';
 import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { RmPostauthSummaryPage } from '../../pages/rmPostauthSummaryPage_1463';
+import { LoginPage } from '../../pages/PageLogin_111';
 
 let referralId;
 

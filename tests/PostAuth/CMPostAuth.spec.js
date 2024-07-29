@@ -8,37 +8,38 @@ import { ChooseRecipientsPage } from '../../pages/chooseRecipientspage_1446';
 import { SendReferralPage } from '../../pages/sendReferralPage_176';
 import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { CmPostauthSummaryPage } from '../../pages/cmPostauthSummaryPage_1467';
+import { LoginPage } from '../../pages/PageLogin_111';
 
 test('CM Post Auth', async ({ page }) => {
   
     //Step -1: Login to the app
     const Login = new LoginPage(page);
-    await Login.login(user, password);
+    const page1 = await Login.login(user, password);
   
-    const lib1 = new LIB(page);
+    const lib1 = new LIB(page1);
     
     //Step 2- Create patient and admission
     await lib1.createptandadm();
-    await page.waitForTimeout(2000);
+    await page1.waitForTimeout(2000);
 
-    page = await lib1.createFinancial('AUTOTST')
-    await page.waitForTimeout(2000);
+    await lib1.createFinancial('AUTOTST')
+    await page1.waitForTimeout(2000);
 
-    const ReferralConfirmation = new ReferralConfirmationPage(page);
+    const ReferralConfirmation = new ReferralConfirmationPage(page1);
 
-    const ReferralFacesheet = new ReferralFacesheetPage(page);
-    const ChooseRecipients = new ChooseRecipientsPage(page);
-    const SendReferral = new SendReferralPage(page);
-    const ManageContextNav = new ManageContextNavigator(page);
-    const CmPostauthSummary = new CmPostauthSummaryPage(page);
+    const ReferralFacesheet = new ReferralFacesheetPage(page1);
+    const ChooseRecipients = new ChooseRecipientsPage(page1);
+    const SendReferral = new SendReferralPage(page1);
+    const ManageContextNav = new ManageContextNavigator(page1);
+    const CmPostauthSummary = new CmPostauthSummaryPage(page1);
 
     await ManageContextNav.NavigateToCreateReferral();
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(2000);
+    await page1.waitForLoadState('domcontentloaded');
+    await page1.waitForTimeout(2000);
 
     await ReferralFacesheet.createReferral('Post Auth Referral');
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(2000);
+    await page1.waitForLoadState('domcontentloaded');
+    await page1.waitForTimeout(2000);
 
     await ManageContextNav.NavigateToChooseRecipients();
     await page.waitForLoadState('domcontentloaded');

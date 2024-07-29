@@ -26,7 +26,7 @@ export class LoginPage{
         await page1.locator('#PasswordTextBox').press('Enter');
         await page1.waitForLoadState('domcontentloaded');
         await expect(page1.getByText('Welcome Back')).toHaveCount(1);
-    
+        return page1;
     }
 
 }
