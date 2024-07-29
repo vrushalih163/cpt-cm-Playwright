@@ -14,7 +14,7 @@ import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 const {QAProvider1,user, password} = process.env
 test('Create Referral', async ({ page }) => {
   
-  //Step -1: Login to the app append
+  //Step -1: Login to the app 
   const Login = new LoginPage(page);
   await Login.login(user, password);
 
