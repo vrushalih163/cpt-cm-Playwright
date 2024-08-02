@@ -20,7 +20,7 @@ test('MCG POC', async ({ CMApp }) => {
   const Communications = new CommunicationsPage(page1);
   const ReviewSummary = new ReviewSummaryPage(page1);
 
-  //Step 2 - Create a new patient and admission test
+  //Step 2 - Create a new patient and admission
   const lib1 = new LIB(page1);
   await lib1.createptandadm();
   await page1.waitForTimeout(2000);
