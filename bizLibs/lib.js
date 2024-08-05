@@ -139,16 +139,12 @@ export class LIB {
     async DataDirectory() {
         // Get the user's home directory
         const homeDir = os.homedir();
-
+    
         // Construct the full path to the user data directory
         const userDataDir = path.join(homeDir, 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Network');
-
-        //console.log(`User Data Directory: ${userDataDir}`);
-        //output: C:\Users\RajakumarMaste\AppData\Local\Google\Chrome\User Data\Default\Network
-
+    
         // Add an extra backslash wherever a backslash is present
         const modifiedPath = userDataDir.replace(/\\/g, "\\\\");
-        // output: C:\\Users\\RajakumarMaste\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Network
         return String(modifiedPath);
     }
 

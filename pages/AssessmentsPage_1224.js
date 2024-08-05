@@ -6,7 +6,7 @@ export class Assessments {
 
 constructor(page) {
       this.page = page;
-      this.addAssessment_button = page1.getByRole('link', { name: 'Add Assessment' });
+      this.addAssessment_button = page.getByRole('link', { name: 'Add Assessment' });
       
 }
 

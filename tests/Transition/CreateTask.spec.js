@@ -5,7 +5,7 @@ import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage'
 import { LIB } from '../../bizLibs/lib';
 
 test('Create Task', async ({ }) => {
-    test.setTimeout( 10 * 60 * 1000);//5mins in milliseconds
+    test.setTimeout( 5 * 60 * 1000);//5mins in milliseconds
 
     const Library = new LIB();
     

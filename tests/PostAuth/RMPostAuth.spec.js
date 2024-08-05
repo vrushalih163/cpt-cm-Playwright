@@ -20,77 +20,77 @@ test('Create RM Post Auth', async ({ page }) => {
   
   //Step -1: Login to the app
   const Login = new LoginPage(page);
-  await Login.login(user, password);
+  const page1 = await Login.login(user, password);
 
-  const lib1 = new LIB(page);
+  const lib1 = new LIB(page1);
   
   //Step 2- Create patient and admission
   await lib1.createptandadm();
-  await page.waitForTimeout(2000);
+  await page1.waitForTimeout(2000);
 
   page = await lib1.createFinancial('AUTOTST')
-  await page.waitForTimeout(2000);
+  await page1.waitForTimeout(2000);
 
-  const ReferralConfirmation = new ReferralConfirmationPage(page);
-  const AppNav = new ApplicationNavigator(page);
-  const IncomingReferralsEnhancedView = new IncomingReferralsEnhancedViewPage(page);
+  const ReferralConfirmation = new ReferralConfirmationPage(page1);
+  const AppNav = new ApplicationNavigator(page1);
+  const IncomingReferralsEnhancedView = new IncomingReferralsEnhancedViewPage(page1);
 
-  const RmPostauthSummary = new RmPostauthSummaryPage(page);
+  const RmPostauthSummary = new RmPostauthSummaryPage(page1);
 
-  const ReferralFacesheet = new ReferralFacesheetPage(page);
-  const ChooseRecipients = new ChooseRecipientsPage(page);
-  const SendReferral = new SendReferralPage(page);
-  const ManageContextNav = new ManageContextNavigator(page);
+  const ReferralFacesheet = new ReferralFacesheetPage(page1);
+  const ChooseRecipients = new ChooseRecipientsPage(page1);
+  const SendReferral = new SendReferralPage(page1);
+  const ManageContextNav = new ManageContextNavigator(page1);
 
   await ManageContextNav.NavigateToCreateReferral();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await ReferralFacesheet.createReferral('Post Auth Referral');
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await ManageContextNav.NavigateToChooseRecipients();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
   
   let startIndex = QAProvider1.length -15;
 
   await ChooseRecipients.choose1Recipient(QAProvider1.substring(startIndex));
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await ManageContextNav.NavigateToSendReferrals()
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(4000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(4000);
 
   await SendReferral.unMaskAllPatientInfo();
   await SendReferral.clickSendReferralButton();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(4000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(4000);
 
   await ReferralConfirmation.validateConfirmationText('has been posted by automation');
   referralId = await ReferralConfirmation.getReferralId();
 
   await ReferralConfirmation.clickJumpToProvider();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await AppNav.NavigateToIncomingReferralsEnhancedView();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await IncomingReferralsEnhancedView.searchReferralId(referralId);
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await IncomingReferralsEnhancedView.navigateActionDDBox('Post-Acute Authorization');
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickRequestAuth();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickAddressBookButton();
   await RmPostauthSummary.searchAddressBook(QAProvider2);
@@ -99,32 +99,32 @@ test('Create RM Post Auth', async ({ page }) => {
   await RmPostauthSummary.selectLOC();
 
   await RmPostauthSummary.clickSendRequest();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickRecordCommunication();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.setPayorResponse('Cancelled');
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.setPayorResponseReason('Member did not admit to PAC');
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickSave();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickNotResponsibleForAuth();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.clickSave();
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(2000);
+  await page1.waitForLoadState('domcontentloaded');
+  await page1.waitForTimeout(2000);
 
   await RmPostauthSummary.ValidateDataSummaryPage('Exclusion for Post-Acute Authorization');
   await RmPostauthSummary.ValidateDataSummaryPage('Communication');

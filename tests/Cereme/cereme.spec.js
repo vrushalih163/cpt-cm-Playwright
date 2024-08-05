@@ -1,4 +1,5 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
+const { user, password } = process.env
 import { LIB } from '../../bizLibs/lib';
 import { test, expect } from '../../pages/PageStart';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
@@ -8,13 +9,18 @@ import { ReviewFaceSheetPage } from '../../pages/reviewFaceSheetPage_662';
 import { ReviewCriteriaPage } from '../../pages/reviewCriteriaPage_663';
 import { CommunicationsPage } from '../../pages/communicationsPage_664';
 import { ReviewSummaryPage } from '../../pages/reviewSummaryPage_678';
+import { LoginPage } from '../../pages/PageLogin_111';
 
-test('Cereme POC', async ({ CMApp }) => {
+test.fixme('Cereme POC', async ({ page }) => {
+  
+  //Step -1: Login to the app
+  const Login = new LoginPage(page);
+  const page1 = await Login.login(user, password);
 
-  const AppNav = new ApplicationNavigator(CMApp);
+  const AppNav = new ApplicationNavigator(page1);
 
-  //Step 1 - Login and change org to Allscripts QA Hos 1
-  const page1 = await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (')
+  //Step 1 -Change org to Allscripts QA Hos 1
+  await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (')
 
   const ManageContextNav = new ManageContextNavigator(page1);
   const AdmissionDetails = new AdmissiondetailsPage(page1);

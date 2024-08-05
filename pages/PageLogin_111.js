@@ -25,7 +25,7 @@ export class LoginPage{
         await page1.locator('#PasswordTextBox').fill(password);
         await page1.locator('#PasswordTextBox').press('Enter');
         await page1.waitForLoadState('domcontentloaded');
-        await page1.waitForTimeout(10000);
+        await page1.waitForTimeout(7000);
         return page1;
         //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
     
