@@ -4,7 +4,7 @@ export class ProviderSearchPage {
         this.page = page;
     }
 
-    async ProviderSeach(providerName) {
+    async SearchProvider(providerName) {
         await this.page.getByLabel('Clear').click();
         await this.page.getByPlaceholder('Search by address, city,').click();
         await this.page.keyboard.type('Hagåtña, 96910, Guam', { delay: 300 });

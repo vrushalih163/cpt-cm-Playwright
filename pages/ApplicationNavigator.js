@@ -5,10 +5,10 @@ export class ApplicationNavigator {
   constructor(page) {
     this.page = page;
 
-    this.refresh_link = page.locator('#PageHeader_IonHeaderRefreshButton');
-    this.manage_link = page.locator('#MenuBar_Manage_Header');
+    this.refresh_link = page.getByRole('link',{name: 'PageHeader$IonHeaderRefreshButton'});
+    this.manage_link = page.getByRole('link', { name: ' Manage' });
 
-    this.patients_link = page.locator('#Manage_Header_Manage_Header_Menu_Patients');
+    this.patients_link = page.getByRole('link', { name: 'Patients ' });
     this.patientsdefaultview_link = page.getByRole('link', { name: 'Patients Default View' });
 
     this.IncomingReferrals_link = page.getByRole('link', { name: 'Incoming Referrals ' });
