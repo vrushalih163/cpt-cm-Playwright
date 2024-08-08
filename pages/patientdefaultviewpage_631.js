@@ -18,4 +18,21 @@ async NavigateActionDDBox(action) {
       //await this.page.getByText(action).click();
     }
 
+
+    async SearchPatientByMRN(MRN) {
+      if(!await this.page.getByRole('link', { name: 'Maximize Panel' }))
+            await this.page.getByRole('link', { name: 'Maximize Panel' }).click();
+        await this.page.waitForTimeout(2000);
+        await this.page.locator('#ViewSearchBar_MRN').click();
+        await this.page.locator('#ViewSearchBar_MRN').fill('Connect Int 1');
+        await this.page.getByRole('button', { name: 'Search' }).click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForTimeout(2000);
+
+   }
+
+
+
+
+
 }

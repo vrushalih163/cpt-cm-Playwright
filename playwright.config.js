@@ -75,7 +75,7 @@ module.exports = defineConfig({
     // },
   ],
   //test case timeout
-  timeout: 240000,
+  timeout: 120000,
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',

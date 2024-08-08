@@ -1,7 +1,7 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
 
 const {expect} = require ("@playwright/test")
-const {url} = process.env
+const {URL} = process.env
 
 export class LoginPage{
 
@@ -14,7 +14,7 @@ export class LoginPage{
 
     async login(user, password){
       
-        await this.page.goto(url, { waitUntil: 'networkidle' });
+        await this.page.goto(URL, { waitUntil: 'networkidle' });
         await this.page.waitForTimeout(1000);
         const page1Promise = this.page.waitForEvent('popup');
         await this.page.getByRole('button', { name: 'Log In' }).click();
@@ -25,7 +25,7 @@ export class LoginPage{
         await page1.locator('#PasswordTextBox').fill(password);
         await page1.locator('#PasswordTextBox').press('Enter');
         await page1.waitForLoadState('domcontentloaded');
-        await page1.waitForTimeout(7000);
+        await expect(page1.getByText('Welcome Back')).toHaveCount(1);
         return page1;
         //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
     
