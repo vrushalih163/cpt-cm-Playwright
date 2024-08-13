@@ -10,3 +10,7 @@ node_modules/
 tests/example.spec.js
 tests-examples/demo-todo-app.spec.js
 .github/workflows/playwright.yml
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

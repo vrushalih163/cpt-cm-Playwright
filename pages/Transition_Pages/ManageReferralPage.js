@@ -23,7 +23,7 @@ export class ManageReferral {
     * Manage Referral Page
     * 
     * **Visibility**
-    * Patient task worklist icon will be visible in secondary banner page of manage referral page. Upon clicking on this patient task worklist modal will get opened.
+    * Patient task worklist icon will be visible in secondary banner of manage referral page. Upon clicking on this patient task worklist modal will get opened.
     * 
     */
     async PatientTaskWorkList() {

@@ -12,6 +12,12 @@ export class LoginPage{
         // this.login_button = page.getByText('Log In');
     }
 
+    /**
+     * 
+     * @param {*} username 
+     * @param {*} password 
+     * @returns page1
+     */
     async login(user, password){
       
         await this.page.goto(URL, { waitUntil: 'networkidle' });
@@ -23,12 +29,13 @@ export class LoginPage{
         await page1.locator('//input[@id="UserNameTextBox"]').fill(user);
         await page1.locator('#UserNameTextBox').press('Tab');
         await page1.locator('#PasswordTextBox').fill(password);
-        await page1.locator('#PasswordTextBox').press('Enter');
+        //await page1.locator('#PasswordTextBox').press('Enter');
+        await page1.getByText('Log In').click();
         await page1.waitForLoadState('domcontentloaded');
         await expect(page1.getByText('Welcome Back')).toHaveCount(1);
         return page1;
         //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
     
     }
-
+    
 }

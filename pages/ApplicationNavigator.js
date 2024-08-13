@@ -5,7 +5,7 @@ export class ApplicationNavigator {
   constructor(page) {
     this.page = page;
 
-    this.refresh_link = page.getByRole('link',{name: 'PageHeader$IonHeaderRefreshButton'});
+    this.refresh_link = page.getByRole('link', { name: 'PageHeader$IonHeaderRefreshButton' });
     this.manage_link = page.getByRole('link', { name: ' Manage' });
 
     this.patients_link = page.getByRole('link', { name: 'Patients ' });
@@ -16,6 +16,18 @@ export class ApplicationNavigator {
 
     this.home_link = page.getByRole('link', { name: ' Home' });
     this.changeOrg_link = page.getByRole('link', { name: 'Change Organization' });
+
+    //Configure icon 
+    this.configure_link = page.locator('#MenuBar_Configure_Header');
+
+    //Discharge planning link
+    this.DischargePlanning_link = page.locator('//a[@data-id="Configure_Header_Configure_Header_Menu_Discharge Planning"]');
+
+    //Referral type editor link
+    this.ReferralTypeEditor_link = page.getByRole('link', { name: 'Referral Type Editor' });
+
+    //Referral configuration link
+    this.ReferralConfiguration_link = page.getByRole('link', { name: 'Referral Configuration' });
   }
 
   async clickRefresh() {
@@ -52,5 +64,33 @@ export class ApplicationNavigator {
     return this.page;
   }
 
-  
+  /**
+   * Navigate to Discharge Planning -> Referral Type Editor
+   */
+  async NavigateToReferralTypeEditor() {
+    await this.configure_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.DischargePlanning_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.ReferralTypeEditor_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    return this.page;
+  }
+
+  /**
+   * Navigate to Discharge Planning -> Referral Configuration
+   */
+  async NavigateToReferralConfiguration() {
+    await this.configure_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.DischargePlanning_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.ReferralConfiguration_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    return this.page;
+  }
 }

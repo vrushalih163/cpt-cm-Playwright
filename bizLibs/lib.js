@@ -1,5 +1,5 @@
 
-//home.page.ts
+
 import { PatientdetailsPage } from '../pages/patientdetailspage_52';
 import { AdmissiondetailsPage } from '../pages/admissiondetailspage_54';
 import { ApplicationNavigator } from '../pages/ApplicationNavigator';
@@ -11,6 +11,7 @@ import { ReferralFacesheetPage } from '../pages/referralfacesheetpage_145';
 import { ChooseRecipientsPage } from '../pages/chooseRecipientspage_1446';
 import { SendReferralPage } from '../pages/sendReferralPage_176';
 import { ReferralConfirmationPage } from '../pages/referralConfirmationPage_188';
+const moment = require('moment-timezone');
 const os = require('os');
 const path = require('path');
 const { FhirLaunchUrl, TransitionlaunchUrl, Tokens } = process.env
@@ -22,6 +23,58 @@ function generateUniqueText(length) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
+}
+
+
+/**
+* Map specific time zone text to IANA time zone identifiers.
+* @param {string} timeZone - The input time zone string.
+* @returns {string} - The IANA time zone identifier.
+*/
+function mapTimeZone(timeZone) {
+    const lowerCaseTimeZone = timeZone.toLowerCase();
+
+    if (lowerCaseTimeZone.includes('pt') || lowerCaseTimeZone.includes('pacific')) {
+        return 'America/Los_Angeles';
+    } else if (lowerCaseTimeZone.includes('ct') || lowerCaseTimeZone.includes('central')) {
+        return 'America/Chicago';
+    } else if (lowerCaseTimeZone.includes('et' || lowerCaseTimeZone.includes('eastern'))) {
+        return 'America/Halifax';
+    } else if (lowerCaseTimeZone.includes('atlantic')) {
+        return 'America/Halifax';
+    } else if (lowerCaseTimeZone.includes('mountain')) {
+        return 'America/Denver';
+    } else if (lowerCaseTimeZone.includes('alaska')) {
+        return 'America/Anchorage';
+    } else if (lowerCaseTimeZone.includes('hawaii') || lowerCaseTimeZone.includes('aleutian')) {
+        return 'Pacific/Honolulu';
+    } else if (lowerCaseTimeZone.includes('greenwich') || lowerCaseTimeZone.includes('gmt')) {
+        return 'Etc/GMT';
+    } else {
+        throw new Error('Unsupported time zone');
+    }
+}
+
+/**
+ * Get the current date and time in a specified time zone.
+ * @param {string} timeZone - The input time zone string.
+ * @param {string} format - The time format ('12hr' or '24hr').
+ * @returns {string} - The current date and time in the specified time zone and format.
+ */
+function getCurrentDateTimeInTimeZone(timeZone, format) {
+    // Map the input time zone to an IANA time zone identifier
+    const ianaTimeZone = mapTimeZone(timeZone);
+
+    // Get the current date and time
+    const now = moment();
+
+    // Determine the time format
+    const timeFormat = format === '12hr' ? 'M-D-YYYY hh:mm A' : 'M-D-YYYY HH:mm';
+
+    // Convert to the specified time zone and format
+    const dateTimeInTimeZone = now.tz(ianaTimeZone).format(timeFormat);
+
+    return dateTimeInTimeZone;
 }
 
 export class LIB {
@@ -136,13 +189,17 @@ export class LIB {
         await ReferralConfirmation.validateConfirmationText('has been posted by automation');
     }
 
+    /**
+     * This method is used to fetch the user directory path automatically
+     * @returns user directory path
+     */
     async DataDirectory() {
         // Get the user's home directory
         const homeDir = os.homedir();
-    
+
         // Construct the full path to the user data directory
         const userDataDir = path.join(homeDir, 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Network');
-    
+
         // Add an extra backslash wherever a backslash is present
         const modifiedPath = userDataDir.replace(/\\/g, "\\\\");
         return String(modifiedPath);
@@ -185,7 +242,7 @@ export class LIB {
         await this.page.locator('#txtTokens').fill(Tokens);
         const [newPage] = await Promise.all([
             this.page.waitForEvent('popup'),
-            await this.page.locator('#btnLaunch').click()
+            this.page.locator('#btnLaunch').click()
         ]);
         await newPage.waitForLoadState('domcontentloaded');
         await newPage.waitForTimeout(3000);
@@ -202,4 +259,28 @@ export class LIB {
         // Read the clipboard content
         const clipboardContent2 = await this.page.evaluate(() => navigator.clipboard.readText());
     }
-}
+
+    /**
+     * This method is used to clear the cache and which will helpful to get new code by clearing a existing cache.
+     */
+    async clearCache() {
+        const userDataDir = await DataDirectory();
+
+        try {
+            const files = await fs.readdir(userDataDir);
+            for (const file of files) {
+                const filePath = path.join(userDataDir, file);
+                const stat = await fs.lstat(filePath);
+
+                if (stat.isDirectory()) {
+                    await fs.rmdir(filePath, { recursive: true });
+                } else {
+                    await fs.unlink(filePath);
+                }
+            }
+            console.log('Cache cleared successfully.');
+        } catch (error) {
+            console.error('Error clearing cache:', error);
+        }
+    }
+};

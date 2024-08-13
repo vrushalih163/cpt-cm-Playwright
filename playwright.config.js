@@ -7,7 +7,7 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 require('dotenv').config({
   //path: `./env/.env.${process.env.ENV}`,
-   path: './env/.env.pv01',
+   path: './env/.env.pv02',
 });
 
 /**
@@ -23,7 +23,7 @@ module.exports = defineConfig({
   //retries: process.env.CI ? 2 : 1,
   retries: 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
