@@ -1,4 +1,6 @@
 // Author - Rajakumar Maste, Created Date: 29 July 2024
+// Modified By- Rajakumar Maste, Modified Date: 16 Aug 2024
+// Comment - Upadted login code with new loggin method
 import { test, expect, Browser, BrowserContext, chromium, Page } from '@playwright/test';
 import { AddEditTaskModal } from '../../pages/Transition_Pages/AddEditTaskModal';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
@@ -7,18 +9,11 @@ import { LIB } from '../../bizLibs/lib';
 test('Create Task', async ({ }) => {
     test.setTimeout( 5 * 60 * 1000);//5mins in milliseconds
 
+    //Creating an Object to LIB class
     const Library = new LIB();
-    
-    //getting persistant context
-    var library = Library.DataDirectory();
-    const userpath = ((await library).toString());
-    const browser = await chromium.launchPersistentContext(userpath);
-    const pages = browser.pages();
-    const page = pages[0];
 
-    //EPIC Oauth popup details fill up and logging into Transition
-    const library1 = new LIB(page);
-    const  newPage = await library1.TransitionLogin('Clin Doc, Henry');
+    //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
+    const newPage = await Library.HandleAppLaunch('Cadence, Anna','E1703','Patient Choice');
 
     //Click on patient task worklist icon manage referral page.
     const PTaskWorklist = new ManageReferral(newPage);

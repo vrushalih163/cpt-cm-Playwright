@@ -1,5 +1,5 @@
-
-
+//Modified by Rajakumar Maste, Date: 14 Aug 2024, Description: added 'HandleAppLaunch' method to handle the application launch 
+//comment - Added new login method i.e HandleAppLaunch
 import { PatientdetailsPage } from '../pages/patientdetailspage_52';
 import { AdmissiondetailsPage } from '../pages/admissiondetailspage_54';
 import { ApplicationNavigator } from '../pages/ApplicationNavigator';
@@ -11,10 +11,15 @@ import { ReferralFacesheetPage } from '../pages/referralfacesheetpage_145';
 import { ChooseRecipientsPage } from '../pages/chooseRecipientspage_1446';
 import { SendReferralPage } from '../pages/sendReferralPage_176';
 import { ReferralConfirmationPage } from '../pages/referralConfirmationPage_188';
+import { LoginPage } from '../pages/PageLogin_111';
+import { AdmissionFaceSheet } from '../pages/AdmisssionFaceSheet_51';
+import { TransitionDignosis } from '../pages/TransitionDignosis_1469';
+const { chromium } = require('playwright');
+const fs = require('fs').promises;
 const moment = require('moment-timezone');
 const os = require('os');
 const path = require('path');
-const { FhirLaunchUrl, TransitionlaunchUrl, Tokens } = process.env
+const { FhirLaunchUrl, TransitionlaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
 
 function generateUniqueText(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -81,6 +86,103 @@ export class LIB {
 
     constructor(page) {
         this.page = page;
+    }
+
+    /**
+     * This method will switch the login flow based on the 'LaunchThroughEPIC' variable state
+     * @param {*} TransPatientName 
+     * For referrence: 'Cadence, Anna', 'Clin Doc, Henry', 'Grand Central, John','Optime, Omar','Nelson, Kyle'
+     * @param {*} TransPatientMRN 
+     * For reference: E2651, E1703, 3228, E3350, E3734
+     * @param {*} TransNavigationOption 
+     * Navigator options on Transition Dignosis page: Manage Referrals, Patient Choice, Tasks
+     * @returns 
+     */
+    async HandleAppLaunch(TransPatientName, TransPatientMRN, TransNavigationOption) {
+        if (LaunchThroughEPIC === 'true') {
+            //EPIC Oauth popup details fill up and logging into Transition
+            //getting persistant context
+            var library = await this.DataDirectory();
+            const userpath = library.toString();
+            const browser = await chromium.launchPersistentContext(userpath);
+            const pages = browser.pages();
+            const page = pages[0];
+            await page.goto(FhirLaunchUrl);
+            await page.waitForLoadState('domcontentloaded');
+
+            if (await page.getByText('Login').isVisible()) {
+                await page.locator('#userLoginMenu').click();
+                await page.waitForLoadState('domcontentloaded');
+                await page.waitForTimeout(2000);
+
+                await page.locator("//*[@id=\"LoginContextUSCDILogin\"]/span").click();
+                await page.waitForLoadState('networkidle');
+                await page.waitForTimeout(15000);
+            }
+
+            await page.locator('//a[@id="DocumentationDropdown"]').click();
+            await page.waitForLoadState('domcontentloaded');
+            await page.waitForTimeout(2000);
+
+            await page.locator('#mnulaunching').click();
+
+            await page.locator('#btnTrySmart').click();//Try it button
+
+            await page.locator('#selApp').selectOption('EPIC');
+
+            await page.locator('//div[@id="divPickEpt"]//div[@title="Pick a patient"]//select[@id="selEpt"]').click();
+            await page.waitForLoadState('domcontentloaded');
+            await page.getByLabel('Select a patient').selectOption(TransPatientName);
+
+            await page.locator('#txtOAuth2LaunchUrl').fill(TransitionlaunchUrl);
+            await page.locator('#txtTokens').fill(Tokens);
+            const [newPage] = await Promise.all([
+                page.waitForEvent('popup'),
+                page.locator('#btnLaunch').click()
+            ]);
+            await newPage.waitForLoadState('domcontentloaded');
+            await newPage.waitForTimeout(3000);
+            return newPage;
+        } else {
+            // Launching new chromium instance
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+
+            //Creating a object for LoginPage class
+            const TransDign = new LoginPage(page);
+
+            //Passing user and password parameters to login method
+            const page1 = await TransDign.login(user, password);
+
+            //Creating a object to ApplicationNavigator class
+            const Appnav = new ApplicationNavigator(page1);
+
+            //Calling & Passing Org name to NavigateToChangeOrg method
+            await Appnav.NavigateToChangeOrg(TransitionOrg1);
+
+            //calling NavigateToPatinetsDefaultView method
+            await Appnav.NavigateToPatientsDefaultView();
+
+            //Creating object to PatientdefaultviewPage and passing page1 to it.
+            const PatientDefaultViewPage = new PatientdefaultviewPage(page1);
+
+            //Calling & Passing the patient MRN to SearchPatientByMRN method
+            await PatientDefaultViewPage.SearchPatientByMRN(TransPatientMRN);
+
+            //Calling & Passing the option present in dropdown to NavigateActionDDBox method
+            await PatientDefaultViewPage.NavigateActionDDBox('Most Recent Admission');
+
+            //Creating object to AdmissiondetailsPage and passing page1 to it.
+            const AdmFacesheet = new AdmissionFaceSheet(page1);
+
+            //Clicking on Transition Diagnostics link
+            await AdmFacesheet.TransitionDignosis_LinkClick();
+
+            //Creating object to TransitionDignosis class and passing page1 to it.
+            const TransDignPg = new TransitionDignosis(page1);
+            const newPage = await TransDignPg.SelectNavigationPage_Dropdown(TransNavigationOption);
+            return newPage;
+        }
     }
 
     async createptandadm() {
@@ -190,66 +292,6 @@ export class LIB {
     }
 
     /**
-     * This method is used to fetch the user directory path automatically
-     * @returns user directory path
-     */
-    async DataDirectory() {
-        // Get the user's home directory
-        const homeDir = os.homedir();
-
-        // Construct the full path to the user data directory
-        const userDataDir = path.join(homeDir, 'AppData', 'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Network');
-
-        // Add an extra backslash wherever a backslash is present
-        const modifiedPath = userDataDir.replace(/\\/g, "\\\\");
-        return String(modifiedPath);
-    }
-
-
-    /**
-    * EPIC Oauth login popup
-    * 
-    * **Patient Name**
-    * Enter the correct patient name. For referrence: 'Cadence, Anna', 'Clin Doc, Henry', 'Grand Central, John','Optime, Omar','Nelson, Kyle'
-    * 
-    */
-    async TransitionLogin(patientName) {
-        await this.page.goto(FhirLaunchUrl);
-        await this.page.waitForLoadState('domcontentloaded');
-
-        await this.page.locator('#userLoginMenu').click();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000);
-
-        await this.page.locator("//*[@id=\"LoginContextUSCDILogin\"]/span").click();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(10000);
-
-        await this.page.locator('//a[@id="DocumentationDropdown"]').click();
-        await this.page.waitForLoadState('domcontentloaded');
-
-        await this.page.locator('#mnulaunching').click();
-
-        await this.page.locator('#btnTrySmart').click();//Try it button
-
-        await this.page.locator('#selApp').selectOption('EPIC');
-
-        await this.page.locator('//div[@id="divPickEpt"]//div[@title="Pick a patient"]//select[@id="selEpt"]').click();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.getByLabel('Select a patient').selectOption(patientName);
-
-        await this.page.locator('#txtOAuth2LaunchUrl').fill(TransitionlaunchUrl);
-        await this.page.locator('#txtTokens').fill(Tokens);
-        const [newPage] = await Promise.all([
-            this.page.waitForEvent('popup'),
-            this.page.locator('#btnLaunch').click()
-        ]);
-        await newPage.waitForLoadState('domcontentloaded');
-        await newPage.waitForTimeout(3000);
-        return newPage;
-    }
-
-    /**
     * Function to copy all text to clipboard
     */
     async CopyTextToClipboard() {
@@ -264,7 +306,7 @@ export class LIB {
      * This method is used to clear the cache and which will helpful to get new code by clearing a existing cache.
      */
     async clearCache() {
-        const userDataDir = await DataDirectory();
+        const userDataDir = await this.DataDirectory();
 
         try {
             const files = await fs.readdir(userDataDir);
@@ -279,6 +321,16 @@ export class LIB {
                 }
             }
             console.log('Cache cleared successfully.');
+            const cookiesFilePath = path.join(userDataDir, 'Cookies');
+            try {
+                await fs.unlink(cookiesFilePath);
+                console.log('Cookies cleared successfully.');
+            } catch (error) {
+                if (error.code !== 'ENOENT') {
+                    throw error;
+                }
+                console.log('No cookies file found to clear.');
+            }
         } catch (error) {
             console.error('Error clearing cache:', error);
         }

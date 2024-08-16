@@ -1,5 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 13 August 2024
-
+//Modified By: Rajakumar Maste, Modified Date: 16 August 2024
+//Comment - Updated loggin flow with new loggin method
 import { test, expect, chromium } from '@playwright/test';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { LIB } from '../../bizLibs/lib';
@@ -19,19 +20,11 @@ const SECOND_TEST = 'second';
 // Function to launch the Transition application and perform login
 async function launchTransitionAndLogin(testType) {
     try {
-        // Launch the Transition application
+        //Creating an Object to LIB class
         const Library = new LIB();
 
-        // Getting persistent context
-        var library = Library.DataDirectory();
-        const userpath = ((await library).toString());
-        const browser = await chromium.launchPersistentContext(userpath);
-        const pages = browser.pages();
-        const page3 = pages[0];
-
-        // EPIC Oauth popup details fill up and logging into Transition
-        const library1 = new LIB(page3);
-        const newPage = await library1.TransitionLogin('Clin Doc, Henry');
+        //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
+        const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Patient Choice');
 
         if (testType === FIRST_TEST) {
             // Land on the shared choice page in Transition
@@ -47,7 +40,7 @@ async function launchTransitionAndLogin(testType) {
         } else {
             console.error("Failed to land on the manage referral page in Transition:", error.message);
         }
-       // throw error; // Re-throw the error after logging it
+        // throw error; // Re-throw the error after logging it
     }
 }
 
@@ -139,14 +132,14 @@ test('Patient Choice Dashboard', async ({ page }) => {
 
     await AddEditSearchCriteriaPage.Click_SearchCriteria_Editlink();
     await page1.waitForTimeout(2000);
-   
+
     // Enable Patient Choice checkbox
     if (!await page1.locator('#chkEnableCareport').isChecked()) {
         await page1.locator('#chkEnableCareport').check();
         await AddEditSearchCriteriaPage.Click_ApplyButton();
         await page1.waitForTimeout(2000);
-    } 
-    if(await page1.locator('#chkEnableCareport').isChecked()) {
+    }
+    if (await page1.locator('#chkEnableCareport').isChecked()) {
         await page1.locator('#chkEnableCareport').uncheck();
         await AddEditSearchCriteriaPage.Click_ApplyButton();
         await page1.waitForTimeout(2000);
@@ -250,8 +243,8 @@ test('Referral Dashboard', async ({ page }) => {
         await page1.locator('#chkEnableCareport').check();
         await AddEditSearchCriteriaPage.Click_ApplyButton();
         await page1.waitForTimeout(2000);
-    } 
-    if(await page1.locator('#chkEnableCareport').isChecked()) {
+    }
+    if (await page1.locator('#chkEnableCareport').isChecked()) {
         await page1.locator('#chkEnableCareport').uncheck();
         await AddEditSearchCriteriaPage.Click_ApplyButton();
         await page1.waitForTimeout(2000);

@@ -14,7 +14,7 @@ export class Mailslurp {
     }
 
     /**
-     * Create a new email id
+     * this function is used to create the MailId in the Mailslurp.
      */
     async CreateMailIdInMailslurp() {
         // load playground app
