@@ -22,6 +22,7 @@ test('Create Referral', async ({ page }) => {
   const lib1 = new LIB(page1);
   
   //Step 2- Create patient and admission
+  //ashok
   await lib1.createptandadm();
   await page1.waitForTimeout(2000);
 
