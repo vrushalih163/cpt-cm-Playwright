@@ -2,6 +2,7 @@
 
 import { test, chromium } from '@playwright/test';
 import { TransitionContextNavigator } from '../../pages/Transition_Pages/TransitionContextNavigator';
+import { AttachmentsPage } from '../../pages/Transition_Pages/AttachmentsPage';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
 
 import { LIB } from '../../bizLibs/lib';
@@ -26,32 +27,26 @@ test('Manage Referrals - Create Referral', async ({ }) => {
 
   const ManageRef = new ManageReferral(page1);
   const TransContextNav = new TransitionContextNavigator(page1);
+  const Attachments = new AttachmentsPage(page1);
 
-  //Step 2: Validate all the previously created Referrals were representing as cards on Manage Referrals page
-
-  await ManageRef.CreateNewReferral('ATAuto');
-
-  //Step 3: Validate the order of the Cards
-  //Step 4: Validate the status of each card on the Manage Referrals page
-  await ManageRef.ValidateFirstReferralStatus('Not Sent')
-  await TransContextNav.ClickManageReferralBreadCrumb();
-
-  //Step 5: Validate that user can Edit the Referral on Manage Referrals page
+  //Step 2: Click on the Referral card (Transportation) on Manage Referrals page
   await ManageRef.ClickFirstReferral();
 
-  //Step 6: Click on the breadcrumb/page path for Manage Referral page
-  await TransContextNav.ClickManageReferralBreadCrumb();
-  await ManageRef.ValidateFirstReferralCardExists();
+  //Step 3: Click on Attachments tab
+  await TransContextNav.ClickAttachmentsTab();
 
-  //Step 7: Validate that user can open/close the Referral on Manage Referrals page
-  await ManageRef.ToggleFirstReferralStatus()
-  await ManageRef.ValidateFirstReferralStatus('Closed');
+  //For automation - upload a file
+  await Attachments.ClickAddAttachmentButton();
+  await Attachments.UploadFile('C:\\Temp\\111.txt');
+  await Attachments.SelectAttachment();
 
-  await ManageRef.ToggleFirstReferralStatus()
-  await ManageRef.ValidateFirstReferralStatus('Not Sent');
+  //Step 4: validate each Attachment appearing on the tab/page show the Date/Time along with Organization Time zone for Created on column
+  //Step 5: Validate each Attachment appearing on the tab/page show the Created By details
+  //Step 6: Validate the Send checkbox for all the 4 Attachments
+  //Step 7: From Actions, click delete on one of the Attachments and validate user can delete existing Attachments
+  //Step 8: Click cancel on the pop-up modal
+  await Attachments.CancelDeleteAttachment();
 
-  //Step 8: Switch the Toggle to Open for “Home care” Referral card (current status: closed) and validate the behavior
-  //Step 9: Switch the Toggle to close for “Hospice” Referral card (current status: placed) and validate the behavior
-  //Step 10: Validate that user can delete the Referral on Manage Referrals page
-  //Delete referrals feature is not there anymore
+  //Step 9: Click on delete and now select delete on the pop-up
+  await Attachments.DeleteAttachment();
 });

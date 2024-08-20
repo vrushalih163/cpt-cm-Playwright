@@ -28,30 +28,27 @@ test('Manage Referrals - Create Referral', async ({ }) => {
   const TransContextNav = new TransitionContextNavigator(page1);
 
   //Step 2: Validate all the previously created Referrals were representing as cards on Manage Referrals page
+  ManageRef.ValidateFirstReferralCardExists();
 
-  await ManageRef.CreateNewReferral('ATAuto');
+  //Step 3: Validate the Referral information on the Cards
+  ManageRef.ValidateFirstReferralStatus('Not Sent');
 
-  //Step 3: Validate the order of the Cards
   //Step 4: Validate the status of each card on the Manage Referrals page
-  await ManageRef.ValidateFirstReferralStatus('Not Sent')
-  await TransContextNav.ClickManageReferralBreadCrumb();
+  //Step 5: Validate that user can see the information - For how many providers the Referral sent and how many has been responded and see count of communications/responses on the Referral card as 'How many of total providers Responded' and # Messages
+  //Step 6: Validate the color of the text for # Messages
+  //Step 7: Validate that user can close the Referral from Manage Referrals page by clicking on the toggle
+  ManageRef.ToggleFirstReferralStatus();
+  
+  ManageRef.ValidateFirstReferralStatus('Closed');
+  
+  //Step 8: Click the toggle for closing the Transportation Referral and validate the status on the card and #Messages
+  //Step 9: Validate that Notifications has been triggered while closing the Transportation Referral through Manage Referrals page
 
-  //Step 5: Validate that user can Edit the Referral on Manage Referrals page
-  await ManageRef.ClickFirstReferral();
+  //Step 10: Validate that user can Edit the Referral through Manage Referrals page
+  ManageRef.ClickFirstReferral();
 
-  //Step 6: Click on the breadcrumb/page path for Manage Referral page
+  //Step 11: Click on the breadcrumb/page path and validate user can navigate to Manage Referrals page
   await TransContextNav.ClickManageReferralBreadCrumb();
   await ManageRef.ValidateFirstReferralCardExists();
 
-  //Step 7: Validate that user can open/close the Referral on Manage Referrals page
-  await ManageRef.ToggleFirstReferralStatus()
-  await ManageRef.ValidateFirstReferralStatus('Closed');
-
-  await ManageRef.ToggleFirstReferralStatus()
-  await ManageRef.ValidateFirstReferralStatus('Not Sent');
-
-  //Step 8: Switch the Toggle to Open for “Home care” Referral card (current status: closed) and validate the behavior
-  //Step 9: Switch the Toggle to close for “Hospice” Referral card (current status: placed) and validate the behavior
-  //Step 10: Validate that user can delete the Referral on Manage Referrals page
-  //Delete referrals feature is not there anymore
 });

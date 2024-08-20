@@ -1,4 +1,6 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
+//Modified - Vrushali Honnatti Date: 7th August, 2024
+import { expect } from '@playwright/test';
 export class IncomingReferralsEnhancedViewPage {
   //exports.LoginPage = class PatientdefaultviewsPage {
 
@@ -11,6 +13,7 @@ export class IncomingReferralsEnhancedViewPage {
     this.action_dropdownbox = page.locator('#ucViewGrid_dgView_ctl03_Actions_0_0_0_ActionItems');
 
     this.maximizePanel_Button = page.getByRole('link', { name: 'Maximize Panel' });
+    this.noRecords_label = page.locator('span#ucViewGrid_lblNoRecords');
 
   }
 
@@ -37,5 +40,7 @@ export class IncomingReferralsEnhancedViewPage {
     //await this.page.getByText(action).click();
   }
 
-
+  async ValidateNoRecordsLabel() {
+    await expect(this.noRecords_label).toContainText('No records found');
+  }
 }

@@ -1,14 +1,19 @@
-// Author - Vrushali Honnatti Date:10th July, 2024
+// Author - Vrushali Honnatti Date: 20th August, 2024
 
-import { test, expect, chromium } from '@playwright/test';
+import { test, chromium } from '@playwright/test';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { ViewOnlineReferralPage } from '../../pages/viewOnlineReferralPage_1473';
 import { IncomingReferralsEnhancedViewPage } from '../../pages/incomingReferralsEnhancedViewPage_631';
 import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
+import { FormsPage } from '../../pages/Transition_Pages/FormsPage';
+import { SendPage } from '../../pages/Transition_Pages/SendPage';
+import { AttachmentsPage } from '../../pages/Transition_Pages/AttachmentsPage';
+import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
+import { TransitionContextNavigator } from '../../pages/Transition_Pages/TransitionContextNavigator';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 
-const { user, password, QAProvider1 } = process.env
+const { user, password, QAProvider1, QAProvider2 } = process.env
 
 test('Validate user search for providers through Provider Search and bring them back to Transition', async ({ }) => {
 
@@ -26,61 +31,88 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //EPIC Oauth popup details fill up and logging into Transition
   library = new LIB(page);
-  const  newPage = await library.TransitionLogin('Clin Doc, Henry');
+  const newPage = await library.TransitionLogin('Clin Doc, Henry');
+
+  const ManageRef = new ManageReferral(newPage);
+  const ProviderSearch = new ProviderSearchPage(newPage);
+  const TransContextNav = new TransitionContextNavigator(newPage);
+  const Forms = new FormsPage(newPage);
+  const Attachments = new AttachmentsPage(newPage);
+  const Send = new SendPage(newPage);
 
   //Step 2 - Click on Create Referral card
-  await newPage.getByText('add_circle_outline').click();
-  await newPage.getByPlaceholder('Search...').click();
-
- //Step 3 - Choose the required referral type and click on 'Create Referral' button
-  await newPage.getByLabel('Search referral type').click();
-  await newPage.keyboard.type('ATAuto', { delay: 250 });
-  await newPage.waitForTimeout(1000);
-
-  await newPage.locator('.mat-radio-inner-circle').first().press('Enter');
-  await newPage.pause();
-  await newPage.locator('#btnCreatReferral').click();
-  await newPage.waitForTimeout(1000);
-  await newPage.getByRole('button', { name: 'Yes' }).click();
-  await newPage.waitForLoadState('domcontentloaded');
-  await newPage.waitForTimeout(2000);
+  //Step 3 - Choose the required referral type and click on 'Create Referral' button
+  await ManageRef.CreateNewReferral('ATAuto');
 
   //Step 4 - Click on Search Providers
-  await newPage.getByText('add_circle_outline').click();
-
-  const ProviderSearch = new ProviderSearchPage(newPage);
-
-  let startIndex = QAProvider1.length -15;
+  await ProviderSearch.ClickSearchProviderButton();
 
   //Step 5 - Enter the zipcode 96912 and Click on Refresh
+  let startIndex = QAProvider1.length - 15;
   await ProviderSearch.SearchProvider(QAProvider1.substring(startIndex));
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
-
+  
   //Step 6 - Without selecting the Providers, click on the Manage referrals breadcrumb
   //Scenario covered in TC 95685
+  await ProviderSearch.ClickProviderCheckBox(0);
 
   //Step 7 - Click on Forms tab, add forms
+  await TransContextNav.ClickFormsTab();
+  await Forms.SelectAForm('1823 - Medicaid');
+  await TransContextNav.ValidateSendReferralButtonDisabled();
+
   //Step 8 - Click on Attachments tab
+  await TransContextNav.ClickAttachmentsTab();
+
   //Step 9 - Click on Add Attachment and attach the required document
+  await Attachments.ClickAddAttachmentButton();
+  await Attachments.UploadFile('C:\\Temp\\111.txt');
+  await Attachments.SelectAttachment();
+
+  await TransContextNav.ValidateSendReferralButtonDisabled();
+
   //Step 10 - Click on Information tab, enter the Projected discharge date and Primary diagnosis, Click on Send tab
-  await newPage.getByText('Review and Send').click();
-  await newPage.waitForLoadState('domcontentloaded');
-  await newPage.waitForTimeout(2000);
+  await TransContextNav.ClickSendTab();
 
   //Step 11 - Verify the Providers and Send Referral button 
+  await TransContextNav.ValidateSendReferralButtonDisabled();
+  await Send.ValidateProviderSelectedLabel('0 Providers are Selected')
+
   //Step 12 - Click on Providers tab
-  //Step 13 - Click on Search Providers
-  //Step 14 - Enter the zipcode 96912 and Click on Refresh
-  //Step 15 - Select the checkboxes present against each of the providers and click on Add to Referral button
-  await newPage.locator('#anchorSendReferral').click();
+  await TransContextNav.ClickProvidersTab();
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
 
-  let textMsg = await newPage.locator('//card-content[@id="transitionReferralContent"]/div/h5').first().textContent();
-  let referralId = textMsg.split('-')
-  let temp = referralId[1].split(' ')
+  //Step 13 - Click on Search Providers
+  await TransContextNav.ClickProviderSearchIcon();
+  startIndex = QAProvider2.length - 15;
 
+  //Step 14 - Enter the zipcode 96912 and Click on Refresh
+  //Step 15 - Select the checkboxes present against each of the providers and click on Add to Referral button
+  await ProviderSearch.SearchProvider(QAProvider2.substring(startIndex));
+  await newPage.waitForLoadState('domcontentloaded');
+  await newPage.waitForTimeout(2000);
+
+  //Step 16 - Select the checkboxes present against the following and click on Send tab: QA Provider 1 QA Provider 2
+  await ProviderSearch.ClickProviderCheckBox(1);
+  await TransContextNav.ClickSendReferralButton();
+  await newPage.waitForLoadState('domcontentloaded');
+  await newPage.waitForTimeout(2000);
+
+  //extract referral ID for automation
+ 
+  var referralId = await ManageRef.GetFirstReferralID();
+
+  //Step 17 - Verify the Providers
+  //Step 18 - Select the QA Provider 8 in the Send tab
+  //Step 19 - Click on Providers tab and verify QA Provider 8 checkbox
+  //Step 20 - Unselect all the Providers  in the Providers tab and Verify the Send Referral button navigating through all tabs
+  //Step 21 - Click on Providers tab, select the checkbox against QA provider 1 and click on Send tab
+  //Step 22 - Click on Send Referral button
+  //covered these scenarios in the above steps
+
+  //step 23 - Login to CM application as QA Provider 1
   const page2 = await browser.newPage();
   await page2.goto('chrome://new-tab-page/');
 
@@ -89,36 +121,99 @@ test('Validate user search for providers through Provider Search and bring them 
 
   const AppNav = new ApplicationNavigator(page3);
   await AppNav.NavigateToChangeOrg(QAProvider1)
+
+  //Step 24 - Navigate to Manage>Incoming referrals enhanced
   await AppNav.NavigateToIncomingReferralsEnhancedView();
 
-  const ViewOnlineReferral = new ViewOnlineReferralPage(page3);
   const IncomingReferralsEnhancedView = new IncomingReferralsEnhancedViewPage(page3);
 
-
-  await IncomingReferralsEnhancedView.searchReferralId(temp[0]);
+  //Step 25 - Enter  the referral ID created in the  Step 2
+  await IncomingReferralsEnhancedView.searchReferralId(referralId);
   await page3.waitForLoadState('domcontentloaded');
   await page3.waitForTimeout(2000);
 
+  //Step 26 - Choose View online referral and click on Go
   await IncomingReferralsEnhancedView.navigateActionDDBox('View Online Referral');
   await page3.waitForLoadState('domcontentloaded');
   await page3.waitForTimeout(2000);
 
-  await ViewOnlineReferral.selectResponse('Yes, willing to accept patient');
+  //Step 27 - Verify the Forms, Attachments, referral data
+  //Step 28 - Login to CM application as QA Provider 2
+  await AppNav.NavigateToChangeOrg(QAProvider2)
+
+  //Step 29 - Navigate to Manage>Incoming referrals enhanced
+  await AppNav.NavigateToIncomingReferralsEnhancedView();
+
+  //Step 30 - Enter  the referral ID created in the  Step 2
+  await IncomingReferralsEnhancedView.searchReferralId(referralId);
   await page3.waitForLoadState('domcontentloaded');
   await page3.waitForTimeout(2000);
+  //await IncomingReferralsEnhancedView.ValidateNoRecordsLabel();
+  await AppNav.LogOff();
 
-  await ViewOnlineReferral.clickSendResponse();
-  await page3.waitForLoadState('domcontentloaded');
-  await page3.waitForTimeout(4000);
-
+  //Step 31 - Navigate back to  the Transition application
   await page.bringToFront();
   await page.locator('#btnTrySmart').click();
   const page5Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Launch' }).click();
   const page5 = await page5Promise;
 
-  await page5.getByRole('heading', { name: 'ATAutomation' }).first().click();
-  await page5.waitForLoadState('domcontentloaded');
-  await page5.waitForTimeout(2000);
-  await expect(page5.locator('#lastResponse')).toContainText('Yes, willing to accept patient');
+  const ManageRef1 = new ManageReferral(page5);
+  const ProviderSearch1 = new ProviderSearchPage(page5);
+  const TransContextNav1 = new TransitionContextNavigator(page5);
+  const Forms1 = new FormsPage(page5);
+  const Attachments1 = new AttachmentsPage(page5);
+  const Send1 = new SendPage(page5);
+  
+
+  //Step 32 - Click on the referral created
+  await ManageRef1.ClickFirstReferral();
+
+  //Step 33 - Click on Forms, unselect the checkbox under Send against a form which was sent already and navigate to Attachments tab
+  await TransContextNav1.ClickFormsTab();
+  await newPage.pause();
+  await Forms1.ClickFormsCheckbox(1);
+
+  //Step 34 - Add a new attachment
+  await TransContextNav1.ClickAttachmentsTab();
+  await Attachments1.ClickAttachmentCheckBox(1);
+
+  //Step 35 - Click on Send checkbox present against the attachment
+  await Attachments1.ClickAttachmentCheckBox(2);
+  
+  //Step 36 - Click on Send
+  await TransContextNav1.ClickSendTab();
+
+  //Step 37 - Select the checkbox present against QA Provider 1
+  await Send1.SelectProvider(1);
+
+  //step 38 - Click on Send Referral button
+  await TransContextNav1.ClickSendReferralButton();
+
+  //step 39 - Login to CM application as QA Provider 1
+  const page4 = await browser.newPage();
+  await page4.goto('chrome://new-tab-page/');
+
+  const Login1 = new LoginPage(page2);
+  const page6 = await Login1.login(user, password);
+
+  const AppNav1 = new ApplicationNavigator(page6);
+  const IncomingReferralsEnhancedView1 = new IncomingReferralsEnhancedViewPage(page6);
+  await AppNav1.NavigateToChangeOrg(QAProvider1)
+
+  //step 40 - Navigate to Manage>Incoming referrals enhanced
+  await AppNav1.NavigateToIncomingReferralsEnhancedView();
+
+  //step 41 - Enter  the referral ID created in the  Step 2
+  await IncomingReferralsEnhancedView1.searchReferralId(referralId);
+  await page6.waitForLoadState('domcontentloaded');
+  await page6.waitForTimeout(2000);
+
+  //Step 42 - Choose View online referral and click on Go
+  await IncomingReferralsEnhancedView1.navigateActionDDBox('View Online Referral');
+  await page6.waitForLoadState('domcontentloaded');
+  await page6.waitForTimeout(2000);
+
+  //Step 43 - Verify the Forms, Attachments, referral data
+  
 });

@@ -7,13 +7,15 @@ export class ManageReferral {
         this.PatientTaskWorkList_icon = page.locator('div').filter({ hasText: /^checklist$/ });
         this.createReferral_link = page.getByText('add_circle_outline');
         this.SearchReferralType_textbox = page.getByLabel('Search referral type');
-        this.firstReferral_radioButton = page.locator('xpath=//mat-radio-button[contains(@id,"mat-radio")]//label//span[@class="mat-radio-container"]//span[contains(@class,"mat-radio-inner-circle")]');
+        this.firstReferral_radioButton = page.locator('xpath=//mat-radio-button[contains(@id,"mat-radio")]//label//span[@class="mat-radio-container"]');
         this.CreateReferral_button = page.locator('#btnCreatReferral');
         this.YesReferralConfirmation_button = page.getByRole('button', { name: 'Yes' });
+        this.NoReferralConfirmation_button = page.getByRole('button', { name: 'No' });
+        this.CloseReferralCreatePopup_button = page.locator('#btnPopupClose');
 
         //card body
-        this.card_body = page.locator('xpath=//div[@id="editTransitionReferralI"]//acm-card//div[@class="card-body"]');
-        this.Referral_link = page.locator('xpath=//card-content[@id="transitionReferralContent"]"//div//h3[@class="mat-tooltip-trigger header3 card-ellipsis"]');
+        this.card_body = page.locator('xpath=//div[@id="editTransitionReferralId"]//acm-card//div[@class="card-body"]');
+        this.Referral_link = page.locator('xpath=//card-content[@id="transitionReferralContent"]//div//h3[@class="mat-tooltip-trigger header3 card-ellipsis"]');
         this.ReferralStatus_label = page.locator('xpath=//div[@id="editTransitionReferralId"]//acm-card//div[@class="card-body"]//small[@id="textMutedReferralStatus"]')
         this.toggleReferralStatus_button = page.locator('xpath=//div[@id="divStopPropagation"]//mat-slide-toggle//div[@class="mat-slide-toggle-bar"]')
         this.ReferralID_label = page.locator('xpath=//card-content[@id="transitionReferralContent"]/div/h5');
@@ -23,7 +25,7 @@ export class ManageReferral {
     * Manage Referral Page
     * 
     * **Visibility**
-    * Patient task worklist icon will be visible in secondary banner of manage referral page. Upon clicking on this patient task worklist modal will get opened.
+    * Patient task worklist icon will be visible in secondary banner page of manage referral page. Upon clicking on this patient task worklist modal will get opened.
     * 
     */
     async PatientTaskWorkList() {
@@ -49,6 +51,39 @@ export class ManageReferral {
         await this.page.waitForTimeout(2000);
     }
 
+    async CreateReferralPopup(referralName) {
+        await this.createReferral_link.click();
+        await this.SearchReferralType_textbox.click();
+        await this.page.keyboard.type(referralName, { delay: 250 });
+        await this.page.waitForTimeout(1000);
+        await this.firstReferral_radioButton.first().click();
+    }
+
+    async SearchReferral(referralName) {
+        await this.SearchReferralType_textbox.click();
+        await this.SearchReferralType_textbox.fill('');
+        await this.page.keyboard.type(referralName, { delay: 250 });
+        await this.page.waitForTimeout(1000);
+        await this.firstReferral_radioButton.first().click();
+    }
+
+    async ClickCreateReferralButton() {
+        await this.CreateReferral_button.click();
+    }
+
+    async ClickNoReferralConfirmation() {
+        await this.NoReferralConfirmation_button.click();
+    }
+/**
+    * Manage Referral Page
+    * 
+    * Close the Referral Create Popup
+    * 
+    */
+
+    async CloseReferralPopup() {
+        await this.CloseReferralCreatePopup_button.click();
+    }
     /**
     * Manage Referral Page
     * 
@@ -69,7 +104,7 @@ export class ManageReferral {
     */
     async ToggleFirstReferralStatus() {
         await this.toggleReferralStatus_button.first().click();
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(5000);
     }
 
     /**
@@ -82,14 +117,28 @@ export class ManageReferral {
         expect(await this.ReferralStatus_label.first()).toContainText(status);
     }
 
+    /**
+    * Manage Referral Page
+    * 
+    * Get the first Referral ID
+    * 
+    */
     async GetFirstReferralID() {
-        let textMsg = await this.ReferralStatus_label.first().textContent();
+        let textMsg = await this.ReferralID_label.first().textContent();
         let referralId = textMsg.split('-');
         let temp = referralId[1].split(' ');
         return String(await temp[0]);
     }
 
+    /**
+    * Manage Referral Page
+    * 
+    * Validate the first Referral card exists
+    * 
+    */
     async ValidateFirstReferralCardExists(){
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('domcontentloaded');
         expect(await this.card_body.first()).toBeVisible();
     }
 }
