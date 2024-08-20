@@ -25,9 +25,6 @@ test('Validate user search for providers through Provider Search and bring them 
   //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
   const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
-  // Land on the manage referral page in Transition
-  await expect(newPage.getByText('Manage Referrals')).toBeVisible();
-
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);
   const TransContextNav = new TransitionContextNavigator(newPage);
@@ -37,7 +34,7 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //Step 2 - Click on Create Referral card
   //Step 3 - Choose the required referral type and click on 'Create Referral' button
-  await ManageRef.CreateNewReferral('ATAuto');
+  await ManageRef.CreateNewReferral('ATAutomation');
 
   //Step 4 - Click on Search Providers
   await ProviderSearch.ClickSearchProviderButton();

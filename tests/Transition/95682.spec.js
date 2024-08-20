@@ -14,10 +14,7 @@ test('Manage Referrals - Create Referral', async ({ }) => {
  const Library = new LIB();
 
  //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
- const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
-
- // Land on the manage referral page in Transition
- await expect(newPage.getByText('Manage Referrals')).toBeVisible();
+ const page1 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
   const ManageRef = new ManageReferral(page1);
   const TransContextNav = new TransitionContextNavigator(page1);

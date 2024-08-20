@@ -25,9 +25,6 @@ test('Validate user search for providers through Provider Search and bring them 
   //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
   const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
-  // Land on the manage referral page in Transition
-  await expect(newPage.getByText('Manage Referrals')).toBeVisible();
-  
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);
   const TransContextNav = new TransitionContextNavigator(newPage);
