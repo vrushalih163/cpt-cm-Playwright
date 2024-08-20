@@ -8,13 +8,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.46.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.2"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "mailslurp-client": "^15.20.2",
-    "moment-timezone": "^0.5.45"
+    "moment-timezone": "^0.5.45",
+    "playwright": "^1.46.1"
   }
 }

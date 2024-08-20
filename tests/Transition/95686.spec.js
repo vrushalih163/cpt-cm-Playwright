@@ -10,20 +10,14 @@ test('Manage Referrals - Create Referral', async ({ }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
+  //Creating an Object to LIB class
   const Library = new LIB();
 
-  //Step 1: Access : https://fhir.epic.com/. Log into Epic on FHIR with following credentials: Tslusher / Halloween1. click on 'Launching your App from Epic' under Documentation. Click on Try it. Select a Patient 'Lopez,Camila' by choosing an EPIC to test with and enter Launch URL 'https://pv05.acm.health/professional/Transition/SmartSessions.aspx'; and Token as below 'dob =% DOB % &user =% SYSLOGIN % &csn =% CSN % &user_first_name =% FNAME % &user_last_name =% LNAME % &user_provider_fhir_id =% USERPROVFHIRID % &epic_patient_id =% FHIRPATID % &encounter_date =% ENCDATE % &b2bCode = TQAH1 and click on Launch'
-  //getting persistant context
-  var library = Library.DataDirectory();
-  const userpath = ((await library).toString());
-  const browser = await chromium.launchPersistentContext(userpath);
-  const pages = browser.pages();
-  const page = pages[0];
+  //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
+  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
-  //EPIC Oauth popup details fill up and logging into Transition
-  library = new LIB(page);
-  const page1 = await library.TransitionLogin('Clin Doc, Henry');
-
+  // Land on the manage referral page in Transition
+  await expect(newPage.getByText('Manage Referrals')).toBeVisible();
   const ManageRef = new ManageReferral(page1);
   const TransContextNav = new TransitionContextNavigator(page1);
 

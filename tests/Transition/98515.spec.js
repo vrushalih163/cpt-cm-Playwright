@@ -12,7 +12,7 @@ import { TransitionContextNavigator } from '../../pages/Transition_Pages/Transit
 import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 
-const { user, password, QAProvider1, QAProvider2 } = process.env
+const { user, password, HSPProvider1, HSPProvider2 } = process.env
 
 test('Validate user search for providers through Provider Search and bring them back to Transition', async ({ }) => {
 
@@ -27,7 +27,7 @@ test('Validate user search for providers through Provider Search and bring them 
 
   // Land on the manage referral page in Transition
   await expect(newPage.getByText('Manage Referrals')).toBeVisible();
-
+  
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);
   const TransContextNav = new TransitionContextNavigator(newPage);
@@ -43,8 +43,8 @@ test('Validate user search for providers through Provider Search and bring them 
   await ProviderSearch.ClickSearchProviderButton();
 
   //Step 5 - Enter the zipcode 96912 and Click on Refresh
-  let startIndex = QAProvider1.length - 15;
-  await ProviderSearch.SearchProvider(QAProvider1.substring(startIndex));
+  let startIndex = HSPProvider1.length - 15;
+  await ProviderSearch.SearchProvider(HSPProvider1.substring(startIndex));
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
   
@@ -81,11 +81,11 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //Step 13 - Click on Search Providers
   await TransContextNav.ClickProviderSearchIcon();
-  startIndex = QAProvider2.length - 15;
+  startIndex = HSPProvider2.length - 15;
 
   //Step 14 - Enter the zipcode 96912 and Click on Refresh
   //Step 15 - Select the checkboxes present against each of the providers and click on Add to Referral button
-  await ProviderSearch.SearchProvider(QAProvider2.substring(startIndex));
+  await ProviderSearch.SearchProvider(HSPProvider2.substring(startIndex));
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
 
@@ -115,7 +115,7 @@ test('Validate user search for providers through Provider Search and bring them 
   const page3 = await Login.login(user, password);
 
   const AppNav = new ApplicationNavigator(page3);
-  await AppNav.NavigateToChangeOrg(QAProvider1)
+  await AppNav.NavigateToChangeOrg(HSPProvider1)
 
   //Step 24 - Navigate to Manage>Incoming referrals enhanced
   await AppNav.NavigateToIncomingReferralsEnhancedView();
@@ -134,7 +134,7 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //Step 27 - Verify the Forms, Attachments, referral data
   //Step 28 - Login to CM application as QA Provider 2
-  await AppNav.NavigateToChangeOrg(QAProvider2)
+  await AppNav.NavigateToChangeOrg(HSPProvider2)
 
   //Step 29 - Navigate to Manage>Incoming referrals enhanced
   await AppNav.NavigateToIncomingReferralsEnhancedView();
@@ -194,7 +194,7 @@ test('Validate user search for providers through Provider Search and bring them 
 
   const AppNav1 = new ApplicationNavigator(page6);
   const IncomingReferralsEnhancedView1 = new IncomingReferralsEnhancedViewPage(page6);
-  await AppNav1.NavigateToChangeOrg(QAProvider1)
+  await AppNav1.NavigateToChangeOrg(HSPProvider1)
 
   //step 40 - Navigate to Manage>Incoming referrals enhanced
   await AppNav1.NavigateToIncomingReferralsEnhancedView();
