@@ -18,3 +18,4 @@ tests-examples/demo-todo-app.spec.js
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+results.xml
