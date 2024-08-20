@@ -1,39 +1,39 @@
-<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="32.095808999999996">
-<testsuite name="Transition\95685.spec.js" timestamp="2024-08-20T11:41:18.177Z" hostname="chromium" tests="1" failures="1" skipped="0" time="31.413" errors="0">
-<testcase name="Manage Referrals - Create Referral" classname="Transition\95685.spec.js" time="31.413">
-<failure message="95685.spec.js:9:5 Manage Referrals - Create Referral" type="FAILURE">
-<![CDATA[  [chromium] › Transition\95685.spec.js:9:5 › Manage Referrals - Create Referral ───────────────────
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="159.645859">
+<testsuite name="Transition\98515.spec.js" timestamp="2024-08-20T12:14:11.720Z" hostname="chromium" tests="1" failures="1" skipped="0" time="158.413" errors="0">
+<testcase name="Validate user search for providers through Provider Search and bring them back to Transition" classname="Transition\98515.spec.js" time="158.413">
+<failure message="98515.spec.js:17:5 Validate user search for providers through Provider Search and bring them back to Transition" type="FAILURE">
+<![CDATA[  [chromium] › Transition\98515.spec.js:17:5 › Validate user search for providers through Provider Search and bring them back to Transition 
 
     Error: locator.click: Target page, context or browser has been closed
     Call log:
-      - waiting for locator('//a[@id="DocumentationDropdown"]')
+      - waiting for locator('#anchorSendReferral')
 
 
-       at ..\bizLibs\lib.js:123
+       at ..\pages\Transition_Pages\TransitionContextNavigator.js:62
 
-      121 |             }
-      122 |
-    > 123 |             await page.locator('//a[@id="DocumentationDropdown"]').click();
-          |                                                                    ^
-      124 |             await page.waitForLoadState('domcontentloaded');
-      125 |             await page.waitForTimeout(2000);
-      126 |
+      60 |
+      61 |     async ClickSendReferralButton(){
+    > 62 |         await this.SendReferralButton.click();
+         |                                       ^
+      63 |     }
+      64 |
+      65 |     async ValidateSendReferralButtonDisabled(){
 
-        at LIB.HandleAppLaunch (C:\cpt-cm-Playwright\bizLibs\lib.js:123:68)
-        at C:\cpt-cm-Playwright\tests\Transition\95685.spec.js:17:19
+        at TransitionContextNavigator.ClickSendReferralButton (C:\cpt-cm-Playwright\pages\Transition_Pages\TransitionContextNavigator.js:62:39)
+        at C:\cpt-cm-Playwright\tests\Transition\98515.spec.js:91:25
 
     attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
-    test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip
+    test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip
     Usage:
 
-        npx playwright show-trace test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip
+        npx playwright show-trace test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 ]]>
 </failure>
 <system-out>
 <![CDATA[
-[[ATTACHMENT|test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip]]
+[[ATTACHMENT|test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip]]
 ]]>
 </system-out>
 </testcase>
