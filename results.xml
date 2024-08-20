@@ -1,39 +1,36 @@
-<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="32.095808999999996">
-<testsuite name="Transition\95685.spec.js" timestamp="2024-08-20T11:41:18.177Z" hostname="chromium" tests="1" failures="1" skipped="0" time="31.413" errors="0">
-<testcase name="Manage Referrals - Create Referral" classname="Transition\95685.spec.js" time="31.413">
-<failure message="95685.spec.js:9:5 Manage Referrals - Create Referral" type="FAILURE">
-<![CDATA[  [chromium] › Transition\95685.spec.js:9:5 › Manage Referrals - Create Referral ───────────────────
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="5.601689">
+<testsuite name="HCA\21139_1.spec.js" timestamp="2024-08-20T11:52:01.172Z" hostname="chromium" tests="1" failures="1" skipped="0" time="4.614" errors="0">
+<testcase name="test" classname="HCA\21139_1.spec.js" time="4.614">
+<failure message="21139_1.spec.js:4:5 test" type="FAILURE">
+<![CDATA[  [chromium] › HCA\21139_1.spec.js:4:5 › test ──────────────────────────────────────────────────────
 
     Error: locator.click: Target page, context or browser has been closed
     Call log:
-      - waiting for locator('//a[@id="DocumentationDropdown"]')
+      - waiting for locator('#UserNameTextBox')
 
 
-       at ..\bizLibs\lib.js:123
+       7 |   await page.getByRole('button', { name: 'Log In' }).click();
+       8 |   const page1 = await page1Promise;
+    >  9 |   await page1.locator('#UserNameTextBox').click();
+         |                                           ^
+      10 |   await page1.locator('#UserNameTextBox').fill('Pavan Automation');
+      11 |   await page1.locator('#UserNameTextBox').press('Tab');
+      12 |   await page1.locator('#PasswordTextBox').fill('Organization=17');
 
-      121 |             }
-      122 |
-    > 123 |             await page.locator('//a[@id="DocumentationDropdown"]').click();
-          |                                                                    ^
-      124 |             await page.waitForLoadState('domcontentloaded');
-      125 |             await page.waitForTimeout(2000);
-      126 |
-
-        at LIB.HandleAppLaunch (C:\cpt-cm-Playwright\bizLibs\lib.js:123:68)
-        at C:\cpt-cm-Playwright\tests\Transition\95685.spec.js:17:19
+        at C:\cpt-cm-Playwright\tests\HCA\21139_1.spec.js:9:43
 
     attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
-    test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip
+    test-results\HCA-21139_1-test-chromium\trace.zip
     Usage:
 
-        npx playwright show-trace test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip
+        npx playwright show-trace test-results\HCA-21139_1-test-chromium\trace.zip
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 ]]>
 </failure>
 <system-out>
 <![CDATA[
-[[ATTACHMENT|test-results\Transition-95685-Manage-Referrals---Create-Referral-chromium\trace.zip]]
+[[ATTACHMENT|test-results\HCA-21139_1-test-chromium\trace.zip]]
 ]]>
 </system-out>
 </testcase>
