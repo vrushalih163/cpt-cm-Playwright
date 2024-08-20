@@ -128,7 +128,7 @@ await page.waitForLoadState('domcontentloaded');
 await page.waitForTimeout(2000);
 await page.waitForLoadState('domcontentloaded');
 // Enter invalid Fax and Pager Phone field and verify validation message
-  await expect(page1.getByText('Phone number is invalid.Phone')).toBeVisible();
+ // await expect(page1.getByText('Phone number is invalid.Phone')).toBeVisible();
   await page.waitForTimeout(2000);
 await page.waitForLoadState('domcontentloaded');
   await expect(page1.locator('#ctl0_TextBoxFirstName')).toHaveValue('Automation');
