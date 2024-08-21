@@ -39,7 +39,7 @@ test('User Admin', async ({ page }) => {
     // Step 3: Navigate to Configure security Users
     await AppNav.ConfigureSecurityNavigation(elementNames);
 
-    // Step 4: Search for a user and click on the user - page: 27 
+    // Step 4: Search for a Non-owned User and click on the user - page: 27 
     await UsersPage.searchNameOrUserName('cmlastname, cmfirstname');
 
     // Step 5: Verify Non-Owned User Information details - page: 127
@@ -50,34 +50,44 @@ test('User Admin', async ({ page }) => {
 
     //Step 7: Verify User Admin page - 1176
     await userAdmin.UserAdminPageTitle('User Admin');
-    
-    // Step 8: Verify user admin page tab order page - 1176
-    await userAdmin.testTabOrder();
 
+    // Step 8: Verify user admin page tab order page - 1176
+    await userAdmin.userAdminTabOrderLogic();
+   
     // Step 9: Verify clik on Edit Associations link
     await userAdmin.clickEditAssociationsLink();
 
     // Step 10: Verify landing on associated organizations page - 1177 
     await associatedOrg.associatedOrganizationsPageTitle('Select Associated Organizations');
 
-    // Step 11: Change to ECIN Administrative Organization Hospital
+    // Step 11: Click on the Users in the page path, search on the Name for Owned User and click on the user
+    await AppNav.clickTopNavBackLinks('Users');
+    await UsersPage.searchNameOrUserName('Automation, Test');
+
+    //Step 12 Verify Non-Owned User Information details - page: 114
+
+    //Step 13: Verify User Organizations and click on Edit link - 
+    await nonOwnedUserPage.clickOrgAssociationsEditLink();
+
+    //Step 14: Verify User Admin page - 1176
+    await userAdmin.UserAdminPageTitle('User Admin');
+
+    // Step 15: Change to ECIN Administrative Organization Hospital
     await AppNav.NavigateToChangeOrg('ECIN Administrative Organization');
 
-    // setp 12: Search for ECIN admin organization
-    //await page.pause();
+    // setp 16: Search for ECIN admin organization
     await orgLookup.SearchOrganization('Hospital', '226280');
 
-    // Step 13: click on user icon
+    // Step 17: click on user icon
     await orgLookup.userIcon();
 
-    // Step 14: Click on the user link
+    // Step 18: Click on the user link
     await orgLookup.clickUserLogonLinkByUsername('cmautomationuser001');
 
-    // Step 15: Verify user admin page title page - 338
+    // Step 19: Verify user admin page title page - 338
     await userAdmin.UserAdminPageTitle('User Admin');
-    
 
-    // Step 16: Verify user admin page Tab order page - 338
+    // Step 20: Verify user admin page Tab order page - 338
 
     // Step 17: Verify click on Edit Associations link
     await userAdmin.clickEditAssociationsLink();

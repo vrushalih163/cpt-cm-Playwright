@@ -36,6 +36,13 @@ export class ApplicationNavigator {
     this.certificates_link = page.locator('a[name="security_certificates"]');
     this.security_configuration_link = page.locator('a[name="security_security_configuration"]');
     this.users_link = page.locator('a[name="security_users"]');
+
+    // Tob User Admins navigation back links
+    //this.users_link = page.getByRole('link', { name: 'Users' });
+    //this.edit_non_owned_user_link = page.getByRole('link', { name: 'Edit Non-Owned User' });
+    //this.user_admin_link = page.getByRole('link', { name: 'User Admin' });
+    this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
+
   }
 
   async clickRefresh() {
@@ -135,4 +142,26 @@ async clickElement(elements) {
   }
   await this.page.waitForTimeout(2000);
 }
+ 
+/**
+ * Clicks on the top navigation back links with the specified name.
+ * 
+ * @param {string} name - The name of the link to click.
+ * @throws {Error} - If no link is found with the specified name.
+ */
+ async clickTopNavBackLinks(name) {
+  const allLinks = await this.top_Nav_Back_Links.elementHandles();
+  for (const link of allLinks) {
+    const linkText = await link.innerText();
+    if (linkText.trim() === name) {
+      await link.click();
+      await this.page.waitForLoadState('domcontentloaded');
+      return;
+    }
+  }
+  throw new Error(`No link found with name: ${name}`);
+}
+
+
+
 }
