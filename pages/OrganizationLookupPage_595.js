@@ -19,7 +19,7 @@ export class OrganizationLookup {
      * The organization id is mentioned in the environment variable
      * @param {*} OrgType  - Organization Type - Facility Provider, Hospital, HSP Provider, Physician Practice
      */
-    async SearchOrganization(OrgType , OrgId){
+    async SearchOrganization(OrgType , OrgName){
         // Click on Admin link
         await this.Admin_Icon.click();
   
@@ -31,16 +31,16 @@ export class OrganizationLookup {
         await this.page.waitForLoadState('domcontentloaded');
 
         // Check if the field has a value
-        const orgIDField = this.page.locator('#txtOrgID');
-        const currentValue = await orgIDField.inputValue();
+        const orgNameField = this.page.locator('#txtName');
+        const currentValue = await orgNameField.inputValue();
 
         if (currentValue) {
             // Clear the field if it has a value
-            await orgIDField.fill('');
+            await orgNameField.fill('');
         }
 
         // Fill the field with the new value
-        await orgIDField.fill(OrgId);
+        await orgNameField.fill(OrgName);
         await this.page.waitForLoadState('domcontentloaded');
 
         // Click on search button

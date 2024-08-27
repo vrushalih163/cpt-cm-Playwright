@@ -25,10 +25,12 @@ export class SCProviderSearch {
      */
     async SelectProvider(ProviderCount) {
         await this.page.waitForLoadState('networkidle');
+        await this.page.waitForTimeout(2000);
         const pscount = await this.providersearchresult.count();
-        console.log('Provider Search Result Count: ' + pscount);
+        await this.page.waitForTimeout(2000);
         if (ProviderCount < pscount) {
             for (var i = 0; i < ProviderCount; i++) {
+                await this.page.waitForTimeout(1000);
                 await this.providersearchresult.nth(i).click();
             }
         } else {
@@ -49,6 +51,7 @@ export class SCProviderSearch {
         await this.textORemail.click();
         await this.SeperateMultipleRecipients_field.fill(SharedChoiceRecepientUser);
         await this.Share_button.click();
+        return SharedChoiceRecepientUser;
     }
 
     /**

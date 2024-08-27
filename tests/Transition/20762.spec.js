@@ -4,13 +4,13 @@
 
 import { test, expect, Browser, BrowserContext, chromium, Page } from '@playwright/test';
 import { LIB } from '../../bizLibs/lib';
-import { SharedChoice } from '../../pages/Transition_Pages/SharedChoice';
+import { SharedChoiceHomePage } from '../../pages/Transition_Pages/SharedChoiceHomePage';
 import { SCProviderSearch } from '../../pages/Transition_Pages/SharedChoice_ProviderSeach';
 import { Mailslurp } from '../../pages/Transition_Pages/Mailslurp';
 const { MailSlurpEMailId } = process.env
 const Providercount = 3;
 
-test('Create Task', async ({ }) => {
+test('Create Shared choice', async ({ }) => {
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
   //Creating an Object to LIB class
@@ -22,7 +22,7 @@ test('Create Task', async ({ }) => {
   await expect(newPage.getByText('Shared Choice')).toBeVisible();
 
   //Shared Choice Page details
-  const SC = new SharedChoice(newPage);
+  const SC = new SharedChoiceHomePage(newPage);
 
   //Click on create patient choice icon
   await SC.CreatePatientChoice_Click();

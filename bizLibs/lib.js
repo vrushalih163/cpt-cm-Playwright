@@ -30,58 +30,6 @@ function generateUniqueText(length) {
     return result;
 }
 
-
-/**
-* Map specific time zone text to IANA time zone identifiers.
-* @param {string} timeZone - The input time zone string.
-* @returns {string} - The IANA time zone identifier.
-*/
-function mapTimeZone(timeZone) {
-    const lowerCaseTimeZone = timeZone.toLowerCase();
-
-    if (lowerCaseTimeZone.includes('pt') || lowerCaseTimeZone.includes('pacific')) {
-        return 'America/Los_Angeles';
-    } else if (lowerCaseTimeZone.includes('ct') || lowerCaseTimeZone.includes('central')) {
-        return 'America/Chicago';
-    } else if (lowerCaseTimeZone.includes('et' || lowerCaseTimeZone.includes('eastern'))) {
-        return 'America/Halifax';
-    } else if (lowerCaseTimeZone.includes('atlantic')) {
-        return 'America/Halifax';
-    } else if (lowerCaseTimeZone.includes('mountain')) {
-        return 'America/Denver';
-    } else if (lowerCaseTimeZone.includes('alaska')) {
-        return 'America/Anchorage';
-    } else if (lowerCaseTimeZone.includes('hawaii') || lowerCaseTimeZone.includes('aleutian')) {
-        return 'Pacific/Honolulu';
-    } else if (lowerCaseTimeZone.includes('greenwich') || lowerCaseTimeZone.includes('gmt')) {
-        return 'Etc/GMT';
-    } else {
-        throw new Error('Unsupported time zone');
-    }
-}
-
-/**
- * Get the current date and time in a specified time zone.
- * @param {string} timeZone - The input time zone string.
- * @param {string} format - The time format ('12hr' or '24hr').
- * @returns {string} - The current date and time in the specified time zone and format.
- */
-function getCurrentDateTimeInTimeZone(timeZone, format) {
-    // Map the input time zone to an IANA time zone identifier
-    const ianaTimeZone = mapTimeZone(timeZone);
-
-    // Get the current date and time
-    const now = moment();
-
-    // Determine the time format
-    const timeFormat = format === '12hr' ? 'M-D-YYYY hh:mm A' : 'M-D-YYYY HH:mm';
-
-    // Convert to the specified time zone and format
-    const dateTimeInTimeZone = now.tz(ianaTimeZone).format(timeFormat);
-
-    return dateTimeInTimeZone;
-}
-
 export class LIB {
 
     constructor(page) {
@@ -185,6 +133,10 @@ export class LIB {
         }
     }
 
+    /**
+     * This method is used to get the persistent context path
+     * @returns percistent context path
+     */
     async DataDirectory() {
         // Get the user's home directory
         const homeDir = os.homedir();
@@ -345,4 +297,64 @@ export class LIB {
             console.error('Error clearing cache:', error);
         }
     }
+    /**
+ * Get the current date and time in a specified time zone.
+ * @param {string} timeZone - The input time zone string. Example: If the timezone is PT then pass 'pacific'.
+ * @param {string} format - The time format ('12hr' or '24hr').
+ * @returns {Promise<string>} - The current date and time in the specified time zone and format.
+ */
+async  getCurrentDateTimeInTimeZone(timeZone, format) {
+    // Map the input time zone to an IANA time zone identifier and abbreviation
+    const lowerCaseTimeZone = timeZone.toLowerCase();
+    let iana, abbreviation;
+
+    switch (true) {
+        case lowerCaseTimeZone.includes('pt') || lowerCaseTimeZone.includes('pacific'):
+            iana = 'America/Los_Angeles';
+            abbreviation = 'PT';
+            break;
+        case lowerCaseTimeZone.includes('ct') || lowerCaseTimeZone.includes('central'):
+            iana = 'America/Chicago';
+            abbreviation = 'CT';
+            break;
+        case lowerCaseTimeZone.includes('et') || lowerCaseTimeZone.includes('eastern'):
+            iana = 'America/New_York';
+            abbreviation = 'ET';
+            break;
+        case lowerCaseTimeZone.includes('atlantic'):
+            iana = 'America/Halifax';
+            abbreviation = 'AT';
+            break;
+        case lowerCaseTimeZone.includes('mountain'):
+            iana = 'America/Denver';
+            abbreviation = 'MT';
+            break;
+        case lowerCaseTimeZone.includes('alaska'):
+            iana = 'America/Anchorage';
+            abbreviation = 'AKT';
+            break;
+        case lowerCaseTimeZone.includes('hawaii') || lowerCaseTimeZone.includes('aleutian'):
+            iana = 'Pacific/Honolulu';
+            abbreviation = 'HAT';
+            break;
+        case lowerCaseTimeZone.includes('greenwich') || lowerCaseTimeZone.includes('gmt'):
+            iana = 'Etc/GMT';
+            abbreviation = 'GMT';
+            break;
+        default:
+            throw new Error('Unsupported time zone');
+    }
+
+    // Get the current date and time
+    const now = moment();
+
+    // Determine the time format
+    const timeFormat = format === '12hr' ? 'M/D/YYYY hh:mm A' : 'M/D/YYYY HH:mm';
+
+    // Convert to the specified time zone and format
+    const dateTimeInTimeZone = now.tz(iana).format(timeFormat);
+
+    return `${dateTimeInTimeZone} (${abbreviation})`;
+}
+
 };
