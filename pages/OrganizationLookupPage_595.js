@@ -1,5 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 13 August 2024
 
+const { expect } = require('@playwright/test');
 export class OrganizationLookup {
     constructor(page) {
         this.page = page;
@@ -9,6 +10,7 @@ export class OrganizationLookup {
         this.Search_button = page.getByRole('button', { name: 'Search' });
 
         this.OrgSettings_Icon = page.locator('//a[@title="Settings"]');
+        this.user_icon = page.locator('//a[@title="Users"]');
 
 
     }
@@ -17,7 +19,7 @@ export class OrganizationLookup {
      * The organization id is mentioned in the environment variable
      * @param {*} OrgType  - Organization Type - Facility Provider, Hospital, HSP Provider, Physician Practice
      */
-    async SearchOrganization(OrgType , OrgId){
+    async SearchOrganization(OrgType , OrgName){
         // Click on Admin link
         await this.Admin_Icon.click();
   
@@ -29,16 +31,16 @@ export class OrganizationLookup {
         await this.page.waitForLoadState('domcontentloaded');
 
         // Check if the field has a value
-        const orgIDField = this.page.locator('#txtOrgID');
-        const currentValue = await orgIDField.inputValue();
+        const orgNameField = this.page.locator('#txtName');
+        const currentValue = await orgNameField.inputValue();
 
         if (currentValue) {
             // Clear the field if it has a value
-            await orgIDField.fill('');
+            await orgNameField.fill('');
         }
 
         // Fill the field with the new value
-        await orgIDField.fill(OrgId);
+        await orgNameField.fill(OrgName);
         await this.page.waitForLoadState('domcontentloaded');
 
         // Click on search button
@@ -53,4 +55,27 @@ export class OrganizationLookup {
     async OrgnizationSettings(){
         await this.OrgSettings_Icon.click();
     }
+
+    /**
+     * This method clicks on the User icon
+     */
+
+    async userIcon(){
+        await this.user_icon.click();
+    }
+
+    /**
+   * Returns the user link element with the specified text.
+   */
+   
+  /**
+   * Returns the user link element with the specified username and clicks on it.
+   */
+  async clickUserLogonLinkByUsername(username) {
+    const userLogonLink = this.page.locator(`a[id="dgUsers_ctl244_lnkLogon"]:has-text("${username}")`);
+    await expect(userLogonLink).toHaveCount(1); 
+    await userLogonLink.click({ timeout: 20000 });
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
 }

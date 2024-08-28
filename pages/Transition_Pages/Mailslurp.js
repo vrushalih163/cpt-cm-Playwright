@@ -3,7 +3,7 @@
 import { test, expect } from '@playwright/test';
 import { MailSlurp } from 'mailslurp-client';
 require('dotenv').config();
-const { SharedChoiceRecepientUser } = process.env;
+const { MailSlurpEMailId } = process.env;
 const apiKey = process.env.MAILSLURP_API_KEY;
 expect(apiKey).toBeDefined();
 
@@ -63,7 +63,7 @@ export class Mailslurp {
         const mailslurp = new MailSlurp({ apiKey });
 
         //spliting the username to get the id and domain
-        const [localPart, domain] = SharedChoiceRecepientUser.split('@');
+        const [localPart, domain] = MailSlurpEMailId.split('@');
         //console.log('id:', localPart); // Output: da6273f8-e453-4b23-a3e4-449162168fc7
         //console.log(domain);    // Output: mailslurp.net
 
