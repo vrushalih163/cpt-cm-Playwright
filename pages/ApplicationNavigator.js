@@ -28,6 +28,9 @@ export class ApplicationNavigator {
 
     //Referral configuration link
     this.ReferralConfiguration_link = page.getByRole('link', { name: 'Referral Configuration' });
+
+    //Referral lookup link
+    this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
   }
 
   async clickRefresh() {
@@ -93,4 +96,14 @@ export class ApplicationNavigator {
     await this.page.waitForTimeout(2000);
     return this.page;
   }
+
+  /**
+   * Navigate to Referral Lookup
+   */
+  async navigateToReferralLookup() {
+    await this.manage_link.click();
+    await this.ReferralLookup_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+}
 }
