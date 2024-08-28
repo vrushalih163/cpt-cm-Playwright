@@ -43,6 +43,9 @@ export class ApplicationNavigator {
     //this.user_admin_link = page.getByRole('link', { name: 'User Admin' });
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
 
+
+    //Referral lookup link
+    this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
   }
 
   async clickRefresh() {
@@ -164,4 +167,17 @@ async clickElement(elements) {
 
 
 
+}
+
+  }
+
+  /**
+   * Navigate to Referral Lookup
+   */
+  async navigateToReferralLookup() {
+    await this.manage_link.click();
+    await this.ReferralLookup_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+}
 }
