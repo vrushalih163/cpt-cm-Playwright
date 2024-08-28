@@ -164,16 +164,7 @@ async clickElement(elements) {
   }
   throw new Error(`No link found with name: ${name}`);
 }
-
-
-
-}
-
-  }
-
-  /**
-   * Navigate to Referral Lookup
-   */
+  /**   * Navigate to Referral Lookup   */
   async navigateToReferralLookup() {
     await this.manage_link.click();
     await this.ReferralLookup_link.click();
