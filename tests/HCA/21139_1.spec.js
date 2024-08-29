@@ -2,6 +2,10 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
+
+  let x1 = Math.floor((Math.random() * 100000) + 1);
+  let x2 = "Sept20241";
+  let mrn = x2.concat(x1);
   await page.goto('https://pv02.extendedcare.health/');
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
@@ -25,7 +29,7 @@ test('test', async ({ page }) => {
   await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'Add a Patient' }).click();
   await page1.getByLabel('MRN:').click();
-  await page1.getByLabel('MRN:').fill('MRN_HCATestcase111');
+  await page1.getByLabel('MRN:').fill(mrn);
   await page1.getByLabel('First Name:', { exact: true }).click();
   await page1.getByLabel('First Name:', { exact: true }).fill('Pavan');
   await page1.getByLabel('Last Name:', { exact: true }).fill('Shivakumar');
@@ -38,7 +42,7 @@ test('test', async ({ page }) => {
 // Admission Creation
   await page1.getByRole('link', { name: '' }).click();
   await page1.locator('#txtHospitalAdmissionID').click();
-  await page1.locator('#txtHospitalAdmissionID').fill('ACC_HCA_TC111');
+  await page1.locator('#txtHospitalAdmissionID').fill(mrn);
   await page1.locator('#dtPatientAdmission_CalImg').click();
   await page1.frameLocator('iframe[name="CalIFrame"]').locator('#Cell40').click();
   await page1.locator('#dtPatientAdmission_Time').click();
@@ -106,7 +110,22 @@ test('test', async ({ page }) => {
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.waitForLoadState('domcontentloaded');
   await page1.waitForTimeout(3000);
-  await expect(page1.locator('#ctrlDiagnosisList_dgDiagnoses_ctl02_lblDate')).toContainText('8/20/2024 4:10 AM (CT)');
+ // await expect(page1.locator('#ctrlDiagnosisList_dgDiagnoses_ctl02_lblDate')).toContainText('8/20/2024 4:10 AM (CT)');
+
+ var timezone = 'CT';
+ const now = new Date();
+ const options1 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+const formatter1 = new Intl.DateTimeFormat('en-US', options1);
+var Time1 = formatter1.format(now);
+
+const options2 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+const formatter2 = new Intl.DateTimeFormat('en-US', options2);
+var Time2 = formatter2.format(now);
+Time1 = Time1.replace(/^0+/, '');
+Time2 = Time2.replace(/^0+/, '');
+let result = Time2 + ' ' + Time1 + ' ' +  '(' +  timezone  + ')';
+await expect(page1.locator('#ctrlDiagnosisList_dgDiagnoses_ctl02_lblDate')).toContainText(result);
+console.log(result);
 
 //Adding Procedure
   await page1.getByRole('link', { name: 'Procedures' }).click();
@@ -128,7 +147,20 @@ test('test', async ({ page }) => {
   await page1.locator('#txtEditableComment').fill('Testing HCA Changes');
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.waitForTimeout(3000);
-  await expect(page1.locator('#procedureListCtrl_pxGrid_ctl02_codeDate')).toContainText('8/20/2024 4:11 AM (CT)');
+ // await expect(page1.locator('#procedureListCtrl_pxGrid_ctl02_codeDate')).toContainText('8/20/2024 4:11 AM (CT)');
+ const now1 = new Date();
+ const options3 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+const formatter3 = new Intl.DateTimeFormat('en-US', options3);
+var Time3 = formatter3.format(now1);
+
+const options4 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+const formatter4 = new Intl.DateTimeFormat('en-US', options4);
+var Time4 = formatter4.format(now);
+Time3 = Time3.replace(/^0+/, '');
+Time4 = Time4.replace(/^0+/, '');
+let result2 = Time4 + ' ' + Time3 + ' ' +  '(' +  timezone  + ')';
+await expect(page1.locator('#procedureListCtrl_pxGrid_ctl02_codeDate')).toContainText(result2);
+console.log(result2);
   await page1.getByRole('link', { name: '', exact: true }).click();
 });
 

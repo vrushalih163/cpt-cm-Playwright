@@ -1,39 +1,9 @@
-<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="159.645859">
-<testsuite name="Transition\98515.spec.js" timestamp="2024-08-20T12:14:11.720Z" hostname="chromium" tests="1" failures="1" skipped="0" time="158.413" errors="0">
-<testcase name="Validate user search for providers through Provider Search and bring them back to Transition" classname="Transition\98515.spec.js" time="158.413">
-<failure message="98515.spec.js:17:5 Validate user search for providers through Provider Search and bring them back to Transition" type="FAILURE">
-<![CDATA[  [chromium] › Transition\98515.spec.js:17:5 › Validate user search for providers through Provider Search and bring them back to Transition 
-
-    Error: locator.click: Target page, context or browser has been closed
-    Call log:
-      - waiting for locator('#anchorSendReferral')
-
-
-       at ..\pages\Transition_Pages\TransitionContextNavigator.js:62
-
-      60 |
-      61 |     async ClickSendReferralButton(){
-    > 62 |         await this.SendReferralButton.click();
-         |                                       ^
-      63 |     }
-      64 |
-      65 |     async ValidateSendReferralButtonDisabled(){
-
-        at TransitionContextNavigator.ClickSendReferralButton (C:\cpt-cm-Playwright\pages\Transition_Pages\TransitionContextNavigator.js:62:39)
-        at C:\cpt-cm-Playwright\tests\Transition\98515.spec.js:91:25
-
-    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
-    test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip
-    Usage:
-
-        npx playwright show-trace test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip
-
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="87.182991">
+<testsuite name="HCA\21139_1.spec.js" timestamp="2024-08-29T06:11:51.921Z" hostname="chromium" tests="1" failures="0" skipped="0" time="85.92" errors="0">
+<testcase name="test" classname="HCA\21139_1.spec.js" time="85.92">
 <system-out>
-<![CDATA[
-[[ATTACHMENT|test-results\Transition-98515-Validate--e7e5b-ing-them-back-to-Transition-chromium\trace.zip]]
+<![CDATA[8/29/2024 1:13 AM (CT)
+8/29/2024 1:13 AM (CT)
 ]]>
 </system-out>
 </testcase>
