@@ -1,9 +1,9 @@
-<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="87.182991">
-<testsuite name="HCA\21139_1.spec.js" timestamp="2024-08-29T06:11:51.921Z" hostname="chromium" tests="1" failures="0" skipped="0" time="85.92" errors="0">
-<testcase name="test" classname="HCA\21139_1.spec.js" time="85.92">
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="84.530763">
+<testsuite name="HCA\21139_1.spec.js" timestamp="2024-08-29T07:56:13.470Z" hostname="chromium" tests="1" failures="0" skipped="0" time="83.531" errors="0">
+<testcase name="test" classname="HCA\21139_1.spec.js" time="83.531">
 <system-out>
-<![CDATA[8/29/2024 1:13 AM (CT)
-8/29/2024 1:13 AM (CT)
+<![CDATA[8/29/2024 2:57 AM (CT)
+8/29/2024 2:57 AM (CT)
 ]]>
 </system-out>
 </testcase>
