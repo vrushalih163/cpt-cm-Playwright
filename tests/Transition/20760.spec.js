@@ -11,7 +11,7 @@ import { AddEditSearchCriteria } from '../../pages/AddEditSearchCriteriaPage_561
 // Override the configuration to use a single worker
 test.use({ workers: 1 });
 test.setTimeout(5 * 60 * 1000);
-const { user, password, TransitionOrg1 } = process.env
+const { user, password, TransitionOrg1, TransitionOrg2 } = process.env
 
 // Constants for test types
 const FIRST_TEST = 'first';
@@ -60,7 +60,7 @@ test('Patient Choice Dashboard', async ({ page }) => {
     const ECIN_Conf = new OrganizationLookup(page1);
 
     //Searching the organization
-    await ECIN_Conf.SearchOrganization('Hospital', TransitionOrg1);
+    await ECIN_Conf.SearchOrganization('Hospital', TransitionOrg2);
 
     // Click on setting icon
     await ECIN_Conf.OrgnizationSettings();
@@ -104,7 +104,7 @@ test('Patient Choice Dashboard', async ({ page }) => {
     await page1.waitForTimeout(2000);
 
     //Changing the org to Transition org
-    await Appnav.NavigateToChangeOrg(TransitionOrg1);
+    await Appnav.NavigateToChangeOrg(TransitionOrg2);
 
     // Navigate to Referral Configuration page
     await Appnav.NavigateToReferralConfiguration();

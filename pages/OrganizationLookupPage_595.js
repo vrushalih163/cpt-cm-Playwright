@@ -9,7 +9,7 @@ export class OrganizationLookup {
         this.OrgType_Dropdownfield = page.locator('#cmbOrgTypes');
         this.Search_button = page.getByRole('button', { name: 'Search' });
 
-        this.OrgSettings_Icon = page.locator('//a[@title="Settings"]');
+        this.OrgSettings_Icon = page.locator('//a[@title="Settings"]').first();
         this.user_icon = page.locator('//a[@title="Users"]');
 
 

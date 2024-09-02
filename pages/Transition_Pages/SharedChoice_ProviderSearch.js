@@ -1,4 +1,7 @@
 //Author: Rajakumar Maste, Created Date: 13 August 2024
+//Modified By: Rajakumar Maste, Modified Date: 02 Sept 2024
+
+import { expect } from '@playwright/test';
 
 export class SCProviderSearch {
     constructor(page) {
@@ -41,14 +44,17 @@ export class SCProviderSearch {
     /** 
      * This method clicks on the Add button to add the selected providers to the choice.
      */
-    async AddToChoice(){
+    async AddToChoice() {
         await this.addtochoice_button.click();
     }
     /**
      * This method clicks on the Text/Email button and enters the recipient email id and clicks on Share button
      */
-    async TextOREmail(SharedChoiceRecepientUser){
+    async TextOREmail_Click() {
         await this.textORemail.click();
+    }
+
+    async TextOREmail_Modal(SharedChoiceRecepientUser) {
         await this.SeperateMultipleRecipients_field.fill(SharedChoiceRecepientUser);
         await this.Share_button.click();
         return SharedChoiceRecepientUser;
@@ -57,26 +63,26 @@ export class SCProviderSearch {
     /**
      * This method clicks on the Print button on the Shared Choice page and takes the screenshot of the printed page.
      */
-    async PrintSharedChoice(){
+    async PrintSharedChoice() {
         await this.printsharedchoice_button.click();
         await expect(this.page.getByRole('heading', { name: 'Print Selected Results' })).toBeVisible();
         await this.printButton_On_PrintSelectedResults.click();
         await this.page.screenshot({ path: `C:\\TransitionAutomation_Screenshots\\PrintedSharedChoice_${new Date().toISOString()}.png`, type: 'png' });
         //this.page.screenshot({ path: `C:\\TransitionAutomation_Screenshots\\PrintedSharedChoice_${new Date().toISOString()}.jpg`, type: 'jpeg'});
-        
+
     }
 
     /**
      * This method clicks on the Go to Transition button.
      */
-    async GoToTransition(){
+    async GoToTransition() {
         await this.goToTransition.click();
     }
 
     /**
      * This method verifies the success message 'Choice shared' toast message.
      */
-    async ToastMessage_ChoiceShared(){
+    async ToastMessage_ChoiceShared() {
         await expect(this.page.getByText('Success: Choice shared')).toBeVisible();
     }
 }
