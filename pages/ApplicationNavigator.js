@@ -43,6 +43,9 @@ export class ApplicationNavigator {
     //Log Off link
     this.logOff_link = page.locator('//a[@title="Logoff"]');
 
+
+    //Referral lookup link
+    this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
   }
 
   async clickRefresh() {
@@ -160,6 +163,13 @@ async clickElement(elements) {
     }
   }
   throw new Error(`No link found with name: ${name}`);
+}
+  /**   * Navigate to Referral Lookup   */
+  async navigateToReferralLookup() {
+    await this.manage_link.click();
+    await this.ReferralLookup_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
 }
 
 async LogOff() {

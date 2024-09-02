@@ -9,7 +9,7 @@ import { DischargePlanningPage } from '../../pages/DischargePlanningPage_1443';
 
 const { ConnectIntegrationUser, ConnectIntegrationPassword } = process.env;
 
-// test('test', async ({ page }) => {
+ test('test', async ({ page }) => {
 
     const connectlogin = new LoginPage(page);
     const pageA = await connectlogin.login(ConnectIntegrationUser, ConnectIntegrationPassword);
@@ -50,7 +50,7 @@ const { ConnectIntegrationUser, ConnectIntegrationPassword } = process.env;
     const DischargePlanning = new DischargePlanningPage(page1);
     await DischargePlanning.ConnectTimelineValidationinDischargePlanning();
 
-// });
+ });
 
 
 
