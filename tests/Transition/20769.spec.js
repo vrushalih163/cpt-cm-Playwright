@@ -1,5 +1,5 @@
 //Author: Rajakumar Maste, Created Date: 02 Sept 2024
-//Modified By: Rajakuamr Maste, Modified Date: 02 Sept 2024
+
 import { LIB } from '../../bizLibs/lib';
 import { test, expect } from '@playwright/test';
 import { SharedChoiceHomePage } from '../../pages/Transition_Pages/SharedChoiceHomePage';
@@ -34,12 +34,19 @@ test('Shared choice tab verification', async ({ }) => {
     await SC.Print();
     //click on Print button on the print popup
     await newPage.getByRole('button', { name: 'Print' }).click();
+    await newPage.waitForTimeout(3000);
 
-    // Listen for the print dialog and close it
-    newPage.on('dialog', async dialog => {
-        console.log(`Dialog message: ${dialog.message()}`);
-        await dialog.dismiss();
-    });
+        // Wait for the print preview page to open
+        const [printPreviewPage] = await Promise.all([
+            browser.waitForEvent('page'),
+            newPage.waitForTimeout(3000) // Adjust the timeout as needed
+        ]);
+    
+        // Close the print preview page by clicking the cancel button
+        await printPreviewPage.getByRole('button', { name: 'Cancel' }).click();
+    
+        // Continue with the rest of your test
+        await newPage.waitForTimeout(3000);
 
     //Click on the Go to Transition button
     const SCPS = new SCProviderSearch(newPage);
@@ -59,7 +66,6 @@ test('Shared choice tab verification', async ({ }) => {
     }
 
     //step 4: validate the shared method and shared with by sharing the choice via Text/Email
-
     await newPage.waitForTimeout(2000);
     var rowscount = await newPage.locator('table#tblShared tbody tr').count();
     //click on Ellipse icon
@@ -74,7 +80,7 @@ test('Shared choice tab verification', async ({ }) => {
     await SCPS.TextOREmail_Modal(MailSlurpEMailId);
     //Toast message verification
     await SCPS.ToastMessage_ChoiceShared();
-    await SCPS.waitForTimeout(2000);
+    await newPage.waitForTimeout(2000);
 
     //Step 5: verify the rows count after sharing via Text/Email
     var rowscount1 = await newPage.locator('table#tblShared tbody tr').count();
@@ -97,28 +103,13 @@ test('Shared choice tab verification', async ({ }) => {
 
     await SC.Addall_btn_click();
 
-    await newPage.pause();
-
     await SC.DragAndDropRankings(1, 3);
     await newPage.locator('//input[@formcontrolname="name"]').fill('TransitionAutomationUser');
-    await newPage.locator('//input[@formcontrolname="emailorPhone"]').fill('Wellsky@Autoation');
+    await newPage.locator('//input[@formcontrolname="emailorPhone"]').fill('Wellsky@Automation.com');
     await newPage.getByRole('button', { name: ' Save as Patient Choice ' }).click();
 
     //Ranks are not dragable on the rank provider modal when the user views the any rows except the first row
-    //click on the second row view icon
-    await SC.locator('table tr:nth-child(2) td:nth-child(6)').click();
-
-    // Verify if the section is draggable
-    const isDraggable = await newPage.evaluate(() => {
-        const element = document.querySelector('//div[contains(@class, "cdk-drag")]');
-        return element && element.draggable;
-    });
-
-    if (!isDraggable) {
-        Boolean(true);
-    } else {
-        throw new Error('The row is draggable. Terminating the test.');
-    }
+    await SC.validate_ChoiceIsNotDragable(2);
     
     await newPage.locator('//i[@type="button"]').click();
     await newPage.close();

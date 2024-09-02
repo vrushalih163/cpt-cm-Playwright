@@ -1,6 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 23 August 2024
 //Modified By: Rajakunar Maste, Modified Date: 02 Sept 2024
-//comment: added few new methods to this class
+//comment: added validate_ChoiceIsNotDragable method and update DragAndDropRankings method
 
 import { LIB } from '../../bizLibs/lib';
 import { page, expect } from '@playwright/test';
@@ -35,10 +35,30 @@ export class SharedChoice {
      * Here TargetRanking is nothing but the provider rank where you want to place it.
      */
     async DragAndDropRankings(SourceRanking, TargetRanking) {
-        const Source = await this.page.locator(`//*[contains(@id, 'cdk-drop-list']/div[${SourceRanking}]/div[1]/text()`);
-        const Target = await this.page.locator(`//*[contains(@id, 'cdk-drop-list']/div[${TargetRanking}]/div[1]/text()`);
+        const Source = await this.page.locator('(//div[contains(@class, "cdk-drag selection-box")])' + '[' + SourceRanking + ']');
+        const Target = await this.page.locator('(//div[contains(@class, "cdk-drag selection-box")])' + '[' + TargetRanking + ']');
 
-        await Source.dragTo(Target);
+        // await Source.dragTo(Target);
+        // Ensure elements are visible
+        await Source.scrollIntoViewIfNeeded();
+        await Target.scrollIntoViewIfNeeded();
+
+        // Log element positions for debugging
+        const sourceBox = await Source.boundingBox();
+        const targetBox = await Target.boundingBox();
+
+        if (sourceBox && targetBox) {
+            // Alternative drag and drop method
+            await this.page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2);
+            await this.page.waitForTimeout(2000); // Add a small delay
+            await this.page.mouse.down();
+            await this.page.waitForTimeout(2000); // Add a small delay
+            await this.page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 10 });
+            await this.page.waitForTimeout(2000); // Add a small delay
+            await this.page.mouse.up();
+        } else {
+            console.error('Could not locate source or target elements');
+        }
     }
 
     /**
@@ -161,6 +181,9 @@ export class SharedChoice {
         }
     }
 
+    /**
+     * This method is used to validate the table header in the shared choice page.
+     */
     async SharedChoice_TableHeader_Validation() {
         const table = await this.page.locator('table#tblShared');
         const headers = await table.locator('thead tr th');
@@ -184,7 +207,7 @@ export class SharedChoice {
 
         for (let i = 0; i < expectedHeaders.length; i++) {
             const headerText = await headers.nth(i).textContent();
-            console.log(`Header ${i}: ${headerText}`);
+            //console.log(`Header ${i}: ${headerText}`);
             expect(headerText.trim()).toBe(expectedHeaders[i]);
         }
     }
@@ -203,6 +226,32 @@ export class SharedChoice {
      */
     async Addall_btn_click() {
         await this.AddAll_btn.click();
+    }
+
+    /**
+     * This method is used to validate the user is not able to drag the rankings on the rank provider modal for the specified row.
+     * @param {*} rowNumber Enter the row number which you want to validate
+     * @returns 
+     */
+    async validate_ChoiceIsNotDragable(rowNumber) {
+        // Construct the selector string using the rowNumber
+        const selector = `table tr:nth-child(${rowNumber}) td:nth-child(6)`;
+    
+        // Click on the specified row's view icon
+        await this.page.locator(selector).click();
+    
+        // Verify if the section is draggable
+        const isDraggable = await this.page.evaluate(() => {
+            const xpath = '//div[contains(@class, "cdk-drag")]';
+            const element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            return element && element.draggable;
+        });
+    
+        if (!isDraggable) {
+            return true;
+        } else {
+            throw new Error('The row is draggable. Terminating the test.');
+        }
     }
 
 };
