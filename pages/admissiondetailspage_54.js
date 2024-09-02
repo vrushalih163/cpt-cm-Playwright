@@ -9,6 +9,8 @@ constructor(page) {
       this.admissiondate_field = page.locator('#dtPatientAdmission_Date');
       this.admissiontime_field = page.locator('#dtPatientAdmission_Time');
       this.primarydiagnosis_field = page.locator('#txtPrimaryDiagnosis');
+      this.ProjectedDischargeDate_textBox = page.locator('#dtProjectedDischarge_Date');
+      this.ProjectedDischargeTime_textbox = page.locator('#dtProjectedDischarge_Time');
       this.facility_dropdown = page.locator('#ddFacilityTypes');
       this.save_button = page.getByRole('button', { name: 'Save' });
       this.apply_button = page.getByRole('button', { name: 'Apply' });
@@ -64,5 +66,15 @@ async selectFacility(facilityName){
       await this.facility_dropdown.selectOption(facilityName);
 }
 
+async GetProjectedDischargeDate(){
+      return await this.ProjectedDischargeDate_textBox.innerText();
+}
 
+async GetProjectedDischargeTime(){
+      return await this.ProjectedDischargeTime_textbox.innerText();
+}
+
+async GetPrimaryDiagnosis(){
+      return await this.primarydiagnosis_field.innerText();
+}
 }

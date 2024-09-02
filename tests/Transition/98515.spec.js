@@ -1,6 +1,6 @@
 // Author - Vrushali Honnatti Date: 20th August, 2024
 
-import { test } from '@playwright/test';
+import { test, chromium } from '@playwright/test';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { IncomingReferralsEnhancedViewPage } from '../../pages/incomingReferralsEnhancedViewPage_631';
 import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
@@ -36,6 +36,9 @@ test('Validate user search for providers through Provider Search and bring them 
   //Step 3 - Choose the required referral type and click on 'Create Referral' button
   await ManageRef.CreateNewReferral('ATAuto');
 
+  await newPage.waitForLoadState('domcontentloaded');
+  await newPage.waitForTimeout(5000);
+
   //Step 4 - Click on Search Providers
   await ProviderSearch.ClickSearchProviderButton();
 
@@ -44,7 +47,7 @@ test('Validate user search for providers through Provider Search and bring them 
   await ProviderSearch.SearchProvider(HSPProvider1.substring(startIndex));
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
-  
+
   //Step 6 - Without selecting the Providers, click on the Manage referrals breadcrumb
   //Scenario covered in TC 95685
   await ProviderSearch.ClickProviderCheckBox(0);
@@ -88,12 +91,13 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //Step 16 - Select the checkboxes present against the following and click on Send tab: QA Provider 1 QA Provider 2
   await ProviderSearch.ClickProviderCheckBox(1);
+  //await TransContextNav.SetInfoValues();
   await TransContextNav.ClickSendReferralButton();
   await newPage.waitForLoadState('domcontentloaded');
   await newPage.waitForTimeout(2000);
 
   //extract referral ID for automation
- 
+
   var referralId = await ManageRef.GetFirstReferralID();
 
   //Step 17 - Verify the Providers
@@ -105,8 +109,11 @@ test('Validate user search for providers through Provider Search and bring them 
   //covered these scenarios in the above steps
 
   //step 23 - Login to CM application as QA Provider 1
+  await newPage.close();
+  const userpath = Library.DataDirectory().toString();
+  const browser = await chromium.launch();
   const page2 = await browser.newPage();
-  await page2.goto('chrome://new-tab-page/');
+  //await page2.goto('chrome://new-tab-page/');
 
   const Login = new LoginPage(page2);
   const page3 = await Login.login(user, password);
@@ -142,13 +149,15 @@ test('Validate user search for providers through Provider Search and bring them 
   await page3.waitForTimeout(2000);
   //await IncomingReferralsEnhancedView.ValidateNoRecordsLabel();
   await AppNav.LogOff();
+ await page2.close();
 
   //Step 31 - Navigate back to  the Transition application
-  await page.bringToFront();
-  await page.locator('#btnTrySmart').click();
-  const page5Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Launch' }).click();
-  const page5 = await page5Promise;
+  // await newPage.bringToFront();
+  // await newPage.locator('#btnTrySmart').click();
+  // const page5Promise = newPage.waitForEvent('popup');
+  // await newPage.getByRole('button', { name: 'Launch' }).click();
+  // const page5 = await page5Promise;
+  const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
   const ManageRef1 = new ManageReferral(page5);
   const ProviderSearch1 = new ProviderSearchPage(page5);
@@ -156,14 +165,13 @@ test('Validate user search for providers through Provider Search and bring them 
   const Forms1 = new FormsPage(page5);
   const Attachments1 = new AttachmentsPage(page5);
   const Send1 = new SendPage(page5);
-  
+
 
   //Step 32 - Click on the referral created
   await ManageRef1.ClickFirstReferral();
 
   //Step 33 - Click on Forms, unselect the checkbox under Send against a form which was sent already and navigate to Attachments tab
   await TransContextNav1.ClickFormsTab();
-  await newPage.pause();
   await Forms1.ClickFormsCheckbox(1);
 
   //Step 34 - Add a new attachment
@@ -172,7 +180,7 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //Step 35 - Click on Send checkbox present against the attachment
   await Attachments1.ClickAttachmentCheckBox(2);
-  
+
   //Step 36 - Click on Send
   await TransContextNav1.ClickSendTab();
 
@@ -184,9 +192,8 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //step 39 - Login to CM application as QA Provider 1
   const page4 = await browser.newPage();
-  await page4.goto('chrome://new-tab-page/');
 
-  const Login1 = new LoginPage(page2);
+  const Login1 = new LoginPage(page4);
   const page6 = await Login1.login(user, password);
 
   const AppNav1 = new ApplicationNavigator(page6);
@@ -207,5 +214,5 @@ test('Validate user search for providers through Provider Search and bring them 
   await page6.waitForTimeout(2000);
 
   //Step 43 - Verify the Forms, Attachments, referral data
-  
+
 });

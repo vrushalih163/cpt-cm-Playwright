@@ -1,5 +1,6 @@
 //Author: Vrushali Honnatti - 20th August, 2024
 import { expect } from '@playwright/test';
+import { InformationPage } from './InformationPage';
 export class TransitionContextNavigator{
     constructor(page){
         this.page = page;
@@ -64,5 +65,25 @@ export class TransitionContextNavigator{
 
     async ValidateSendReferralButtonDisabled(){
         await expect(this.SendReferralButton_disabled).toBeVisible();
+    }
+
+    async ValidateProviderSearchIconNotExists(){
+        await expect(this.iconProviderSearch).not.toBeVisible();
+    }
+
+    async ValidateProviderSearchIconExists(){
+        await expect(this.iconProviderSearch).toBeVisible();
+    }
+
+    async SetInfoValues()
+    {
+        if(await expect.soft(this.SendReferralButton).not.toBeVisible())
+        {
+            await this.ClickInformationTab();
+            
+            const Info = new InformationPage(this.page);
+            await Info.SetProjectedDischargeDate('12/12/2022');
+            await Info.SetProjectedDischargeTime('11:45 AM');
+        }
     }
 }

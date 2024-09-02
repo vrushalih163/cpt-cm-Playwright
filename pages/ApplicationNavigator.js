@@ -37,11 +37,11 @@ export class ApplicationNavigator {
     this.security_configuration_link = page.locator('a[name="security_security_configuration"]');
     this.users_link = page.locator('a[name="security_users"]');
 
-    // Tob User Admins navigation back links
-    //this.users_link = page.getByRole('link', { name: 'Users' });
-    //this.edit_non_owned_user_link = page.getByRole('link', { name: 'Edit Non-Owned User' });
-    //this.user_admin_link = page.getByRole('link', { name: 'User Admin' });
+    // Top User Admins navigation back links
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
+
+    //Log Off link
+    this.logOff_link = page.locator('//a[@title="Logoff"]');
 
   }
 
@@ -75,7 +75,7 @@ export class ApplicationNavigator {
     await this.page.waitForTimeout(2000);
     await this.page.getByRole('link', { name: orgName }).click();
     await this.page.waitForLoadState('domcontentloaded')
-    await this.page.waitForTimeout(10000);
+    await this.page.waitForTimeout(7000);
     return this.page;
   }
 
@@ -162,6 +162,7 @@ async clickElement(elements) {
   throw new Error(`No link found with name: ${name}`);
 }
 
-
-
+async LogOff() {
+  await this.logOff_link.click();
+}
 }

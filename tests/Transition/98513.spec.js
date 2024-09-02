@@ -1,6 +1,6 @@
 // Author - Vrushali Honnatti Date: 20th August, 2024
 
-import { test } from '@playwright/test';
+import { test, chromium } from '@playwright/test';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { IncomingReferralsEnhancedViewPage } from '../../pages/incomingReferralsEnhancedViewPage_631';
 import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
@@ -105,6 +105,8 @@ test('Validate user search for providers through Provider Search and bring them 
   //covered these scenarios in the above steps
 
   //step 23 - Login to CM application as QA Provider 1
+  // Launch the browser
+  const browser = await chromium.launch();
   const page2 = await browser.newPage();
   await page2.goto('chrome://new-tab-page/');
 

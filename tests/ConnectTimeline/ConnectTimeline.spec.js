@@ -17,7 +17,7 @@ const { ConnectIntegrationUser, ConnectIntegrationPassword } = process.env;
     const page1 = await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (harpo - 226280)');
     await page1.waitForTimeout(5000);
 
-    //Searching patinet in Patient Default View
+    //Searching patient in Patient Default View
 
     await AppNav.NavigateToPatientsDefaultView();
     const PatientDefaultView = new PatientdefaultviewPage(page1);
