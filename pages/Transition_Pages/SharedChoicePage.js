@@ -187,13 +187,6 @@ export class SharedChoice {
             console.log(`Header ${i}: ${headerText}`);
             expect(headerText.trim()).toBe(expectedHeaders[i]);
         }
-        // await expect(page1.getByRole('button', { name: 'Date of sharing' })).toBeVisible();
-        // await expect(page1.getByRole('button', { name: '# Providers' })).toBeVisible();
-        // await expect(page1.getByRole('columnheader', { name: 'Share method (Electronic/' })).toBeVisible();
-        // await expect(page1.getByRole('columnheader', { name: 'Data Shared Shared With,' })).toBeVisible();
-        // await expect(page1.getByRole('columnheader', { name: 'User' })).toBeVisible();
-        // await expect(page1.getByRole('columnheader', { name: 'View' })).toBeVisible();
-        // await expect(page1.getByRole('columnheader', { name: 'Actions' })).toBeVisible();
     }
 
     /**
