@@ -7,7 +7,7 @@ import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { SCProviderSearch } from '../../pages/Transition_Pages/SharedChoice_ProviderSearch';
 const { MailSlurpEMailId } = process.env;
 
-test('Shared choice tab verification', async ({ }) => {
+test('Shared choice tab verification', async ({ browser }) => {
     test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
     //Step 1: Launch the Transition application for MRN-E1703
@@ -36,17 +36,11 @@ test('Shared choice tab verification', async ({ }) => {
     await newPage.getByRole('button', { name: 'Print' }).click();
     await newPage.waitForTimeout(3000);
 
-        // Wait for the print preview page to open
-        const [printPreviewPage] = await Promise.all([
-            browser.waitForEvent('page'),
-            newPage.waitForTimeout(3000) // Adjust the timeout as needed
-        ]);
-    
-        // Close the print preview page by clicking the cancel button
-        await printPreviewPage.getByRole('button', { name: 'Cancel' }).click();
-    
-        // Continue with the rest of your test
-        await newPage.waitForTimeout(3000);
+   // Close the print preview popup by clicking the cancel button using XPath
+   //await newPage.locator('xpath=//*[@id="sidebar"]//print-preview-button-strip//div/cr-button[2]').click();
+
+    // Continue with the rest of your test
+    await newPage.waitForTimeout(3000);
 
     //Click on the Go to Transition button
     const SCPS = new SCProviderSearch(newPage);
@@ -110,7 +104,7 @@ test('Shared choice tab verification', async ({ }) => {
 
     //Ranks are not dragable on the rank provider modal when the user views the any rows except the first row
     await SC.validate_ChoiceIsNotDragable(2);
-    
+
     await newPage.locator('//i[@type="button"]').click();
     await newPage.close();
 });

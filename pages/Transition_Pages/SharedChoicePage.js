@@ -198,7 +198,7 @@ export class SharedChoice {
             'Actions'
         ];
 
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(3000);
 
         const headerCount = await headers.count();
         if (headerCount !== expectedHeaders.length) {
