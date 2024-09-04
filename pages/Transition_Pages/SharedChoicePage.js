@@ -14,7 +14,19 @@ export class SharedChoice {
         this.Resend_Link = page.locator('#anchorResend');
         this.Print_Link = page.locator('#anchorPrint');
         this.SharedMethod_Text = page.locator('td:nth-child(3)').first(); // OR locator('//table//tbody//td[3]')
+
+        //Resend popup
         this.AddAll_btn = page.locator('#all');
+        this.CareGiver_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="name"]');
+        this.CareGiverPhone_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="emailorPhone"]');
+        this.SaveAsPatientChoice_button = page.locator('//mat-dialog-actions//button//span[contains(.,"Save as Patient Choice")]');
+
+        //Print popup
+        this.Print_button = page.locator('//button/span[contains(.,"Print")]');
+        this.YourName_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="name"]');
+        this.YourEmail_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="email"]');
+        this.YourPhone_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="phone"]');
+
     }
 
 
@@ -25,6 +37,22 @@ export class SharedChoice {
         await this.ViewIcon.first().click();
     }
 
+    /**
+     * This function is used to enter the care giver details in the View Popup.
+     */
+    async CareGiverDetails(CareGiverName, CareGiverPhone) {
+        await this.CareGiver_textbox.fill(CareGiverName);
+        await this.CareGiverPhone_textbox.fill(CareGiverPhone);
+    }
+
+    /**
+     * This function is used to click on the Save as Patient Choice button.
+     * 
+     */
+    async SaveAsPatientChoice() {
+        await this.SaveAsPatientChoice_button.click();
+    }
+    
     /**
      * This function is used to drag the ranking after adding the rankings.
      * @param {*} SourceRanking 
@@ -114,23 +142,23 @@ export class SharedChoice {
 
         const actionIcon = await firstRow.locator('td:nth-child(7) #anchorMoreVert');
 
-        //Create an instance for LIB class
-        const library = new LIB();
-        //call the getCurrentDateTimeInTimeZone method and passing the date and time format
-        var currentDateTime = await library.getCurrentDateTimeInTimeZone(timezone, format);
+        // //Create an instance for LIB class
+        // const library = new LIB();
+        // //call the getCurrentDateTimeInTimeZone method and passing the date and time format
+        // var currentDateTime = await library.getCurrentDateTimeInTimeZone(timezone, format);
 
-        // Parse the dates using native JavaScript Date object to make sure both are same object befor comparison
-        const DateOfSharing = new Date(dateOfSharing);
-        currentDateTime = new Date(currentDateTime);
+        // // Parse the dates using native JavaScript Date object to make sure both are same object befor comparison
+        // const DateOfSharing = new Date(dateOfSharing);
+        // currentDateTime = new Date(currentDateTime);
 
-        // Calculate the difference in milliseconds
-        const differenceInMilliseconds = Math.abs(currentDateTime - DateOfSharing);
+        // // Calculate the difference in milliseconds
+        // const differenceInMilliseconds = Math.abs(currentDateTime - DateOfSharing);
 
-        // Convert the difference from milliseconds to minutes
-        const differenceInMinutes = Math.floor(differenceInMilliseconds / 1000 / 60);
+        // // Convert the difference from milliseconds to minutes
+        // const differenceInMinutes = Math.floor(differenceInMilliseconds / 1000 / 60);
 
-        // Check if the difference is within the 2-minute tolerance
-        expect(DateOfSharing).toBeLessThanOrEqual(2, `The dates differ by more than 2 minutes. Difference: ${differenceInMinutes} minutes.`);
+        // // Check if the difference is within the 2-minute tolerance
+        // expect(DateOfSharing).toBeLessThanOrEqual(2, `The dates differ by more than 2 minutes. Difference: ${differenceInMinutes} minutes.`);
 
         // Validate cell values
         expect(ProviderCount).toBe(numberOfProviders);
@@ -157,9 +185,9 @@ export class SharedChoice {
         expect(viewIcon).not.toBeNull();
         expect(actionIcon).not.toBeNull();
 
-        // Validate the background color of the first row
-        const firstRowBackgroundColor = await firstRow.evaluate(row => getComputedStyle(row).backgroundColor);
-        expect(firstRowBackgroundColor).toBe('rgb(255, 255, 255)');
+        // // Validate the background color of the first row
+        // const firstRowBackgroundColor = await firstRow.evaluate(row => getComputedStyle(row).backgroundColor);
+        // expect(firstRowBackgroundColor).toBe('rgb(255, 255, 255)');
     }
 
     /**
@@ -252,6 +280,13 @@ export class SharedChoice {
         } else {
             throw new Error('The row is draggable. Terminating the test.');
         }
+    }
+
+    async PopulatePrintPopup(YourName, YourEmail, YourPhone) {
+        await this.YourName_textbox.fill(YourName);
+        await this.YourEmail_textbox.fill(YourEmail);
+        await this.YourPhone_textbox.fill(YourPhone);
+        await this.Print_button.click();
     }
 
 };

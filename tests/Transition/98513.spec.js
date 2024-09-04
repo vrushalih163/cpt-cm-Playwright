@@ -105,10 +105,9 @@ test('Validate user search for providers through Provider Search and bring them 
   //covered these scenarios in the above steps
 
   //step 23 - Login to CM application as QA Provider 1
-  // Launch the browser
+  await newPage.close();
   const browser = await chromium.launch();
   const page2 = await browser.newPage();
-  await page2.goto('chrome://new-tab-page/');
 
   const Login = new LoginPage(page2);
   const page3 = await Login.login(user, password);
@@ -144,13 +143,10 @@ test('Validate user search for providers through Provider Search and bring them 
   await page3.waitForTimeout(2000);
   //await IncomingReferralsEnhancedView.ValidateNoRecordsLabel();
   await AppNav.LogOff();
+  await page2.close();
 
   //Step 31 - Navigate back to  the Transition application
-  await page.bringToFront();
-  await page.locator('#btnTrySmart').click();
-  const page5Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Launch' }).click();
-  const page5 = await page5Promise;
+  const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
   const ManageRef1 = new ManageReferral(page5);
   const ProviderSearch1 = new ProviderSearchPage(page5);
@@ -186,9 +182,8 @@ test('Validate user search for providers through Provider Search and bring them 
 
   //step 39 - Login to CM application as QA Provider 1
   const page4 = await browser.newPage();
-  await page4.goto('chrome://new-tab-page/');
 
-  const Login1 = new LoginPage(page2);
+  const Login1 = new LoginPage(page4);
   const page6 = await Login1.login(user, password);
 
   const AppNav1 = new ApplicationNavigator(page6);

@@ -5,6 +5,7 @@ constructor(page) {
       this.page = page;
       this.sendResponse_button =  page.getByRole('button', { name: 'Send Response' });
       this.jumpToReferralSource_link = page.locator('xpath=//a[@mattooltip="Jump to Referral Source"]')
+      this.comment_textarea = page.locator('//textarea[@formcontrolname="providerComment"]');
 }
 
 async  selectResponse(response){
@@ -15,6 +16,10 @@ await this.page.waitForTimeout(5000);
 
 await this.page.locator('span:has-text("' + response +'")').first().click();
 }
+
+async SetComment(comment){
+    await this.comment_textarea.fill(comment);
+}   
 
 async clickSendResponse(){
     await this.sendResponse_button.click();

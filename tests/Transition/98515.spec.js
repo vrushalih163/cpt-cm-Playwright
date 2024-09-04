@@ -152,11 +152,6 @@ test('Validate user search for providers through Provider Search and bring them 
  await page2.close();
 
   //Step 31 - Navigate back to  the Transition application
-  // await newPage.bringToFront();
-  // await newPage.locator('#btnTrySmart').click();
-  // const page5Promise = newPage.waitForEvent('popup');
-  // await newPage.getByRole('button', { name: 'Launch' }).click();
-  // const page5 = await page5Promise;
   const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
 
   const ManageRef1 = new ManageReferral(page5);

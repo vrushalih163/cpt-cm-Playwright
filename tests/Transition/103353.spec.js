@@ -1,15 +1,10 @@
 // Author - Vrushali Honnatti Date: 20th August - 2024
 
 import { test } from '@playwright/test';
-import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
-import { IncomingReferralsEnhancedViewPage } from '../../pages/incomingReferralsEnhancedViewPage_631';
 import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
-import { FormsPage } from '../../pages/Transition_Pages/FormsPage';
-import { SendPage } from '../../pages/Transition_Pages/SendPage';
-import { AttachmentsPage } from '../../pages/Transition_Pages/AttachmentsPage';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
 import { TransitionContextNavigator } from '../../pages/Transition_Pages/TransitionContextNavigator';
-import { LoginPage } from '../../pages/PageLogin_111';
+import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { LIB } from '../../bizLibs/lib';
 
 const { user, password, QAProvider1, QAProvider2, QAProvider3 } = process.env
@@ -28,26 +23,26 @@ test('To Verify the electronic method of sharing workflow', async ({ }) => {
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);
   const TransContextNav = new TransitionContextNavigator(newPage);
-  const Forms = new FormsPage(newPage);
-  const Attachments = new AttachmentsPage(newPage);
-  const Send = new SendPage(newPage);
+  const sharedChoice = new SharedChoice(newPage);
 
   //Step 2 - Click on Create Referral card
   //Step 3 - Choose the  referral type enabled for Patient choice and click on 'Create Referral' button
-  
-
-
   //Step 4 - Enter the zipcode and tab out
   //Step 5 - Verify the button present below the Advance search
   await ManageRef.CreateNewReferral('PatientChoice');
 
   //Step 6 - Select the Providers and click on 'Add # to Cart'
-  await ProviderSearch.ClickSearchProviderButton();
-  await ProviderSearch.AddProviderToCart("1");
+  //for automation - if a provider is already present, remove it
+  await newPage.waitForTimeout(5000);
+  await ProviderSearch.ClickRemoveProviderMenuItem();
+  await ProviderSearch.ClickSearchProviderIcon();
+  var index = Math.floor(Math.random() * 9) + 1;
+  await ProviderSearch.AddProviderToCart(index.toString());
 
   //Step 7 - Verify the cart
   //Step 8 - Verify the buttons present
   //Step 9 - Click on 'Text/Email'
+  //await ProviderSearch.ClickCartCount_button();
   await ProviderSearch.ClickTextEmail_PCButton();
 
   //Step 10 - Verify the help text or instructions
@@ -74,7 +69,7 @@ test('To Verify the electronic method of sharing workflow', async ({ }) => {
   //Step 20 - Verify the text box below 'Your Email ID'
   await ProviderSearch.EnterYourEmail("aaa@google.com");
   await ProviderSearch.EnterYourName("Test Automation !@%#@%%^^&");
-  
+
 
   //Step 21 - Remove the name and verify Share button
   await ProviderSearch.ValidateShareButtonEnabled();
@@ -93,14 +88,32 @@ test('To Verify the electronic method of sharing workflow', async ({ }) => {
   await ProviderSearch.ClickShareButtonPopup();
 
   //Step 28 - Verify the Shared Choice tab for the newly inserted record
+  await sharedChoice.Validate_First_row_OnceChoiceShared('central', '12hr', '1', 'Text/Email', 'test@gmail.comaaa@wellsky.combbb@allscripts.com');
+
   //Step 29 - Click on eye icon present in the View what you shared column
+  await sharedChoice.First_ViewIconClick();
+
   //Step 30 - Verify the Modal
   //Step 31 - Verify the Provider
   //Step 32 - Click on Add against the Provider
+  await sharedChoice.Addall_btn_click();
+  await sharedChoice.CareGiverDetails("Test Automation", "4257689000");
+
+
   //Step 33 - Close the modal
+  await sharedChoice.SaveAsPatientChoice();
+  await TransContextNav.ClickSharedChoiceTab();
+
   //Step 34 - Click on ellipses under actions column
+  await sharedChoice.EllipseIconClick();
+
   //Step 35 - Click on Resend
+  await sharedChoice.Resend();
+
   //Step 36 - Verify the message in the 'Add a message to the Patient'
+  await ProviderSearch.EnterMessage('Test Automation');
+  await ProviderSearch.ClickShareButtonPopup();
+
   //Step 37 - Verify the email triggered to the email ID entered while sharing Providers
   //Step 38 - Open email and click the link 'Post- Acute Options'
   //Step 39 - Click on Add button against the providers and rank the providers
@@ -109,7 +122,4 @@ test('To Verify the electronic method of sharing workflow', async ({ }) => {
   //Step 42 - Go back to the application - navigate to Providers tab
   //Step 43 - Open email and click the link 'Post- Acute Options'
   //verifying email is not possible through automation
-
-
-
 });
