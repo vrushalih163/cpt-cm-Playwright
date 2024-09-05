@@ -3,13 +3,13 @@ const { user, password } = process.env
 
 import { test, expect } from '@playwright/test';
 
-import { LoginPage } from '../../pages/PageLogin_111';
-import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
-import { usersPage } from '../../pages/usersPage_27';
-import { editNonOwnedUserPage } from '../../pages/editNonOwnedUserPage_127';
+import { LoginPage } from '../../pages/PageLogin_111.js';
+import { ApplicationNavigator } from '../../pages/ApplicationNavigator.js';
+import { usersPage } from '../../pages/usersPage_27.js';
+import { editNonOwnedUserPage } from '../../pages/editNonOwnedUserPage_127.js';
 import { UserAdminPage } from '../../pages/UserAdminPage_1176.js';
-import { OrganizationLookup } from '../../pages/OrganizationLookupPage_595';
-import { associatedOrganizationsPage } from '../../pages/associatedOrganizationsPage_1177';
+import { OrganizationLookup } from '../../pages/OrganizationLookupPage_595.js';
+import { associatedOrganizationsPage } from '../../pages/associatedOrganizationsPage_1177.js';
 
 
 test('User Admin', async ({ page }) => {
@@ -31,7 +31,6 @@ test('User Admin', async ({ page }) => {
     };
 
     //Step 2: Change org to Allscripts QA Hos 1
-    const spanById = page.locator('#lblDefaultOrganization');
     await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (');
 
     // Array of links to be clicked  
