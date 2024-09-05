@@ -41,8 +41,35 @@ export class ApplicationNavigator {
     this.users_link = page.locator('a[name="security_users"]');
 
     // User Admins navigation back links
-    // Top User Admins navigation back links
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
+
+    // Help menu links
+    this.home_link = page.locator('a#MenuBar_Home_Header');
+    this.changeOrg_link = page.locator('a[name*="home_change_organization"]'); 
+    this.help_link = page.locator('#MenuBar_Help_Header');
+    this.menu_bar_links = (menuName) => page.locator(`a[class="ion-submenu-link"]:has-text("${menuName}")`);
+
+    // RM Online Help page title
+    //this.page_title = (page2) => page2.frameLocator('#LoadHelpPage').locator('h1.home');
+    this.page_title = (page) =>page.frameLocator('#LoadHelpPage').locator('h1.home');
+    //await expect(page2.frameLocator('#LoadHelpPage').getByRole('heading')).toContainText('CarePort Referral Management Online Help');
+    
+   // };
+
+
+    // Help menu links
+    this.home_link = page.locator('a#MenuBar_Home_Header');
+    this.changeOrg_link = page.locator('a[name*="home_change_organization"]'); 
+    this.help_link = page.locator('#MenuBar_Help_Header');
+    this.menu_bar_links = (menuName) => page.locator(`a[class="ion-submenu-link"]:has-text("${menuName}")`);
+
+    // RM Online Help page title
+    //this.page_title = (page2) => page2.frameLocator('#LoadHelpPage').locator('h1.home');
+    this.page_title = (page) =>page.frameLocator('#LoadHelpPage').locator('h1.home');
+    //await expect(page2.frameLocator('#LoadHelpPage').getByRole('heading')).toContainText('CarePort Referral Management Online Help');
+    
+   // };
+
 
     // Help menu links
     this.home_link = page.locator('a#MenuBar_Home_Header');
