@@ -1,9 +1,11 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
-import { page, Locator, test } from '@playwright/test';
+import { page, Locator, expect } from '@playwright/test';
+import { time } from 'console';
 export class ApplicationNavigator {
 
-  constructor(page) {
+  constructor(page, page2) {
     this.page = page;
+    this.page2 = page2;
 
     this.refresh_link = page.getByRole('link', { name: 'PageHeader$IonHeaderRefreshButton' });
     this.manage_link = page.getByRole('link', { name: ' Manage' });
@@ -14,7 +16,8 @@ export class ApplicationNavigator {
     this.IncomingReferrals_link = page.getByRole('link', { name: 'Incoming Referrals ' });
     this.IncomingReferralsEnhancedView_link = page.getByRole('link', { name: 'Incoming Referrals View -' });
 
-    this.home_link = page.getByRole('link', { name: ' Home' });
+    //this.home_link = page.getByRole('link', { name: ' Home' });
+    this.home_link = page.locator('a#MenuBar_Home_Header');
     this.changeOrg_link = page.getByRole('link', { name: 'Change Organization' });
 
     //Configure icon 
@@ -37,8 +40,23 @@ export class ApplicationNavigator {
     this.security_configuration_link = page.locator('a[name="security_security_configuration"]');
     this.users_link = page.locator('a[name="security_users"]');
 
+    // User Admins navigation back links
     // Top User Admins navigation back links
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
+
+    // Help menu links
+    this.home_link = page.locator('a#MenuBar_Home_Header');
+    this.changeOrg_link = page.locator('a[name*="home_change_organization"]'); 
+    this.help_link = page.locator('#MenuBar_Help_Header');
+    this.menu_bar_links = (menuName) => page.locator(`a[class="ion-submenu-link"]:has-text("${menuName}")`);
+
+    // RM Online Help page title
+    //this.page_title = (page2) => page2.frameLocator('#LoadHelpPage').locator('h1.home');
+    this.page_title = (page) =>page.frameLocator('#LoadHelpPage').locator('h1.home');
+    //await expect(page2.frameLocator('#LoadHelpPage').getByRole('heading')).toContainText('CarePort Referral Management Online Help');
+    
+   // };
+
 
     //Log Off link
     this.logOff_link = page.locator('//a[@title="Logoff"]');
@@ -71,7 +89,7 @@ export class ApplicationNavigator {
   }
 
   async NavigateToChangeOrg(orgName) {
-
+    
     await this.home_link.click();
     await this.page.waitForTimeout(2000);
     await this.changeOrg_link.click();
@@ -175,4 +193,39 @@ async clickElement(elements) {
 async LogOff() {
   await this.logOff_link.click();
 }
+
+
+  /**
+   * Navigate to the online Help left navigation icon page based on the menu name
+   * @param {string} menuName - The name of the menu item to click
+   */
+async navigateToOnlineHelp(menuName) {
+  // Check if Help menu is loaded and visible
+  await expect(this.help_link).toHaveText('Help');
+  await this.help_link.click();
+  const pagePromise = this.page.waitForEvent('popup');
+  await this.menu_bar_links(menuName).click({timeout: 20000});
+  const page = await pagePromise;
+  await this.page.waitForLoadState('domcontentloaded');
+  return page;
 }
+ 
+/**
+   * Assert that RM online help page contains the expected text
+   * @param {page} page - The new page object
+   * @param {string} expectedText - The expected text to verify
+   */
+async assertOnlineHelpPageContainsText(page, expectedText) {
+
+  await expect(this.page_title(page)).toContainText(expectedText);
+  
+
+}
+
+
+  
+} 
+
+
+
+

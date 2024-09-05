@@ -11,6 +11,7 @@ export class OrganizationLookup {
 
         this.OrgSettings_Icon = page.locator('//a[@title="Settings"]').first();
         this.user_icon = page.locator('//a[@title="Users"]');
+        this.search_user = (username) =>page.locator(`a[id^="dgUsers"]:has-text("${username}")`);
 
 
     }
@@ -72,7 +73,7 @@ export class OrganizationLookup {
    * Returns the user link element with the specified username and clicks on it.
    */
   async clickUserLogonLinkByUsername(username) {
-    const userLogonLink = this.page.locator(`a[id="dgUsers_ctl244_lnkLogon"]:has-text("${username}")`);
+    const userLogonLink = this.search_user(username);
     await expect(userLogonLink).toHaveCount(1); 
     await userLogonLink.click({ timeout: 20000 });
     await this.page.waitForLoadState('domcontentloaded');
