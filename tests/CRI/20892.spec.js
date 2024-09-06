@@ -30,7 +30,7 @@ test('test', async ({ page }) => {
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
   await expect(page.getByRole('link', { name: 'Contact Us', exact: true })).toBeVisible();
-  await expect(page.locator('#MenuBar_MenuLink_28209_28223_31')).toContainText('Contact Us'); 
+  await expect(page.locator('//a[@name= "help_contact_us"]')).toContainText('Contact Us'); 
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('link', { name: 'Contact Us', exact: true }).click();
   await page.waitForTimeout(2000);
@@ -74,7 +74,7 @@ test('test', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'CarePort Referral Intake' })).toBeVisible();
   await page.getByRole('link', { name: ' Help' }).click();
   await expect(page.getByRole('link', { name: 'Archived Release Notes' })).toBeVisible();
-  await expect(page.locator('#MenuBar_MenuLink_28209_28224_148')).toContainText('Archived Release Notes');
+  await expect(page.locator('//a[@name= "help_archived_release_notes"]')).toContainText('Archived Release Notes');
   await page.getByRole('link', { name: 'Archived Release Notes' }).click();
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
