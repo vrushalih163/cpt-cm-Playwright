@@ -13,7 +13,7 @@ test('Create Task', async ({ }) => {
     const Library = new LIB();
 
     //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-    const newPage = await Library.HandleAppLaunch('Cadence, Anna','E1703','Patient Choice');
+    const newPage = await Library.HandleAppLaunch('Cadence, Anna','E1703','Manage Referrals');
 
     //Click on patient task worklist icon manage referral page.
     const PTaskWorklist = new ManageReferral(newPage);
@@ -47,10 +47,10 @@ test('Create Task', async ({ }) => {
 
     await AddEditTask.NotifyWhenTaskIsAssigned_EditLink();
     
-    await AddEditTask.UnassignUser('Maste, Rajakumar');
+    //await AddEditTask.UnassignUser('Maste, Rajakumar');
 
     await AddEditTask.CloseAssignedUserModal();
 
     await AddEditTask.CreateORUpdateClick();//create/update button clicked
-    await browser.close();
+    await newPage.close();
 });
