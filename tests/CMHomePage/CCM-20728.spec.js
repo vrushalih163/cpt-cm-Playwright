@@ -7,7 +7,7 @@ import { CMHomePage } from '../../pages/CMHomePage_111';
 
 
 
-test('Rm Online Help', async ({ page }) => {
+test('Home Page - RM Online Help - RM Online Help is accessible via the Home Page', async ({ page }) => {
 
     //creates a new instance of class 
     //Step 1: login to the app

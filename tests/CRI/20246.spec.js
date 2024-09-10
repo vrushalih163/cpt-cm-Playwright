@@ -1,9 +1,10 @@
+//Author Asha Fernandes Date: 20th August, 2024
 //import { test, expect } from '@playwright/test';
 import { LIB } from '../../bizLibs/lib';
 import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
 const {user, password} = process.env
-test('test', async ({ page }) => {
+test('CM: Verify the Updated RM Contact Information page', async ({ page }) => {
   // Login to Org
   // await page.goto('https://pv02.extendedcare.health/');
   // const page1Promise = page.waitForEvent('popup');

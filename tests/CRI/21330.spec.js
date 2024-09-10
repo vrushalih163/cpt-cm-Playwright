@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('Verify the style of top nav for CRI Orgs', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/');
   const page2Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
