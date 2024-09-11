@@ -13,7 +13,7 @@ test.use({ workers: 1 });
 test.setTimeout(5 * 60 * 1000);
 const { user, password, TransitionOrg1, TransitionOrg2 } = process.env
 
-test('T2: ECIN Configuration for Sending Patient Choice in T2 without a Referral.', async ({ page }) => {
+test('T2- ECIN Configuration for Sending Patient Choice in T2 without a Referral.', async ({ page }) => {
 
     //Patient Choice Dashboard
 

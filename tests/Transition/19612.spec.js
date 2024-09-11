@@ -6,7 +6,7 @@ import { AddEditTaskModal } from '../../pages/Transition_Pages/AddEditTaskModal'
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
 import { LIB } from '../../bizLibs/lib';
 
-test('CM: Transition Management Page: User Can Add Tasks on the Transition Referral Landing Page and Within a Referral', async ({ }) => {
+test('CM- Transition Management Page: User Can Add Tasks on the Transition Referral Landing Page and Within a Referral', async ({ }) => {
     test.setTimeout( 5 * 60 * 1000);//5mins in milliseconds
 
     //Creating an Object to LIB class
