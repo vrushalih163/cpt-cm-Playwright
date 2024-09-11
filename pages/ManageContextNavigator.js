@@ -1,5 +1,6 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
 // Modified by - Pavan.S Date:7th Aug, 2024 - Added navigation to DP page
+//The purpose of this class is to add the code for all the links in the Manage Tab
 import { Page, Locator, test } from '@playwright/test';
 
 export class ManageContextNavigator {

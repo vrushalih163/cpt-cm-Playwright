@@ -14,7 +14,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 
 const {TransitionOrg1, user, password} = process.env
 
-test('Referral - Information Tab (Referral Type is configured for Homecare and Notes/consults)', async ({ page }) => {
+test('Referral - Information Tab - Referral Type is configured for Homecare and Notes and consults', async ({ page }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 

@@ -6,7 +6,7 @@ import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage'
 
 import { LIB } from '../../bizLibs/lib';
 
-test('95686_Manage Referrals - Referral Type Cards ( Referral information and #Messages)', async ({ }) => {
+test('95686_Manage Referrals - Referral Type Cards - Referral information and Messages', async ({ }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
