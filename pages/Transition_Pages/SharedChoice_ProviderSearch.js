@@ -1,5 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 13 August 2024
-//Modified By: Rajakumar Maste, Modified Date: 02 Sept 2024
+//Modified By: Rajakumar Maste, Modified Date: 11 Sept 2024
+//comment: Added new method called SCprovider_Search()
 
 import { expect } from '@playwright/test';
 
@@ -84,5 +85,14 @@ export class SCProviderSearch {
      */
     async ToastMessage_ChoiceShared() {
         await expect(this.page.getByText('Success: Choice shared')).toBeVisible();
+    }
+
+    async SCprovider_Search(){
+            await this.page.getByLabel('Clear').click();
+            await this.page.getByPlaceholder('Search by address, city,').click();
+            await this.page.keyboard.type('Hagåtña, 96910, Guam', { delay: 250 });
+    
+            await this.page.getByText('Hagåtña, 96910, Guam', { exact: true }).click();
+            await this.page.waitForLoadState('domcontentloaded');
     }
 }

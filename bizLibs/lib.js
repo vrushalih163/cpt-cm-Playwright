@@ -1,5 +1,5 @@
-//Modified by Rajakumar Maste, Date: 14 Aug 2024, Description: added 'HandleAppLaunch' method to handle the application launch 
-//comment - Added new login method i.e HandleAppLaunch
+//Modified by Rajakumar Maste, Date: 11 Sept 2024 
+//comment - Added new method called 'CreateNewAdmissionForTransPatient()' and moved 'generateUniqueText()' method inside the class
 import { PatientdetailsPage } from '../pages/patientdetailspage_52';
 import { AdmissiondetailsPage } from '../pages/admissiondetailspage_54';
 import { ApplicationNavigator } from '../pages/ApplicationNavigator';
@@ -21,19 +21,27 @@ const os = require('os');
 const path = require('path');
 const { FhirLaunchUrl, TransitionlaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
 
-function generateUniqueText(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-}
+
 
 export class LIB {
 
     constructor(page) {
         this.page = page;
+
+    }
+
+    /**
+     * This method generates a unique text based on the length provided
+     * @param {*} length  Enter the length of the text you want to generate
+     * @returns 
+     */
+    async generateUniqueText(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
     }
 
     /**
@@ -55,6 +63,8 @@ export class LIB {
             const browser = await chromium.launchPersistentContext(userpath);
             const pages = browser.pages();
             const page = pages[0];
+            await page.setViewportSize({ width: 1350, height: 800 });
+
             await page.goto(FhirLaunchUrl);
             await page.waitForLoadState('domcontentloaded');
 
@@ -95,6 +105,7 @@ export class LIB {
             // Launching new chromium instance
             const browser = await chromium.launch();
             const page = await browser.newPage();
+            await page.setViewportSize({ width: 1350, height: 800 });
 
             //Creating a object for LoginPage class
             const TransDign = new LoginPage(page);
@@ -303,58 +314,133 @@ export class LIB {
  * @param {string} format - The time format ('12hr' or '24hr').
  * @returns {Promise<string>} - The current date and time in the specified time zone and format.
  */
-async  getCurrentDateTimeInTimeZone(timeZone, format) {
-    // Map the input time zone to an IANA time zone identifier and abbreviation
-    const lowerCaseTimeZone = timeZone.toLowerCase();
-    let iana, abbreviation;
+    async getCurrentDateTimeInTimeZone(timeZone, format) {
+        // Map the input time zone to an IANA time zone identifier and abbreviation
+        const lowerCaseTimeZone = timeZone.toLowerCase();
+        let iana, abbreviation;
 
-    switch (true) {
-        case lowerCaseTimeZone.includes('pt') || lowerCaseTimeZone.includes('pacific'):
-            iana = 'America/Los_Angeles';
-            abbreviation = 'PT';
-            break;
-        case lowerCaseTimeZone.includes('ct') || lowerCaseTimeZone.includes('central'):
-            iana = 'America/Chicago';
-            abbreviation = 'CT';
-            break;
-        case lowerCaseTimeZone.includes('et') || lowerCaseTimeZone.includes('eastern'):
-            iana = 'America/New_York';
-            abbreviation = 'ET';
-            break;
-        case lowerCaseTimeZone.includes('atlantic'):
-            iana = 'America/Halifax';
-            abbreviation = 'AT';
-            break;
-        case lowerCaseTimeZone.includes('mountain'):
-            iana = 'America/Denver';
-            abbreviation = 'MT';
-            break;
-        case lowerCaseTimeZone.includes('alaska'):
-            iana = 'America/Anchorage';
-            abbreviation = 'AKT';
-            break;
-        case lowerCaseTimeZone.includes('hawaii') || lowerCaseTimeZone.includes('aleutian'):
-            iana = 'Pacific/Honolulu';
-            abbreviation = 'HAT';
-            break;
-        case lowerCaseTimeZone.includes('greenwich') || lowerCaseTimeZone.includes('gmt'):
-            iana = 'Etc/GMT';
-            abbreviation = 'GMT';
-            break;
-        default:
-            throw new Error('Unsupported time zone');
+        switch (true) {
+            case lowerCaseTimeZone.includes('pt') || lowerCaseTimeZone.includes('pacific'):
+                iana = 'America/Los_Angeles';
+                abbreviation = 'PT';
+                break;
+            case lowerCaseTimeZone.includes('ct') || lowerCaseTimeZone.includes('central'):
+                iana = 'America/Chicago';
+                abbreviation = 'CT';
+                break;
+            case lowerCaseTimeZone.includes('et') || lowerCaseTimeZone.includes('eastern'):
+                iana = 'America/New_York';
+                abbreviation = 'ET';
+                break;
+            case lowerCaseTimeZone.includes('atlantic'):
+                iana = 'America/Halifax';
+                abbreviation = 'AT';
+                break;
+            case lowerCaseTimeZone.includes('mountain'):
+                iana = 'America/Denver';
+                abbreviation = 'MT';
+                break;
+            case lowerCaseTimeZone.includes('alaska'):
+                iana = 'America/Anchorage';
+                abbreviation = 'AKT';
+                break;
+            case lowerCaseTimeZone.includes('hawaii') || lowerCaseTimeZone.includes('aleutian'):
+                iana = 'Pacific/Honolulu';
+                abbreviation = 'HAT';
+                break;
+            case lowerCaseTimeZone.includes('greenwich') || lowerCaseTimeZone.includes('gmt'):
+                iana = 'Etc/GMT';
+                abbreviation = 'GMT';
+                break;
+            default:
+                throw new Error('Unsupported time zone');
+        }
+
+        // Get the current date and time
+        const now = moment();
+
+        // Determine the time format
+        const timeFormat = format === '12hr' ? 'M/D/YYYY hh:mm A' : 'M/D/YYYY HH:mm';
+
+        // Convert to the specified time zone and format
+        const dateTimeInTimeZone = now.tz(iana).format(timeFormat);
+
+        return `${dateTimeInTimeZone} (${abbreviation})`;
     }
 
-    // Get the current date and time
-    const now = moment();
 
-    // Determine the time format
-    const timeFormat = format === '12hr' ? 'M/D/YYYY hh:mm A' : 'M/D/YYYY HH:mm';
+    async CreateNewAdmissionForTransPatient(PatientMRN, PatientAccNumber) {
+        const browser = await chromium.launch();
+        const page = await browser.newPage();
+        await page.setViewportSize({ width: 1350, height: 800 });
 
-    // Convert to the specified time zone and format
-    const dateTimeInTimeZone = now.tz(iana).format(timeFormat);
+        //Creating a object for LoginPage class
+        const TransDign = new LoginPage(page);
 
-    return `${dateTimeInTimeZone} (${abbreviation})`;
-}
+        //Passing user and password parameters to login method
+        const page1 = await TransDign.login(user, password);
+
+        //Creating a object to ApplicationNavigator class
+        const Appnav = new ApplicationNavigator(page1);
+
+        //Calling & Passing Org name to NavigateToChangeOrg method
+        await Appnav.NavigateToChangeOrg(TransitionOrg1);
+
+        //calling NavigateToPatinetsDefaultView method
+        await Appnav.NavigateToPatientsDefaultView();
+
+        //Creating object to PatientdefaultviewPage and passing page1 to it.
+        const PatientDefaultViewPage = new PatientdefaultviewPage(page1);
+
+        //Calling & Passing the patient MRN to SearchPatientByMRN method
+        await PatientDefaultViewPage.SearchPatientByMRN(PatientMRN);
+
+        //Calling & Passing the option present in dropdown to NavigateActionDDBox method
+        await PatientDefaultViewPage.NavigateActionDDBox('Most Recent Admission');
+
+        //Clicking on the Admission link in the left navigation
+        await page1.getByRole('link', { name: 'Admission' }).click();
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Clicking on the Admission Details link
+        await page1.getByRole('link', { name: 'Admission Details' }).click();
+        await page1.waitForLoadState('domcontentloaded');
+
+        //generating unique text
+        const uniqueText = await this.generateUniqueText(5);
+
+        //Entering the text in the account number field
+        await (page1.locator('//input[@name="txtHospitalAdmissionID"]')).fill(PatientAccNumber+'-'+uniqueText);
+
+        //Click on Save Button
+        await page1.locator('#ButtonBarSave').click();
+
+        //selecting Create admission from the action dropdown
+        await PatientDefaultViewPage.NavigateActionDDBox('Create Admission');
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Entering the MRN in the account number field
+        await (page1.locator('//input[@name="txtHospitalAdmissionID"]')).fill(PatientAccNumber);
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Entering the admission date
+        await page1.locator('#dtPatientAdmission_Date').fill('+0');
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Entering the admission time
+        await page1.locator('#dtPatientAdmission_Time').fill('10:10');
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Entering the primary diagnosis
+        await page1.locator('#txtPrimaryDiagnosis').fill('Transition Automation Test');
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Click on Save Button
+        await page1.locator('#ButtonBarSave').click();
+
+        //Closing the browser
+        await page1.close();
+        await page.close();
+    }
 
 };

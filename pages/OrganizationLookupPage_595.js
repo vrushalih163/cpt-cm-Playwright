@@ -1,4 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 13 August 2024
+//Modified By: Rajakumar Maste, Modified Date: 11 Sept 2024
+//Comment: added a locator in SearchOrganization() method
 
 const { expect } = require('@playwright/test');
 export class OrganizationLookup {
@@ -7,6 +9,7 @@ export class OrganizationLookup {
         this.Admin_Icon = page.getByRole('link', { name: ' Admin' });
         this.OrgLookup_link = page.getByRole('link', { name: 'Organization Lookup' });
         this.OrgType_Dropdownfield = page.locator('#cmbOrgTypes');
+        this.OrgId_field = page.locator('#txtOrgID');
         this.Search_button = page.getByRole('button', { name: 'Search' });
 
         this.OrgSettings_Icon = page.locator('//a[@title="Settings"]').first();
@@ -43,6 +46,9 @@ export class OrganizationLookup {
         // Fill the field with the new value
         await orgNameField.fill(OrgName);
         await this.page.waitForLoadState('domcontentloaded');
+
+        // Clear the Organization ID field
+        await this.OrgId_field.clear();
 
         // Click on search button
         await this.Search_button.click();

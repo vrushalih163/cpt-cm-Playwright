@@ -245,8 +245,9 @@ export class SharedChoice {
      * @param {*} Sharedwith  Enter the username with whom the choice is shared
      */
     async SharedWith_Validation(Sharedwith) {
-        const dataShared = await this.page.locator('td:nth-child(4)').first();
-        expect(dataShared).toContainText(Sharedwith);
+        await this.page.waitForTimeout(2000);
+        const dataShared = await this.page.locator('td:nth-child(4)').first().textContent();
+        expect(dataShared.trim()).toContainText(Sharedwith);
     }
 
     /**

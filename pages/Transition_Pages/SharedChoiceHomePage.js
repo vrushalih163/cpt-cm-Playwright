@@ -1,4 +1,6 @@
 //Author: Rajakumar Maste, Created Date: 23 August 2024
+//Modified By: Rajakumar Maste, Modified Date: 11 Sept 2024
+//comment: Updated CreatePatientChoice_Click() method
 
 import { page, expect } from '@playwright/test';
 import { LIB } from '../../bizLibs/lib';
@@ -27,6 +29,8 @@ export class SharedChoiceHomePage {
      * This method verifies the visibility of the Shared Choice card and clicking on '+' icon.
      */
     async CreatePatientChoice_Click() {
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForTimeout(3000)
         await expect(this.page.locator('#showProgressSpinnerId div').first()).toBeVisible();
         await this.createpatientchoice_plusIcon.click();
     }
