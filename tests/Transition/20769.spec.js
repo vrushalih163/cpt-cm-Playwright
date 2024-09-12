@@ -9,7 +9,7 @@ import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { SCProviderSearch } from '../../pages/Transition_Pages/SharedChoice_ProviderSearch';
 const { MailSlurpEMailId } = process.env;
 
-test('Shared choice tab verification', async ({ browser }) => {
+test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
     //Step 1: Launch the Transition application for MRN-E1703

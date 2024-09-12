@@ -15,7 +15,7 @@ import { ViewOnlineReferralPage } from '../../pages/viewOnlineReferralPage_1473'
 
 const { user, password, QAProvider1, QAProvider2, QAProvider3 } = process.env
 
-test('Validate user search for providers through Provider Search and bring them back to Transition', async ({ }) => {
+test('102794_Validating the workflow of sharing a referral via direct method of share in Transition', async ({ }) => {
 
     test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 

@@ -7,7 +7,7 @@ import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage'
 
 import { LIB } from '../../bizLibs/lib';
 
-test('Manage Referrals - Create Referral', async ({ }) => {
+test('95688_Referral - Attachments Tab - Patient or Admission has Attachments', async ({ }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 

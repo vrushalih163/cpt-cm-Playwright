@@ -14,7 +14,7 @@ import { LIB } from '../../bizLibs/lib';
 
 const { user, password, HSPProvider1, HSPProvider2 } = process.env
 
-test('Validate user search for providers through Provider Search and bring them back to Transition', async ({ }) => {
+test('98515_To verify the Updated referral when the new providers are added to the referral', async ({ }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 
