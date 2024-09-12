@@ -3,25 +3,13 @@
 import { LIB } from '../../bizLibs/lib';
 import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
+import { YourCompanyProfileFacilityPage } from '../../pages/yourcompanyprofilefacilityPage_268';
 const {user, password} = process.env
 test('CM: Verify the Updated RM Contact Information page', async ({ page }) => {
   // Login to Org
-  // await page.goto('https://pv02.extendedcare.health/');
-  // const page1Promise = page.waitForEvent('popup');
-  // await page.getByRole('button', { name: 'Log In' }).click();
-  // const page1 = await page1Promise;
-  // await page1.locator('#UserNameTextBox').click();
-  // await page1.locator('#UserNameTextBox').fill('automation');   
-  // await page1.locator('#UserNameTextBox').press('Tab');
-  // await page1.locator('#PasswordTextBox').fill('Organization=17');
-  // await page1.getByText('Log In').click();
-  // await page1.goto('https://pv02.extendedcare.health/professional/AngularPages/Home/Dashboard.aspx/home/dashboard');
-  // await page.waitForTimeout(2000);
-  // await page.waitForLoadState('domcontentloaded');
-    //Step -1: Login to the app 
-
-    const Login = new LoginPage(page);
-    const page1 = await Login.login(user, password);
+  const Login = new LoginPage(page);
+  const page1 = await Login.login(user, password);
+  const YourCompanyProfileFacility = new YourCompanyProfileFacilityPage(page1);
   await expect(page1.locator('h2')).toContainText('Welcome Back automation');
   await expect(page1.getByTitle('Home Page')).toBeVisible();
   await page1.getByRole('link', { name: ' Home' }).click();
@@ -45,33 +33,15 @@ test('CM: Verify the Updated RM Contact Information page', async ({ page }) => {
   await expect(page1.locator('#PageHeader')).toContainText('Your Company Profile (Facility)');
   // Verify the text
   await expect(page1.locator('#Table1')).toContainText('Enter the following to display in your organization profile details:');
-  await page1.locator('#ctl0_TextBoxEmail').click();
-  await page1.locator('#ctl0_TextBoxEmail').click();
-  await page1.locator('#ctl0_TextBoxEmail').click();
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
-  await page1.locator('#ctl0_TextBoxEmail').press('ArrowRight');
+  await YourCompanyProfileFacility.clicktextboxemail();
   // Clear Email field and verify Email field validation message
-  await page1.locator('#ctl0_TextBoxEmail').fill('');
+  await YourCompanyProfileFacility.filltextboxemail('');
   await page1.getByRole('button', { name: 'Apply' }).click();
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
   await expect(page1.locator('#PageValidationSummary')).toContainText('\'Email Address\' is a required field');
-  await page1.locator('#ctl0_TextBoxEmail').click();
-  await page1.locator('#ctl0_TextBoxEmail').fill('asha.fernandes@wellsky.com');
+  await YourCompanyProfileFacility.clicktextboxemail();
+  await YourCompanyProfileFacility.filltextboxemail('asha.fernandes@wellsky.com');
   await page1.locator('#ctl0_Phone_Extension').click();
   await page1.locator('#ctl0_Phone_Extension').fill('');
   await page1.locator('#ctl0_Phone_Number').click();
