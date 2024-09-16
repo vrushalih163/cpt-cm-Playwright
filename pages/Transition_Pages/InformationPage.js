@@ -23,6 +23,7 @@ export class InformationPage {
 
         this.ProjectedDischargeTime_textbox = page.getByLabel('Discharge Time *');
         this.Comments_textbox = page.getByLabel('Comments');
+        this.tabInformation = page.locator('xpath=//div[contains(@class,"mat-tab-labels")]//div[@class="mat-tab-label-content" and contains(.,"Information")]');
     }
 
     async ValidatePrimaryDiagnosisError() { 
@@ -52,17 +53,20 @@ export class InformationPage {
     }
 
     async SetAddress1(address) {
-        await this.Address1_textbox.click();
+        await this.tabInformation.press('Tab');
+        await this.Address1_textbox.press('Enter');
         await this.Address1_textbox.fill(address);
     }
 
     async SetAddress2(address) {
-        await this.Address2_textbox.click();
+        await this.Address1_textbox.press('Tab');
+        await this.Address2_textbox.press('Enter');
         await this.Address2_textbox.fill(address);
     }
 
     async SetCity(city) {   
-        await this.City_textbox.click();
+        await this.Address2_textbox.press('Tab');
+        await this.City_textbox.press('Enter');
         await this.City_textbox.fill(city);
     }
 
@@ -72,7 +76,8 @@ export class InformationPage {
     }
 
     async SetZipCode(zipcode) { 
-        await this.zipcode_textbox.click();
+        await this.State_dropdown.press('Tab');
+        await this.zipcode_textbox.press('Enter');
         await this.zipcode_textbox.fill(zipcode);
     }
 

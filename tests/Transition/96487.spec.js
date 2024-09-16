@@ -54,7 +54,7 @@ test('96487_Validate user search for providers through Provider Search and bring
   await ManageRef.CreateNewReferral('ATAutoHSP');
 
   //Step 8 - Click on Provider Search icon on top of the screen and validate user gets navigate to Provider search screen
-  await TransContextNav.ClickProviderSearchIcon();
+  await ProviderSearch.ClickSearchProviderButton();
   startIndex = HSPProvider1.length - 15;
 
   //Step 9 - Select a value from Services dropdown

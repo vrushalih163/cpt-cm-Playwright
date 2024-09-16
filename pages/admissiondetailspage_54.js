@@ -22,6 +22,8 @@ async createAdmission(result)
     await this.admissionid_field.fill('AutoAccntNo' + result);
     await this.admissiondate_field.fill('+0');
     await this.admissiontime_field.fill('10:10');
+    await this.ProjectedDischargeDate_textBox.fill('+2');
+      await this.ProjectedDischargeTime_textbox.fill('10:10');
     await this.primarydiagnosis_field.fill('fever');
     await this.save_button.click();
 }
@@ -37,13 +39,7 @@ async  clickApply(){
            
 }
 
-async  filladmissionid(result){
-
-      await this.admissionid_field.fill(result);
-           
-}
-
-async  filladmissiondate(){
+async  SetAdmissiondate(){
 
       await this.admissiondate_field.fill('+0');
            

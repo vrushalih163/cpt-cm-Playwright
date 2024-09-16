@@ -37,20 +37,23 @@ export class ProviderSearchPage {
         this.ShareButton = page.getByRole('button', { name: 'Share' });
         this.ClosePopup_Button = page.getByRole('button', { name: '' });
         this.PrintButton = page.getByRole('button', { name: 'Print' });
-  
+
+        //Clinical tab error msg
+        this.error_Popup = page.locator('//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button').first();
+
     }
 
     async ClickProviderCheckBox(index) {
         await this.Provider_checkBox.nth(index).click();
     }
-    
+
     async ClickSearchProviderButton() {
         await this.SearchProvider_button.click();
     }
 
     async ClickSearchProviderIcon() {
         await this.SearchProvider_icon.click();
-    }   
+    }
 
     async SearchProvider(providerName) {
         await this.page.getByLabel('Clear').click();
@@ -83,7 +86,7 @@ export class ProviderSearchPage {
     }
 
     async AddProviderToCart(index) {
-        await this.page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[' + index +']').click();
+        await this.page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[' + index + ']').click();
         await this.page.getByRole('button', { name: 'Add 1 to Choice' }).click();
     }
 
@@ -98,7 +101,15 @@ export class ProviderSearchPage {
         await this.Unplace_button.click();
     }
 
-    async ClickAnchorMenu(index) {   
+    async ClickAnchorMenu(index) {
+        const elementSelector = '//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button';
+        let isVisible = await this.page.isVisible(elementSelector);
+
+        while (isVisible) {
+            await this.error_Popup.click();
+            await this.page.waitForTimeout(2000);
+            isVisible = await this.page.isVisible(elementSelector);
+        }
         await this.anchor_menu.nth(index).click();
         await this.page.waitForTimeout(500);
     }
@@ -128,7 +139,7 @@ export class ProviderSearchPage {
 
     async ClickRemoveProviderMenuItem() {
         const element = await this.page.$('#anchorMenu');
-        if(element != null) {
+        if (element != null) {
             await this.anchor_menu.first().click();
             await this.RemoveProvider_menuItem.click();
             await this.RemoveProvider_button.click();
@@ -138,10 +149,23 @@ export class ProviderSearchPage {
 
     async ClickAddToReferral_PCButton() {
         await this.AddToReferral_PCButton.click();
-        
+
     }
-    
+
+    async ClickChoiceReason_PCButton() {
+        await this.page.locator('.mat-radio-outer-circle').click();
+        await this.page.getByRole('button', { name: 'Select' }).click();
+    }
+
     async ClickTextEmail_PCButton() {
+        const elementSelector = '//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button';
+        let isVisible = await this.page.isVisible(elementSelector);
+
+        while (isVisible) {
+            await this.error_Popup.click();
+            await this.page.waitForTimeout(2000);
+            isVisible = await this.page.isVisible(elementSelector);
+        }
         await this.TextEmail_PCButton.click();
         await this.page.waitForTimeout(500);
     }
@@ -149,13 +173,13 @@ export class ProviderSearchPage {
     async ClickPrintButtonPopup() {
         await this.PrintButton.click();
         await this.page.waitForTimeout(500);
-    }   
+    }
 
     async ClickShareButtonPopup() {
         await this.ShareButton.click();
         await this.page.waitForTimeout(500);
     }
-    
+
     async ClickClearProviders_PCButton() {
         await this.ClearProviders_PCButton.click();
     }
@@ -182,7 +206,7 @@ export class ProviderSearchPage {
         await this.YourPhone_textbox.fill('');
         await this.YourPhone_textbox.type(phone);
     }
-    
+
     async EnterYourName(name) {
         await this.YourName_textbox.fill('');
         await this.YourName_textbox.type(name);
@@ -193,14 +217,14 @@ export class ProviderSearchPage {
         await this.Message_textbox.type(message);
     }
 
-    async ValidateAddToReferralMessage() {  
+    async ValidateAddToReferralMessage() {
         await expect(this.AddToReferral_message).toBeVisible();
     }
 
     async ValidatePCHeading() {
         await expect(this.PC_Heading).toBeVisible();
     }
-    
+
     async ValidateShareButtonDisabled() {
         await expect(this.ShareButton).toBeDisabled();
     }
@@ -217,7 +241,7 @@ export class ProviderSearchPage {
         await expect(this.PrintButton).toBeEnabled();
     }
 
-    async ValidateTextPopup_HelpText(){
+    async ValidateTextPopup_HelpText() {
         await expect(this.page.locator('mat-dialog-content')).toContainText('Send to the following email address(es) or phone number(s)');
     }
 
@@ -249,7 +273,7 @@ export class ProviderSearchPage {
 
         const lastMessage = (await firstRow.locator('td:nth-child(7)').first().textContent()).trim();
 
-        
+
 
         const actionIcon = await firstRow.locator('td:nth-child(8) #anchorMenu');
 

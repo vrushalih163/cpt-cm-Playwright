@@ -1,11 +1,9 @@
 // Author - Vrushali Honnatti Date: 20th August, 2024
 
-import { test } from '@playwright/test';
+import { test, chromium } from '@playwright/test';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { IncomingReferralsEnhancedViewPage } from '../../pages/incomingReferralsEnhancedViewPage_631';
 import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
-import { FormsPage } from '../../pages/Transition_Pages/FormsPage';
-import { SendPage } from '../../pages/Transition_Pages/SendPage';
 import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
 import { TransitionContextNavigator } from '../../pages/Transition_Pages/TransitionContextNavigator';
@@ -13,7 +11,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 import { ViewOnlineReferralPage } from '../../pages/viewOnlineReferralPage_1473';
 
-const { user, password, QAProvider1, QAProvider2, QAProvider3 } = process.env
+const { user, password, QAProvider1} = process.env
 
 test('102794_Validating the workflow of sharing a referral via direct method of share in Transition', async ({ }) => {
 
@@ -22,9 +20,10 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
     //Step 1 - Login to the EPIC FHIR Application and click on 'Create Referral' card
     //Creating an Object to LIB class
     const Library = new LIB();
+    await Library.CreateNewAdmissionForTransPatient('E3350','6572');
 
     //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-    const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+    const newPage = await Library.HandleAppLaunch('Optime, Omar', 'E3350', 'Manage Referrals');
 
     const ManageRef = new ManageReferral(newPage);
     const ProviderSearch = new ProviderSearchPage(newPage);
@@ -44,12 +43,11 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
     //Step 7 - Click on Search Providers then Select a provider from those listed on the page by checking the checkboxes next to the provider. Click on 'Add to Choice'
     //for automation - if a provider is already present, remove it
     await newPage.waitForTimeout(5000);
-    await ProviderSearch.ClickRemoveProviderMenuItem();
-    await ProviderSearch.ClickSearchProviderIcon();
+    //await ProviderSearch.ClickRemoveProviderMenuItem();
+    await ProviderSearch.ClickSearchProviderButton();
     await ProviderSearch.SearchProviderAndAddToCart(QAProvider1);
 
     //Step 8 - Click the button 'Clear Providers'
-    await newPage.pause();
     await ProviderSearch.ClickClearProviders_PCButton();
 
     //Step 9 - Click on 'Add Providers' displayed on the cart
@@ -57,16 +55,16 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
 
     //Step 10 - Add the same provider to the cart again and click on the 'Add to Referral' button
     await ProviderSearch.SearchProviderAndAddToCart(QAProvider1);
+    await ProviderSearch.ClickAddToReferral_PCButton();
 
     //Step 11 - Choose a reason by selecting the corresponding radio button and click 'Select'
-    
+    await ProviderSearch.ClickChoiceReason_PCButton();
 
     //Step 12 - Observe that the user lands on referral summary page
-
     //Step 13 - Click on the 'Send Referral' button at the bottom right corner page
     await TransContextNav.ClickSendReferralButton();
-    //extract referral ID for automation
 
+    //extract referral ID for automation
     var referralId = await ManageRef.GetFirstReferralID();
     await ManageRef.ClickFirstReferral();
 

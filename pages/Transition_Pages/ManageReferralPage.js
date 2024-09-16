@@ -46,7 +46,10 @@ export class ManageReferral {
         await this.page.waitForTimeout(1000);
         await this.firstReferral_radioButton.first().click();
         await this.CreateReferral_button.click();
+        if(await this.YesReferralConfirmation_button.isVisible())
+            {
         await this.YesReferralConfirmation_button.click();
+    }
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
     }

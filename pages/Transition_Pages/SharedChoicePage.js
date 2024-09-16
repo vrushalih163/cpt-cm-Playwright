@@ -27,6 +27,9 @@ export class SharedChoice {
         this.YourEmail_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="email"]');
         this.YourPhone_textbox = page.locator('//mat-dialog-actions//mat-form-field//div//input[@formcontrolname="phone"]');
 
+        //Clinical tab error msg
+        this.error_Popup = page.locator('//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button').first();
+
     }
 
 
@@ -93,6 +96,10 @@ export class SharedChoice {
      * This function is used to click on the Ellipse icon.
      */
     async EllipseIconClick() {
+        if(await this.error_Popup.isVisible())
+            {
+                await this.error_Popup.click();
+            }
         await this.Ellipse_Icon.click();
     }
 
@@ -254,6 +261,7 @@ export class SharedChoice {
      * This method is used to click on the Add All button on the rank provider modal
      */
     async Addall_btn_click() {
+        await this.page.waitForTimeout(2000);
         await this.AddAll_btn.click();
     }
 

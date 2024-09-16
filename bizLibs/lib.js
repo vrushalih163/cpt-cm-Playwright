@@ -395,48 +395,18 @@ export class LIB {
         //Calling & Passing the patient MRN to SearchPatientByMRN method
         await PatientDefaultViewPage.SearchPatientByMRN(PatientMRN);
 
-        //Calling & Passing the option present in dropdown to NavigateActionDDBox method
-        await PatientDefaultViewPage.NavigateActionDDBox('Most Recent Admission');
-
-        //Clicking on the Admission link in the left navigation
-        await page1.getByRole('link', { name: 'Admission' }).click();
-        await page1.waitForLoadState('domcontentloaded');
-
-        //Clicking on the Admission Details link
-        await page1.getByRole('link', { name: 'Admission Details' }).click();
-        await page1.waitForLoadState('domcontentloaded');
-
-        //generating unique text
-        const uniqueText = await this.generateUniqueText(5);
-
-        //Entering the text in the account number field
-        await (page1.locator('//input[@name="txtHospitalAdmissionID"]')).fill(PatientAccNumber+'-'+uniqueText);
-
-        //Click on Save Button
-        await page1.locator('#ButtonBarSave').click();
-
         //selecting Create admission from the action dropdown
         await PatientDefaultViewPage.NavigateActionDDBox('Create Admission');
         await page1.waitForLoadState('domcontentloaded');
 
-        //Entering the MRN in the account number field
-        await (page1.locator('//input[@name="txtHospitalAdmissionID"]')).fill(PatientAccNumber);
-        await page1.waitForLoadState('domcontentloaded');
-
-        //Entering the admission date
-        await page1.locator('#dtPatientAdmission_Date').fill('+0');
-        await page1.waitForLoadState('domcontentloaded');
-
-        //Entering the admission time
-        await page1.locator('#dtPatientAdmission_Time').fill('10:10');
-        await page1.waitForLoadState('domcontentloaded');
-
-        //Entering the primary diagnosis
-        await page1.locator('#txtPrimaryDiagnosis').fill('Transition Automation Test');
-        await page1.waitForLoadState('domcontentloaded');
+        //Calling the generateUniqueText method to generate a unique text
+        const result = this.generateUniqueText(5);
+        const AdmissionDetails = new AdmissiondetailsPage(page1);
+        //Entering all the mandatory fields in the Admission Details page
+        await AdmissionDetails.createAdmission((await result).toString());
 
         //Click on Save Button
-        await page1.locator('#ButtonBarSave').click();
+        await AdmissionDetails.clicksave();
 
         //Closing the browser
         await page1.close();
