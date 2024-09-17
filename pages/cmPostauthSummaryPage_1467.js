@@ -83,7 +83,7 @@ async selectAddressBook(providerName){
 
 async selectLOC(){
     await this.page.getByLabel('Level of Care *').locator('div').nth(3).click();
-    await this.page.getByRole('option', { name: '* COVID-19: NOT able to' }).locator('span').click();
+    await this.page.getByRole('option').first().locator('span').click();
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
 }

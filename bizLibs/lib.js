@@ -167,7 +167,7 @@ export class LIB {
         const AppNav = new ApplicationNavigator(this.page);
         const ManageContextNav = new ManageContextNavigator(this.page);
 
-        const result = generateUniqueText(5);
+        let result = (await this.generateUniqueText(5)).toString();
 
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
