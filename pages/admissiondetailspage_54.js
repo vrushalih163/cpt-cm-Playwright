@@ -1,5 +1,8 @@
 
 // Author - Vrushali Honnatti Date:10th July, 2024
+// Modified by - Rajakumar Maste, modified date - 18 Sept 2024
+// comment - updated the createAdmission method
+
 import {Page, Locator, test } from '@playwright/test';
 export class AdmissiondetailsPage {
 
@@ -14,6 +17,8 @@ constructor(page) {
       this.facility_dropdown = page.locator('#ddFacilityTypes');
       this.save_button = page.getByRole('button', { name: 'Save' });
       this.apply_button = page.getByRole('button', { name: 'Apply' });
+      this.PatientTypeOrderDate_field = page.locator('#dtPatientTypeOrder_Date');
+      this.PatientTypeOrderTime_field = page.locator('#dtPatientTypeOrder_Time');
 
 }
 
@@ -23,8 +28,10 @@ async createAdmission(result)
     await this.admissiondate_field.fill('+0');
     await this.admissiontime_field.fill('10:10');
     await this.ProjectedDischargeDate_textBox.fill('+2');
-      await this.ProjectedDischargeTime_textbox.fill('10:10');
+    await this.ProjectedDischargeTime_textbox.fill('10:10');
     await this.primarydiagnosis_field.fill('fever');
+    await this.PatientTypeOrderDate_field.fill('+0');
+    await this.PatientTypeOrderTime_field.fill('10:10');          
     await this.save_button.click();
 }
 async  clicksave(){

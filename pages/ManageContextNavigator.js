@@ -1,7 +1,8 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
-// Modified by - Pavan.S Date:7th Aug, 2024 - Added navigation to DP page
-//The purpose of this class is to add the code for all the links in the Manage Tab
-import { Page, Locator, test } from '@playwright/test';
+// Modified by - Rajakumar Maste, modified date - 18 Sept 2024
+// Added Click_Dignoses() and NavigateToProcedure() methods
+
+import { Page, Locator, test, expect } from '@playwright/test';
 
 export class ManageContextNavigator {
 
@@ -12,6 +13,8 @@ export class ManageContextNavigator {
     this.admissionplusicon_link = page.getByRole('link', { name: '' });
     this.admissionLeftNav_link = page.getByRole('link', { name: 'Admission' });
     this.financial_link = page.getByRole('link', { name: 'Financial' });
+    this.Dignosis_link = page.getByRole('link', { name: 'Diagnoses' });
+    this.Procedure_link = page.getByRole('link', { name: 'Procedure' });
 
     //Referral Controls
     this.createNewReferral_link = page.getByTitle('Create a new referral');
@@ -117,12 +120,24 @@ export class ManageContextNavigator {
     await this.typeFacesheet_link.click();
   }
 
-  async NavigateToDischargePlanning()
-  {
+  async NavigateToDischargePlanning() {
     await this.DischargePlanning_link.click();
-    
+
   }
 
+  /**
+   * This method is used to click on Diagnosis link
+   */
+  async Click_Dignoses() {
+    await this.Dignosis_link.click(); 
+  }
 
+  /**
+   * This method is used to click on Procedure
+   */
+  async NavigateToProcedure() {
+    await this.Procedure_link.click();
+    await expect(this.page.locator('#ECIN_Pagelet_Content')).toBeVisible();
+  }
 
 }

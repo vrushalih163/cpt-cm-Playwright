@@ -63,7 +63,7 @@ export class LIB {
             const browser = await chromium.launchPersistentContext(userpath);
             const pages = browser.pages();
             const page = pages[0];
-            await page.setViewportSize({ width: 1350, height: 800 });
+            await page.setViewportSize({ width: 1300, height: 800 });
 
             await page.goto(FhirLaunchUrl);
             await page.waitForLoadState('domcontentloaded');
@@ -105,7 +105,7 @@ export class LIB {
             // Launching new chromium instance
             const browser = await chromium.launch();
             const page = await browser.newPage();
-            await page.setViewportSize({ width: 1350, height: 800 });
+            await page.setViewportSize({ width: 1300, height: 800 });
 
             //Creating a object for LoginPage class
             const TransDign = new LoginPage(page);
@@ -276,39 +276,6 @@ export class LIB {
     }
 
     /**
-     * This method is used to clear the cache and which will helpful to get new code by clearing a existing cache.
-     */
-    async clearCache() {
-        const userDataDir = await this.DataDirectory();
-
-        try {
-            const files = await fs.readdir(userDataDir);
-            for (const file of files) {
-                const filePath = path.join(userDataDir, file);
-                const stat = await fs.lstat(filePath);
-
-                if (stat.isDirectory()) {
-                    await fs.rmdir(filePath, { recursive: true });
-                } else {
-                    await fs.unlink(filePath);
-                }
-            }
-            console.log('Cache cleared successfully.');
-            const cookiesFilePath = path.join(userDataDir, 'Cookies');
-            try {
-                await fs.unlink(cookiesFilePath);
-                console.log('Cookies cleared successfully.');
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw error;
-                }
-                console.log('No cookies file found to clear.');
-            }
-        } catch (error) {
-            console.error('Error clearing cache:', error);
-        }
-    }
-    /**
  * Get the current date and time in a specified time zone.
  * @param {string} timeZone - The input time zone string. Example: If the timezone is PT then pass 'pacific'.
  * @param {string} format - The time format ('12hr' or '24hr').
@@ -360,7 +327,7 @@ export class LIB {
         const now = moment();
 
         // Determine the time format
-        const timeFormat = format === '12hr' ? 'M/D/YYYY hh:mm A' : 'M/D/YYYY HH:mm';
+        const timeFormat = format === '12hr' ? 'M/D/YYYY h:mm A' : 'M/D/YYYY H:mm';
 
         // Convert to the specified time zone and format
         const dateTimeInTimeZone = now.tz(iana).format(timeFormat);
@@ -368,7 +335,18 @@ export class LIB {
         return `${dateTimeInTimeZone} (${abbreviation})`;
     }
 
-
+    /**
+     * This method is used to create a new admission for a transition patient
+     * @param {*} PatientMRN  Enter the patient MRN
+     * @param {*} PatientAccNumber Enter the patient account number
+     * 
+     * **Referrence:**
+     * - Patient Name: 'Cadence, Anna', 'Clin Doc, Henry', 'Grand Central, John','Optime, Omar','Nelson, Kyle'
+     * - Patient MRN: E2651, E1703, 3228, E3350, E3734
+     * - Patient Account Number: 27485, 27418, 1993, 6572, 20042
+     * 
+     * Above Patient Name, MRN and Account Number are in the same order.
+     */
     async CreateNewAdmissionForTransPatient(PatientMRN, PatientAccNumber) {
         const browser = await chromium.launch();
         const page = await browser.newPage();
@@ -394,6 +372,26 @@ export class LIB {
 
         //Calling & Passing the patient MRN to SearchPatientByMRN method
         await PatientDefaultViewPage.SearchPatientByMRN(PatientMRN);
+
+        //Calling & Passing the option present in dropdown to NavigateActionDDBox method
+        await PatientDefaultViewPage.NavigateActionDDBox('Most Recent Admission');
+
+        //Clicking on the Admission link in the left navigation
+        await page1.getByRole('link', { name: 'Admission' }).click();
+        await page1.waitForLoadState('domcontentloaded');
+
+        //Clicking on the Admission Details link
+        await page1.getByRole('link', { name: 'Admission Details' }).click();
+        await page1.waitForLoadState('domcontentloaded');
+
+        //generating unique text
+        const uniqueText = await this.generateUniqueText(5);
+
+        //Entering the text in the account number field
+        await (page1.locator('//input[@name="txtHospitalAdmissionID"]')).fill(PatientAccNumber+'-'+uniqueText);
+
+        //Click on Save Button
+        await page1.locator('#ButtonBarSave').click();
 
         //selecting Create admission from the action dropdown
         await PatientDefaultViewPage.NavigateActionDDBox('Create Admission');

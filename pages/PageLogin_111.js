@@ -25,6 +25,7 @@ export class LoginPage{
         const page1Promise = this.page.waitForEvent('popup');
         await this.page.getByRole('button', { name: 'Log In' }).click();
         const page1 = await page1Promise;
+        await page1.setViewportSize({ width: 1300, height: 800 });
         await page1.locator('#UserNameTextBox').click();
         await page1.locator('//input[@id="UserNameTextBox"]').fill(user);
         await page1.locator('#UserNameTextBox').press('Tab');
