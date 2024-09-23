@@ -9,6 +9,8 @@ export class ApplicationNavigator {
 
     this.refresh_link = page.getByRole('link', { name: 'PageHeader$IonHeaderRefreshButton' });
     this.manage_link = page.getByRole('link', { name: ' Manage' });
+    this.admin_icon = page.getByRole('link', { name: ' Admin' });
+    this.orglookup_link = page.getByRole('link', { name: 'Organization Lookup' });
 
     this.patients_link = page.getByRole('link', { name: 'Patients ' });
     this.patientsdefaultview_link = page.getByRole('link', { name: 'Patients Default View' });
@@ -212,12 +214,16 @@ async navigateToOnlineHelp(menuName) {
 async assertOnlineHelpPageContainsText(page, expectedText) {
 
   await expect(this.page_title(page)).toContainText(expectedText);
-  
-
 }
+async adminOrgLookupNavigation(){
+  // Click on Admin link
+  this.admin_icon.click();
+  this.page.waitForTimeout(2000);
 
-
-  
+  // Click on Organization Lookup link
+  this.orglookup_link.click();
+  this.page.waitForTimeout(2000);
+}
 } 
 
 

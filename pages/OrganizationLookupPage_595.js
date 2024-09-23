@@ -6,17 +6,17 @@ const { expect } = require('@playwright/test');
 export class OrganizationLookup {
     constructor(page) {
         this.page = page;
+
         this.Admin_Icon = page.getByRole('link', { name: ' Admin' });
         this.OrgLookup_link = page.getByRole('link', { name: 'Organization Lookup' });
         this.OrgType_Dropdownfield = page.locator('#cmbOrgTypes');
         this.OrgId_field = page.locator('#txtOrgID');
         this.Search_button = page.getByRole('button', { name: 'Search' });
-
+        
+        this.org_settings_icon = page.locator('xpath=//tr[@id="OrganizationsGrid-data-row-entity-index-1"]//a[@title="Settings"]');
         this.OrgSettings_Icon = page.locator('//a[@title="Settings"]').first();
         this.user_icon = page.locator('//a[@title="Users"]');
         this.search_user = (username) =>page.locator(`a[id^="dgUsers"]:has-text("${username}")`);
-
-
     }
 
     /**
@@ -25,10 +25,12 @@ export class OrganizationLookup {
      */
     async SearchOrganization(OrgType , OrgName){
         // Click on Admin link
-        await this.Admin_Icon.click();
+        this.Admin_Icon.click();
+        this.page.waitForTimeout(3000);
   
         // Click on Organization Lookup link
-        await this.OrgLookup_link.click();
+        this.OrgLookup_link.click();
+        this.page.waitForTimeout(3000);
 
         // Select the organization type
         await this.OrgType_Dropdownfield.selectOption(OrgType);
@@ -56,28 +58,44 @@ export class OrganizationLookup {
         return this.page;
     }
 
-    /**
-     * This method clicks on the Organization Settings icon
-     */
+    async searchAnOrganization(OrgType, OrgName) {
+        // Select the organization type
+        await this.OrgType_Dropdownfield.selectOption(OrgType);
+        await this.page.waitForLoadState('domcontentloaded');
+       
+        // Fill the field with the new value
+        const orgNameField = this.page.locator('#txtName');
+        await orgNameField.fill(OrgName);
+        await this.page.waitForLoadState('domcontentloaded');
+        
+        // Clear the Organization ID field
+        await this.OrgId_field.clear();
+
+        // Click on search button
+        await this.Search_button.click();
+        await this.page.waitForLoadState('domcontentloaded');
+        return this.page;
+    }
+
+    async clickOrgnizationSettingsicon(){
+        await this.org_settings_icon.click();
+    }
+
+    /** This method clicks on the Organization Settings icon    */
     async OrgnizationSettings(){
         await this.OrgSettings_Icon.click();
     }
 
-    /**
-     * This method clicks on the User icon
-     */
+    /** This method clicks on the User icon   */
 
     async userIcon(){
         await this.user_icon.click();
     }
 
     /**
-   * Returns the user link element with the specified text.
-   */
+   * Returns the user link element with the specified text.   */
    
-  /**
-   * Returns the user link element with the specified username and clicks on it.
-   */
+  /** Returns the user link element with the specified username and clicks on it.  */
   async clickUserLogonLinkByUsername(username) {
     const userLogonLink = this.search_user(username);
     await expect(userLogonLink).toHaveCount(1); 

@@ -44,6 +44,18 @@ export class LIB {
         return result;
     }
 
+    /** This method generates a unique integer string based on the length provided
+     * @param {*} length  Enter the length of the integer string you want to generate
+     * @returns   */
+    async generateUniqueIntegerString(length){
+        const digits = '0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += digits.charAt(Math.floor(Math.random() * digits.length));
+        }
+        return result;
+    }
+
     /**
      * This method will switch the login flow based on the 'LaunchThroughEPIC' variable state
      * @param {*} TransPatientName 
