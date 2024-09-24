@@ -1,6 +1,5 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
-// Modified by - Rajakumar Maste, modified date - 18 Sept 2024
-// Added Click_Dignoses() and NavigateToProcedure() methods
+// Modified by: Rajakumar Maste, Modified on: 24 Sept 2024
 
 import { Page, Locator, test, expect } from '@playwright/test';
 
@@ -26,6 +25,10 @@ export class ManageContextNavigator {
     this.CloseNavPanel_link = page.locator('#minimizedlink');
 
     //Documentation Controls
+    this.Documentation_link = page.getByRole('link', { name: 'Documentation' });
+    this.SavedDays_link = page.locator('xpath=//a[contains(@name, "navbar_saved_days")]');
+    this.PayorAuthorizations_link = page.locator('//div//a[contains(@name, "navbar_payor_authorizations")]');
+    this.BusinessLetter_link = page.locator('//div//a[contains(@name, "navbar_business_letters")]');
     this.DocPostAuth_link = page.locator('xpath=//a[contains(@name,"navbar_post_acute_auth")]');
     this.ToggleDocumentationFunctions_button = page.locator('xpath=//div/span[@class="ion-menu-toggle-span"][following-sibling::a[text()="Documentation"]]');
 
@@ -129,7 +132,7 @@ export class ManageContextNavigator {
    * This method is used to click on Diagnosis link
    */
   async Click_Dignoses() {
-    await this.Dignosis_link.click(); 
+    await this.Dignosis_link.click();
   }
 
   /**
@@ -140,4 +143,31 @@ export class ManageContextNavigator {
     await expect(this.page.locator('#ECIN_Pagelet_Content')).toBeVisible();
   }
 
+  /**
+   * This method is used to click on Documentation link
+   */
+  async Click_Documentation() {
+    await this.Documentation_link.click();
+  }
+
+  /**
+   * This method is used to navigate to Saved Days
+   */
+  async NavigateToSavedDays() {
+    await this.SavedDays_link.click();
+  }
+
+  /**
+   * This method is used to navigate to Payor Authorizations
+   */
+  async PayorAuthorizations_Click() {
+    await this.PayorAuthorizations_link.click();
+  }
+
+  /**
+   * This method is used to navigate to Business Letter
+   */
+  async BusinessLetter_Click() {
+    await this.BusinessLetter_link.click();
+  }
 }

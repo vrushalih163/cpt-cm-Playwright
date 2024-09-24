@@ -1,5 +1,5 @@
 // Author - Rajakumar Maste, Created on - 18 Sept 2024
-
+// Modified by: Rajakumar Maste, Modified on: 24 Sept 2024
 export class EditPaymentSource {
     constructor(page) {
         this.page = page;
@@ -42,6 +42,16 @@ export class EditPaymentSource {
         await this.page.waitForTimeout(2000);
         await this.Inactivate_Time.fill('10:10');
         await this.page.waitForTimeout(2000);
+        await this.Save_button.click();
+    }
+
+    /**
+     * This method is used to activate payment source
+     */
+    async ActivatePaymentSource() {
+        if(await this.Inactive_checkbox.isChecked()) {
+            await this.Inactive_checkbox.uncheck();
+        }
         await this.Save_button.click();
     }
 }

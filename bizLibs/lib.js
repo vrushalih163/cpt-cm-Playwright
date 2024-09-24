@@ -5,7 +5,7 @@ import { AdmissiondetailsPage } from '../pages/admissiondetailspage_54';
 import { ApplicationNavigator } from '../pages/ApplicationNavigator';
 import { ManageContextNavigator } from '../pages/ManageContextNavigator';
 import { PatientdefaultviewPage } from '../pages/patientdefaultviewpage_631';
-import { FinancialPage } from '../pages/financialpage_55';
+import { FinancialPage } from '../pages/AdmissionFinancialInformationPage_55';
 import { AddPaymentSourcePage } from '../pages/addpaymentsource_165';
 import { ReferralFacesheetPage } from '../pages/referralfacesheetpage_145';
 import { ChooseRecipientsPage } from '../pages/chooseRecipientspage_1446';
