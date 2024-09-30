@@ -1,0 +1,30 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://pv02.extendedcare.health/');
+  const page1Promise = page.waitForEvent('popup');
+  await page.getByRole('button', { name: 'Log In' }).click();
+  const page1 = await page1Promise;
+  await page1.locator('#UserNameTextBox').click();
+  await page1.locator('#UserNameTextBox').fill('srikannan');
+  await page1.locator('#PasswordTextBox').click();
+  await page1.locator('#PasswordTextBox').fill('Organization=20');
+  await page1.getByText('Log In').click();
+  await page1.getByRole('link', { name: ' Home' }).click();
+  await page1.getByRole('link', { name: 'Change Organization' }).click();
+  await page1.getByRole('link', { name: '`Allscripts QA Hospital 124 (' }).click();
+  await page1.getByRole('link', { name: ' Manage' }).click();
+  await page1.getByText('Copyright © 2024 CarePort').click();
+  await page1.getByRole('link', { name: ' Manage' }).click();
+  await page1.getByRole('link', { name: 'Patient Favorites ' }).click();
+  await page1.getByRole('link', { name: 'M R, SRIKANNAN (974246)' }).click();
+  await page1.getByRole('link', { name: 'TEST12345 (7/9/2024)' }).click();
+  await page1.getByRole('link', { name: 'Forms and Attachments' }).click();
+  await expect(page1.locator('#m_FormContentsRow')).toContainText('9/3/2024 4:35 AM (AT)');
+  await page1.getByRole('cell', { name: 'Srikannan M R 9/3/2024 4:37 AM (AT)', exact: true }).click();
+  await expect(page1.locator('#Table1')).toContainText('9/3/2024 4:37 AM (AT)');
+  await page1.getByRole('link', { name: '[add]' }).click();
+  await page1.locator('#m_AttachUpload').click();
+  await page1.locator('#m_AttachUpload').setInputFiles('attributionfiles_33.pdf');
+  await page1.getByRole('button', { name: 'Save' }).click();
+});
