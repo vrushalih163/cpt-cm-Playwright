@@ -1,8 +1,7 @@
 //Author Asha Fernandes Story ID: CCM:20468
-
-import { test, expect } from '../pages/PageStart';
-import { LoginPage } from '../pages/PageLogin_111';
-import { ApplicationNavigator } from '../pages/ApplicationNavigator';
+import { test, expect } from '../../pages/PageStart';
+import { LoginPage } from '../../pages/PageLogin_111';
+import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const {user, password} = process.env
 test('CM: CRI Logout', async ({ page }) => {
   
