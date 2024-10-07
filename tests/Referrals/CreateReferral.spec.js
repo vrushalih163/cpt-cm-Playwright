@@ -64,10 +64,6 @@ test('Create Referral', async ({ page }) => {
   await page1.waitForLoadState('domcontentloaded');
   await page1.waitForTimeout(4000);
 
-  //await page1.pause();
-  //await page1.locator('xpath=//tr[@id="ApiGridSelectedRecipients-data-row-entity-index-0"]//td[5]//a//i').click();
-  //await page1.getByRole('link', { name: '' }).click()
-
   await SendReferral.unMaskAllPatientInfo();
   await SendReferral.clickSendReferralButton();
   await page1.waitForLoadState('domcontentloaded');

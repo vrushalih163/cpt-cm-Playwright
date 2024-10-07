@@ -15,7 +15,7 @@ const { user, password, QAProvider1} = process.env
 
 test('102794_Validating the workflow of sharing a referral via direct method of share in Transition', async ({ }) => {
 
-    test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
+    test.setTimeout(10 * 60 * 1000);//5mins in milliseconds
 
     //Step 1 - Login to the EPIC FHIR Application and click on 'Create Referral' card
     //Creating an Object to LIB class

@@ -10,7 +10,7 @@ export class ReferralConfirmationPage {
             // this.jumpToProvider_link = page.locator('#rptJumpToOrg_ctl01_lnkChangeOrg');
       }
 
-      async clickcontinue() {
+      async ClickContinue() {
 
             await this.page.getByRole('button', { name: 'Continue' }).click();
 

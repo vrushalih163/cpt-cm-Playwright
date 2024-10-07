@@ -125,7 +125,8 @@ export class ManageContextNavigator {
 
   async NavigateToDischargePlanning() {
     await this.DischargePlanning_link.click();
-
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
   }
 
   /**

@@ -5,15 +5,12 @@ import { AdmissiondetailsPage } from '../pages/admissiondetailspage_54';
 import { ApplicationNavigator } from '../pages/ApplicationNavigator';
 import { ManageContextNavigator } from '../pages/ManageContextNavigator';
 import { PatientdefaultviewPage } from '../pages/patientdefaultviewpage_631';
-import { FinancialPage } from '../pages/AdmissionFinancialInformationPage_55';
+import { AdmissionFinancialInformationPage } from '../pages/AdmissionFinancialInformationPage_55';
 import { AddPaymentSourcePage } from '../pages/addpaymentsource_165';
-import { ReferralFacesheetPage } from '../pages/referralfacesheetpage_145';
-import { ChooseRecipientsPage } from '../pages/chooseRecipientspage_1446';
-import { SendReferralPage } from '../pages/sendReferralPage_176';
-import { ReferralConfirmationPage } from '../pages/referralConfirmationPage_188';
 import { LoginPage } from '../pages/PageLogin_111';
 import { AdmissionFaceSheet } from '../pages/AdmisssionFaceSheet_51';
 import { TransitionDignosis } from '../pages/TransitionDignosis_1469';
+import { AdmissionDefaultViewPage } from '../pages/AdmissionDefaultViewPage_631';
 const { chromium } = require('playwright');
 const fs = require('fs').promises;
 const moment = require('moment-timezone');
@@ -200,13 +197,25 @@ export class LIB {
         //-Admissiondetailspage
         await Admissiondetails.createAdmission(result);
         await this.page.waitForLoadState('domcontentloaded');
-        return this.page;
+        return result;
     }
 
+    /**
+     * This method is used to search an admission in Admission Default View page.
+     * @param {string} AdmissionID
+     */
+    async SearchAdmission(AdmissionID) {
+        const AppNav = new ApplicationNavigator(this.page);
+        const AdmissionDefaultView = new AdmissionDefaultViewPage(this.page);
+        await AppNav.NavigateToAdmissionDefaultView();
+        await AdmissionDefaultView.SearchAdmission(AdmissionID);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForTimeout(2000);
+    }
     async createFinancial(finClass) {
 
         const ManageContextNav = new ManageContextNavigator(this.page);
-        const Financial = new FinancialPage(this.page)
+        const AdmissionFinancialInformation = new AdmissionFinancialInformationPage(this.page)
         const AddPaymentSource = new AddPaymentSourcePage(this.page);
 
 
@@ -214,7 +223,7 @@ export class LIB {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
 
-        await Financial.clickaddfinancial();
+        await AdmissionFinancialInformation.clickaddfinancial();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
 
@@ -222,58 +231,6 @@ export class LIB {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
         return this.page;
-    }
-
-    async createReferral(referralType, providerName) {
-
-        const ReferralFacesheet = new ReferralFacesheetPage(this.page);
-        const ChooseRecipients = new ChooseRecipientsPage(this.page);
-        const SendReferral = new SendReferralPage(this.page);
-        const ReferralConfirmation = new ReferralConfirmationPage(this.page);
-        const ManageContextNav = new ManageContextNavigator(this.page);
-
-        await ManageContextNav.NavigateToCreateReferral();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000);
-
-        await ReferralFacesheet.createReferral(referralType);
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000);
-
-        await ManageContextNav.NavigateToChooseRecipients();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000);
-
-        await this.page.getByLabel('Clear').click();
-        await this.page.getByPlaceholder('Search by address, city,').click();
-        await this.page.keyboard.type('Hagåtña, 96910, Guam', { delay: 1000 });
-
-        await this.page.getByText('Hagåtña, 96910, Guam', { exact: true }).click();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.getByRole('textbox', { name: 'Search by Name' }).type('Provider Online (226537)');
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(8000);
-        await this.page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[1]').click();
-        await this.page.getByRole('button', { name: 'Add 1 to Referral' }).click();
-
-        //ChooseRecipients.choose1Recipient(providerName);
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(2000);
-
-
-        await ManageContextNav.NavigateToSendReferrals()
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(4000);
-
-        this.page.locator('xpath=//a[@class="process-link" and @title="Masked"]').click();
-
-        // SendReferral.unMaskPatientInfo_row1();
-        // SendReferral.checkSendReferralCB_row1();
-        await SendReferral.clickSendReferralButton();
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForTimeout(4000);
-
-        await ReferralConfirmation.validateConfirmationText('has been posted by automation');
     }
 
     /**

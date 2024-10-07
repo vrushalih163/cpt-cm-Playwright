@@ -26,4 +26,8 @@ export class ChooseRecipientsPage {
             await this.page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[1]').click();
             await this.page.getByRole('button', { name: 'Add 1 to Referral' }).click();
       }
+
+      async ClearProviderNameTextbox(){
+            await this.page.locator('//acm-label-textbox[@id="tbProviderName"]//span[@title="Clear"]').click();
+      }
 }

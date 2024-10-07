@@ -15,6 +15,8 @@ export class IncomingReferralsEnhancedViewPage {
     this.maximizePanel_Button = page.getByRole('link', { name: 'Maximize Panel' });
     this.noRecords_label = page.locator('span#ucViewGrid_lblNoRecords');
 
+    this.unasigned_link = page.locator('a#ucViewGrid_dgView_ctl03_AssignedUser_0_0_1');
+
   }
 
   async searchReferralId(referralId) {
@@ -43,4 +45,13 @@ export class IncomingReferralsEnhancedViewPage {
   async ValidateNoRecordsLabel() {
     await expect(this.noRecords_label).toContainText('No records found');
   }
+
+  /**
+   * Click on Unassigned link
+   */
+  async ClickUnassignedLink() {
+    await this.unasigned_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  } 
 }

@@ -15,6 +15,9 @@ export class ApplicationNavigator {
     this.patients_link = page.getByRole('link', { name: 'Patients ' });
     this.patientsdefaultview_link = page.getByRole('link', { name: 'Patients Default View' });
 
+    this.Admission_link = page.getByRole('link', { name: 'Admissions ' });
+    this.AdmissionDefaultView_link = page.getByRole('link', { name: 'Admissions Default View' });
+
     this.IncomingReferrals_link = page.getByRole('link', { name: 'Incoming Referrals ' });
     this.IncomingReferralsEnhancedView_link = page.getByRole('link', { name: 'Incoming Referrals View -' });
 
@@ -41,7 +44,7 @@ export class ApplicationNavigator {
     this.certificates_link = page.locator('a[name="security_certificates"]');
     this.security_configuration_link = page.locator('a[name="security_security_configuration"]');
     this.users_link = page.locator('a[name="security_users"]');
-
+   
     // User Admins navigation back links
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
 
@@ -54,7 +57,9 @@ export class ApplicationNavigator {
     // RM Online Help page title
     this.page_title = (page) =>page.frameLocator('#LoadHelpPage').locator('h1.home');
    
-    //Log Off link
+    //Contact List
+    this.contactList_link = page.getByRole('link', { name: 'Contact List', exact: true });
+
     this.logOff_link = page.locator('//a[@title="Logoff"]');
 
 
@@ -75,6 +80,13 @@ export class ApplicationNavigator {
     await this.patientsdefaultview_link.click();
   }
 
+  async NavigateToAdmissionDefaultView() {
+    await this.manage_link.click();
+    await this.Admission_link.click();
+    await this.page.waitForTimeout(500);
+    await this.AdmissionDefaultView_link.click();
+  }
+
   async NavigateToIncomingReferralsEnhancedView() {
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
@@ -90,7 +102,8 @@ export class ApplicationNavigator {
     await this.page.waitForTimeout(2000);
     await this.changeOrg_link.click();
     await this.page.waitForTimeout(2000);
-    await this.page.getByRole('link', { name: orgName }).click();
+    //await this.page.getByRole('link', { name: orgName }).click();
+    await this.page.locator(`//a[text()='${orgName}']`).click();
     await this.page.waitForLoadState('domcontentloaded')
     await this.page.waitForTimeout(7000);
     return this.page;
@@ -126,6 +139,17 @@ export class ApplicationNavigator {
     return this.page;
   }
 
+  /**
+   * Navigate to Configure -> Contact List
+   */
+  async NavigateToContactList() {
+    await this.configure_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.contactList_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
   /**
  * Clicks the security navigation elements based on the provided element names.
  */

@@ -1,7 +1,7 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
 // Modified by: Rajakumar Maste, Modified on: 24 Sept 2024
 import { Page, Locator, test } from '@playwright/test';
-export class AdmissionFinancialInformation {
+export class AdmissionFinancialInformationPage {
       constructor(page) {
             this.page = page;
             this.addfinancial_link = page.locator('#LinkAddPaymentSource');
