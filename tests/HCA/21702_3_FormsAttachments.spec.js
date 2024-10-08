@@ -9,6 +9,7 @@ test('test', async ({ page }) => {
   await page1.locator('#UserNameTextBox').press('Tab');
   await page1.locator('#PasswordTextBox').fill('Organization=20');
   await page1.getByText('Log In').click();
+  await page.waitForTimeout(5000);
   await page1.getByRole('link', { name: ' Home' }).click();
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.getByRole('link', { name: 'CM Automation Hospital', exact: true }).click();
@@ -18,7 +19,7 @@ test('test', async ({ page }) => {
   //Add a Patient
   await page1.getByRole('link', { name: 'Add a Patient' }).click();
   await page1.getByLabel('MRN:').click();
-  await page1.getByLabel('MRN:').fill('Automate_2');
+  await page1.getByLabel('MRN:').fill('Automate_22');
   await page1.getByLabel('First Name:', { exact: true }).click();
   await page1.getByLabel('First Name:', { exact: true }).fill('Test1_Forms');
   await page1.getByLabel('Last Name:', { exact: true }).click();
@@ -29,7 +30,7 @@ test('test', async ({ page }) => {
   await page1.getByRole('link', { name: '' }).click();
   //Add Admission
   await page1.locator('#txtHospitalAdmissionID').click();
-  await page1.locator('#txtHospitalAdmissionID').fill('Acc_FR_2');
+  await page1.locator('#txtHospitalAdmissionID').fill('Acc_FR_22');
   await page1.locator('#dtPatientAdmission_CalImg').click();
   await page1.frameLocator('iframe[name="CalIFrame"]').locator('#selYear').selectOption('97');
   await page1.frameLocator('iframe[name="CalIFrame"]').locator('#Cell31').click();
