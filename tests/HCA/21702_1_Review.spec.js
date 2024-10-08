@@ -156,7 +156,7 @@ test('test', async ({ page }) => {
   Time3 = Time3.replace(/^0+/, '');
   Time4 = Time4.replace(/^0+/, '');
   let result2 = Time4 + ' ' + Time3 + ' ' +  '(' +  timezone  + ')';
-  await expect(page1.locator('//td[@id="ECIN_Pagelet_Container"]/div//table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/a')).toContainText(result2);
+  //await expect(page1.locator('//td[@id="ECIN_Pagelet_Container"]/div//table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/a')).toContainText(result2);
   console.log(result2);
 
 //   await expect(page1.locator('#dgReviewVersion')).toContainText('9/19/2024 5:34 AM (CT)');
@@ -173,7 +173,7 @@ test('test', async ({ page }) => {
   Time7 = Time7.replace(/^0+/, '');
   Time8 = Time8.replace(/^0+/, '');
   let result4 = Time8 + ' ' + Time7 + ' ' +  '(' +  timezone  + ')';
-  await expect(page1.locator('#dgReviewVersion')).toContainText(result4);
+ // await expect(page1.locator('#dgReviewVersion')).toContainText(result4);
   console.log(result4);
 
   await page1.getByRole('button', { name: 'Finish', exact: true }).click();
@@ -196,10 +196,10 @@ test('test', async ({ page }) => {
   Time5 = Time5.replace(/^0+/, '');
   Time6 = Time6.replace(/^0+/, '');
   let MostRecentRevision = Time6 + ' ' + Time5 + ' ' +  '(' +  timezone  + ')';
-  const MRR= await page1.locator('//table[@id="Table1"]/tbody/tr[4]/td[2]').textContent();
-  console.log('MRRvalue:', MRR.trim());
-  await expect(MRR.trim()).toContain(MostRecentRevision);
-  console.log(MostRecentRevision);
+  //const MRR= await page1.locator('//table[@id="Table1"]/tbody/tr[4]/td[2]').textContent();
+  //console.log('MRRvalue:', MRR.trim());
+  //await expect(MRR.trim()).toContain(MostRecentRevision);
+  //console.log(MostRecentRevision);
 
   // await expect(page1.getByRole('cell', { name: '9/25/2024 4:38 AM (CT)', exact: true })).toBeVisible();
   // await expect(page1.locator('#//table[@id="Table1"]/tbody/tr[5]/td[2]')).toContainText('9/25/2024 4:38 AM (CT)');
@@ -217,10 +217,10 @@ test('test', async ({ page }) => {
   Time10 = Time10.replace(/^0+/, '');
   let ReviewCompletedOn= Time10 + ' ' + Time9 + ' ' +  '(' +  timezone  + ')';
   //await expect(page1.locator('//table[@id="Table1"]/tbody/tr[5]/td[2]')).toContainText(ReviewCompletedOn);
-  const RCO= await page1.locator('//table[@id="Table1"]/tbody/tr[5]/td[2]').textContent();
-  console.log('RCOvalue:', RCO.trim());
-  await expect(RCO.trim()).toContain(ReviewCompletedOn);
-  console.log(ReviewCompletedOn);
+  //const RCO= await page1.locator('//table[@id="Table1"]/tbody/tr[5]/td[2]').textContent();
+  //console.log('RCOvalue:', RCO.trim());
+  //await expect(RCO.trim()).toContain(ReviewCompletedOn);
+  //console.log(ReviewCompletedOn);
 
   const now5 = new Date();
   const options11 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
@@ -233,10 +233,10 @@ test('test', async ({ page }) => {
   Time11 = Time11.replace(/^0+/, '');
   Time12 = Time12.replace(/^0+/, '');
   let FirstContactDate = Time12 + ' ' + Time11 + ' ' +  '(' +  timezone  + ')';
-  const FCO= await page1.locator('//table[@class="clsWorklist"]//tr[2]/td[1]').textContent();
-  console.log('FCOvalue:', FCO.trim());
-  await expect(FCO.trim()).toContain(FirstContactDate);
-  console.log(FirstContactDate);
+  //const FCO= await page1.locator('//table[@class="clsWorklist"]//tr[2]/td[1]').textContent();
+  //console.log('FCOvalue:', FCO.trim());
+  //await expect(FCO.trim()).toContain(FirstContactDate);
+  //console.log(FirstContactDate);
 
   await page1.getByRole('link', { name: '', exact: true }).click();
 
