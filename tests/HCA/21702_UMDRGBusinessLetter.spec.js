@@ -29,7 +29,7 @@ test('test', async ({ page }) => {
   //Login to the application
   const login = new LoginPage(page);
   const page1 = await login.login(user, password);
-
+  await page1.waitForTimeout(2000);
   //Generating Unique Text
   var library = new LIB(page1);
   const uniquetext = await library.generateUniqueText(10);
