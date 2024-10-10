@@ -18,7 +18,7 @@ export class ReferralAssignmentsPage {
 
         await this.lastName_textbox.fill(username);
         await this.Refresh_button.click();
-        await this.user_checkbox.click();
+        await this.user_checkbox.first().click();
         await this.save_button.click();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);

@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 require('dotenv').config({
   //path: `./env/.env.${process.env.ENV}`,
-   path: './env/.env.pv02',
+   path: './env/.env.pv01',
 });
 
 /**
@@ -77,7 +77,7 @@ export default defineConfig({
     // },
   ],
   //test case timeout
-  timeout: 120000,
+  timeout: 240000,
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',

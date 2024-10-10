@@ -9,6 +9,12 @@ export class ChooseRecipientsPage {
             this.searchName_text = page.locator('//acm-label-textbox[@id="tbProviderName"]//input');
             this.firstSearchResult_checkBox = page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[1]')
             this.AddToReferral_Button = page.getByRole('button', { name: 'Add 1 to Referral' });
+            this.Next_button = page.locator('#ButtonBarNext');
+
+            //Provider Side Controls
+            this.State_select = page.locator('#m_StatesList_States');
+            this.providerName_text = page.locator('#m_NameText');
+            this.Find_button = page.locator('#m_NameButton_Button');
       }
 
 
@@ -27,7 +33,44 @@ export class ChooseRecipientsPage {
             await this.page.getByRole('button', { name: 'Add 1 to Referral' }).click();
       }
 
-      async ClearProviderNameTextbox(){
+      async ClearProviderNameTextbox() {
             await this.page.locator('//acm-label-textbox[@id="tbProviderName"]//span[@title="Clear"]').click();
+      }
+
+      /**
+       * Click on Next button
+       */
+      async ClickNext() {
+            this.Next_button.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+      }
+
+      /////////////////////////////// Provider Side Methods ///////////////////////////////
+      /**
+       * This method helps to search provider name
+       * @param {string} providerName 
+       */
+      async SearchProviderName(providerName) {
+            await this.State_select.selectOption('GU');
+            await this.providerName_text.fill(providerName);
+            await this.Find_button.click();
+      }
+
+      /**
+       * This method helps to select provider from the list
+       * @param {number} index 
+       */
+      async SelectProvider(index) {
+            await this.page.locator(`(//div[@class='clsItemUnChecked']//span[@class='clsLabelNormalText']//input[contains(@id,'m_RecipientsList_List_Container')])[${index}]`).click();
+      }
+
+      /**
+       * 
+       * Check/uncheck the checkbox 'Unmask patient information'
+       * @param index 
+       */
+      async UnmaskPatientInformation(index) {
+            await this.page.locator('//input[@id="m_RecipientList_ctl0' + index + '_m_UnmaskCheck" and @type="checkbox"]').click();
       }
 }

@@ -13,9 +13,9 @@ import { SendReferralPage } from '../../pages/sendReferralPage_176';
 import { DischargePlanningPage } from '../../pages/DischargePlanningPage_1443';
 const fs = require('fs').promises;
 
-const { user, password, QAProvider1, Hospital1, QAOfflineProv1, QAOfflineProv2 } = process.env
+const { user, password, QAProvider3, Hospital1, QAOfflineProv1, QAOfflineProv2 } = process.env
 
-test('The test objective is to verify that providers (regular subscribers and non-subscribers) receive a "Notification of Placement" when the hospital places the referral with a provider, when the user is configured only as  default Contact.', async ({ page }) => {
+test('DP Notifications  : When user is configured only as Schedule user.', async ({ page }) => {
 
     //Step -1: Login into CM application and navigate to Wellsky QA Hospital 1.
     const Login = new LoginPage(page);
@@ -23,21 +23,9 @@ test('The test objective is to verify that providers (regular subscribers and no
 
     //Creating a object to ApplicationNavigator class
     const Appnav = new ApplicationNavigator(page1);
-
-    //Calling & Passing Org name to NavigateToChangeOrg method
-    await Appnav.NavigateToChangeOrg(QAProvider1);
-
-    await Appnav.NavigateToContactList()
-
-    const ContactList = new ContactListPage(page1);
-
-    await ContactList.SearchUser('automation, qa');
-    await ContactList.ClickNotificationAssignedUser('true');
-
     const lib1 = new LIB(page1);
 
     //Step 2- Create patient and admission
-    await Appnav.NavigateToChangeOrg(Hospital1);
     await lib1.createptandadm();
     await page1.waitForTimeout(2000);
 
@@ -63,9 +51,9 @@ test('The test objective is to verify that providers (regular subscribers and no
     await page1.waitForLoadState('domcontentloaded');
     await page1.waitForTimeout(2000);
 
-    let startIndex = QAProvider1.length - 15;
+    let startIndex = QAProvider3.length - 15;
 
-    await ChooseRecipients.choose1Recipient(QAProvider1.substring(startIndex));
+    await ChooseRecipients.choose1Recipient(QAProvider3.substring(startIndex));
     await page1.waitForLoadState('domcontentloaded');
     await page1.waitForTimeout(2000);
 
@@ -109,7 +97,7 @@ test('The test objective is to verify that providers (regular subscribers and no
     const DischargePlanning = new DischargePlanningPage(page1);
 
     await page1.locator('//acm-dropdown[@id="placement"]//div[contains(@class,"ui-dropdown-trigger")]//span[contains(@class,"ui-dropdown-trigger-icon")]').first().click(); 
-    await page1.getByText(QAProvider1).click();
+    await page1.getByText(QAProvider3).click();
     // await DischargePlanning.SelectPlacement(1, QAProvider1);
     await DischargePlanning.ClickApply();
 
@@ -132,80 +120,11 @@ test('The test objective is to verify that providers (regular subscribers and no
     await DischargePlanning.AddNote('Test Note 2');
     await DischargePlanning.ClickApply();
     
-    await Appnav.NavigateToChangeOrg(QAProvider1);
+    await Appnav.NavigateToChangeOrg(QAProvider3);
 
     //Step 9 - Verify the Email generated notification for QA Provider #1
     const filePath = 'NotificationDetails.txt';
-    const content = 'NEW Referral ' + referralId +' for '+ QAProvider1 +' from '+ Hospital1 +'|Referral ' + referralId +' from '+ Hospital1 +' was placed elsewhere.|Referral ' + referralId +' from '+ Hospital1 +' was placed with you.|CarePort Care Management Alert';
+    var content = 'NEW Referral ' + referralId +' for '+ QAProvider1 +' from '+ Hospital1 +'|Referral ' + referralId +' from '+ Hospital1 +' was placed elsewhere.|Referral ' + referralId +' from '+ Hospital1 +' was placed with you.|CarePort Care Management Alert';
     await fs.writeFile(filePath, content, 'utf8');
 
-    //Step 10 - Change org to QA Provider #1
-    //Step 11 - Navigate to Configure --> Contact list
-    //Step 12 - Select "No Notifications" from the dropdown for Default Contact for Notifications
-    await Appnav.NavigateToContactList()
-    await ContactList.SearchUser('automation, qa');
-    await ContactList.ClickNotificationAssignedUser('false');
-
-    //Step 13 - Repeat step 1 to Step 5
-    await Appnav.NavigateToChangeOrg(Hospital1);
-    await lib1.createptandadm();
-    await page1.waitForTimeout(2000);
-
-    await ManageContextNav.NavigateToCreateReferral();
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    await ReferralFacesheet.createReferral('AUTO CM Referral');
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    await ManageContextNav.NavigateToChooseRecipients();
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    startIndex = QAProvider1.length - 15;
-
-    await ChooseRecipients.choose1Recipient(QAProvider1.substring(startIndex));
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    startIndex = QAOfflineProv1.length - 15;
-    await page1.locator('//acm-label-textbox[@id="tbProviderName"]//span[@title="Clear"]').click();
-    await ChooseRecipients.choose1Recipient(QAOfflineProv1.substring(startIndex));
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    startIndex = QAOfflineProv2.length - 15;
-    await page1.locator('//acm-label-textbox[@id="tbProviderName"]//span[@title="Clear"]').click();
-    await ChooseRecipients.choose1Recipient(QAOfflineProv2.substring(startIndex));
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
-
-    await ManageContextNav.NavigateToSendReferrals()
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(4000);
-
-    await SendReferral.unMaskAllPatientInfo();
-    await SendReferral.clickSendReferralButton();
-    await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(4000);
-
-    await ReferralConfirmation.validateConfirmationText('has been posted by automation');
-    referralId = await ReferralConfirmation.getReferralId();
-    await ReferralConfirmation.ClickContinue();
-
-    //Step 4 - From the left Nav bar click on Discharge Planning link
-    await ManageContextNav.NavigateToDischargePlanning();
-
-    //Step 5 - 1. Click on the Placements tab 
-    // 2. Click on the Recipient dropdown for the Referral ID which has been used in the workflow  and select QA Provider #1 as the placement provider
-    // 3. Click on the [edit] link for Selection Factor.
-    // 4. Choose one or more selection factors from the available list.
-    // 5. Add placement notes 
-    // Click on Save button
-    await DischargePlanning.SelectPlacement(1, QAProvider1);
-    await DischargePlanning.ClickApply();
-
-    content = 'NEW Referral ' + referralId +' for '+ QAProvider1 +' from '+ Hospital1 +'|Referral ' + referralId +' from '+ Hospital1 +' was placed elsewhere.|Referral ' + referralId +' from '+ Hospital1 +' was placed with you.|CarePort Care Management Alert';
-    await fs.appendFile(filePath, content, 'utf8');
 });

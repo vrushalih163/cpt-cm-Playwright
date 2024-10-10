@@ -48,10 +48,28 @@ export class ProviderSearchPage {
     }
 
     async ClickSearchProviderButton() {
+        const elementSelector = '//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button';
+        let isVisible = await this.page.isVisible(elementSelector);
+
+        while (isVisible) {
+            await this.error_Popup.click();
+            await this.page.waitForTimeout(2000);
+            isVisible = await this.page.isVisible(elementSelector);
+        }
+
         await this.SearchProvider_button.click();
     }
 
     async ClickSearchProviderIcon() {
+        const elementSelector = '//p-toastitem[contains(@class,"ng-trigger-toastAnimation")]//button';
+        let isVisible = await this.page.isVisible(elementSelector);
+
+        while (isVisible) {
+            await this.error_Popup.click();
+            await this.page.waitForTimeout(2000);
+            isVisible = await this.page.isVisible(elementSelector);
+        }
+        
         await this.SearchProvider_icon.click();
     }
 
@@ -72,6 +90,20 @@ export class ProviderSearchPage {
 
     async SearchProviderAndAddToCart(providerName) {
         await this.page.getByLabel('Clear').click();
+        await this.page.getByPlaceholder('Search by address, city,').click();
+        await this.page.keyboard.type('Hagåtña, 96910, Guam', { delay: 300 });
+
+        await this.page.getByText('Hagåtña, 96910, Guam', { exact: true }).click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.getByRole('textbox', { name: 'Search by Name' }).fill('');
+        await this.page.getByRole('textbox', { name: 'Search by Name' }).type(providerName);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForTimeout(8000);
+        await this.page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[1]').click();
+        await this.page.getByRole('button', { name: 'Add 1 to Choice' }).click();
+    }
+
+    async SearchProviderAndAddToCart1(providerName) {
         await this.page.getByPlaceholder('Search by address, city,').click();
         await this.page.keyboard.type('Hagåtña, 96910, Guam', { delay: 300 });
 
@@ -149,7 +181,7 @@ export class ProviderSearchPage {
 
     async ClickAddToReferral_PCButton() {
         await this.AddToReferral_PCButton.click();
-
+        await this.page.waitForTimeout(2000);
     }
 
     async ClickChoiceReason_PCButton() {

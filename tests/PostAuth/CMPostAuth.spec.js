@@ -60,7 +60,7 @@ test('CM Post Auth', async ({ page }) => {
 
     await ReferralConfirmation.validateConfirmationText('has been posted by automation');
 
-    await ReferralConfirmation.clickcontinue();
+    await ReferralConfirmation.ClickContinue();
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(8000);
 
