@@ -101,21 +101,8 @@ await EPS.AddPaymentSource('54562');
   //await expect(page1.locator('#ECIN_Pagelet_Content')).toContainText('9/19/2024 5:31 AM (CT)');
   //await expect(page1.getByRole('cell', { name: '9/19/2024 5:31 AM (CT)', exact: true })).toBeVisible();
 
-  var timezone = 'CT';
-  const now = new Date();
-  const options1 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
- const formatter1 = new Intl.DateTimeFormat('en-US', options1);
- var Time1 = formatter1.format(now);
- 
- const options2 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
- const formatter2 = new Intl.DateTimeFormat('en-US', options2);
- var Time2 = formatter2.format(now);
- Time1 = Time1.replace(/^0+/, '');
- Time2 = Time2.replace(/^0+/, '');
- let resulttext = Time2 + ' ' + Time1 + ' ' +  '(' +  timezone  + ')';
- const text= await page1.locator('//td[@id="ECIN_Pagelet_Container"]/div//table[@class="clsWorklist"]/tbody/tr[2]/td[1]').textContent();
- console.log('text:', text);
- console.log('result:', resulttext);
+  //getting the current date and time in the given timezone
+  var CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
 
   await page1.getByRole('button', { name: 'Next' }).click();
   await page1.waitForTimeout(2000);
@@ -140,58 +127,65 @@ await EPS.AddPaymentSource('54562');
   await page1.waitForTimeout(2000);
 //   await expect(page1.locator('#dgCommunications')).toContainText('9/19/2024 5:34 AM (CT) - -');
 //   await expect(page1.getByRole('cell', { name: '9/19/2024 5:34 AM (CT) - -', exact: true })).toBeVisible();
-  //var timezone = 'CT';
-  const now1 = new Date();
-  const options3 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
-  const formatter3 = new Intl.DateTimeFormat('en-US', options3);
-  var Time3 = formatter3.format(now1);
 
-  const options4 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
-  const formatter4 = new Intl.DateTimeFormat('en-US', options4);
-  var Time4 = formatter4.format(now1);
-  Time3 = Time3.replace(/^0+/, '');
-  Time4 = Time4.replace(/^0+/, '');
-  let result2 = Time4 + ' ' + Time3 + ' ' +  '(' +  timezone  + ')';
-  //await expect(page1.locator('//td[@id="ECIN_Pagelet_Container"]/div//table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/a')).toContainText(result2);
-  console.log(result2);
+  //getting the current date and time in the given timezone
+  CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+
+  // //var timezone = 'CT';
+  // const now1 = new Date();
+  // const options3 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+  // const formatter3 = new Intl.DateTimeFormat('en-US', options3);
+  // var Time3 = formatter3.format(now1);
+
+  // const options4 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+  // const formatter4 = new Intl.DateTimeFormat('en-US', options4);
+  // var Time4 = formatter4.format(now1);
+  // Time3 = Time3.replace(/^0+/, '');
+  // Time4 = Time4.replace(/^0+/, '');
+  // let result2 = Time4 + ' ' + Time3 + ' ' +  '(' +  timezone  + ')';
+  // //await expect(page1.locator('//td[@id="ECIN_Pagelet_Container"]/div//table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/a')).toContainText(result2);
+  // console.log(result2);
 
 //   await expect(page1.locator('#dgReviewVersion')).toContainText('9/19/2024 5:34 AM (CT)');
 //   await expect(page1.locator('#dgReviewVersion').getByRole('cell', { name: '/19/2024 5:34 AM (CT)' })).toBeVisible();
-
-  const now3 = new Date();
-  const options7 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
-  const formatter7 = new Intl.DateTimeFormat('en-US', options7);
-  var Time7 = formatter7.format(now3);
+  //getting the current date and time in the given timezone
+   CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+//   const now3 = new Date();
+//   const options7 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+//   const formatter7 = new Intl.DateTimeFormat('en-US', options7);
+//   var Time7 = formatter7.format(now3);
   
-  const options8 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
-  const formatter8 = new Intl.DateTimeFormat('en-US', options8);
-  var Time8 = formatter8.format(now3);
-  Time7 = Time7.replace(/^0+/, '');
-  Time8 = Time8.replace(/^0+/, '');
-  let result4 = Time8 + ' ' + Time7 + ' ' +  '(' +  timezone  + ')';
- // await expect(page1.locator('#dgReviewVersion')).toContainText(result4);
-  console.log(result4);
+//   const options8 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+//   const formatter8 = new Intl.DateTimeFormat('en-US', options8);
+//   var Time8 = formatter8.format(now3);
+//   Time7 = Time7.replace(/^0+/, '');
+//   Time8 = Time8.replace(/^0+/, '');
+//   let result4 = Time8 + ' ' + Time7 + ' ' +  '(' +  timezone  + ')';
+//  // await expect(page1.locator('#dgReviewVersion')).toContainText(result4);
+//   console.log(result4);
 
   await page1.getByRole('button', { name: 'Finish', exact: true }).click();
   await page1.waitForTimeout(2000);
-  await page1.getByText('ADM').first().click();
-  await page1.waitForTimeout(2000);
+  //await page1.getByText('ADM').first().click();
+  //await page1.waitForTimeout(2000);
+  await page1.waitForTimeout(90000);
 
  // await expect(page1.locator('//table[@id="Table1"]/tbody/tr[4]/td[2]')).toContainText('9/12/2024 8:15 AM (CT)');
- 
+   //getting the current date and time in the given timezone
+    CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
 
-  const now2 = new Date();
-  const options5 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
-  const formatter5 = new Intl.DateTimeFormat('en-US', options5);
-  var Time5 = formatter5.format(now2);
+  // const now2 = new Date();
+  // const options5 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+  // const formatter5 = new Intl.DateTimeFormat('en-US', options5);
+  // var Time5 = formatter5.format(now2);
   
-  const options6 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
-  const formatter6 = new Intl.DateTimeFormat('en-US', options6);
-  var Time6 = formatter6.format(now2);
+  // const options6 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+  // const formatter6 = new Intl.DateTimeFormat('en-US', options6);
+  // var Time6 = formatter6.format(now2);
   
-  Time5 = Time5.replace(/^0+/, '');
-  Time6 = Time6.replace(/^0+/, '');
-  let MostRecentRevision = Time6 + ' ' + Time5 + ' ' +  '(' +  timezone  + ')';
+  // Time5 = Time5.replace(/^0+/, '');
+  // Time6 = Time6.replace(/^0+/, '');
+  // let MostRecentRevision = Time6 + ' ' + Time5 + ' ' +  '(' +  timezone  + ')';
   //const MRR= await page1.locator('//table[@id="Table1"]/tbody/tr[4]/td[2]').textContent();
   //console.log('MRRvalue:', MRR.trim());
   //await expect(MRR.trim()).toContain(MostRecentRevision);
@@ -200,35 +194,38 @@ await EPS.AddPaymentSource('54562');
   // await expect(page1.getByRole('cell', { name: '9/25/2024 4:38 AM (CT)', exact: true })).toBeVisible();
   // await expect(page1.locator('#//table[@id="Table1"]/tbody/tr[5]/td[2]')).toContainText('9/25/2024 4:38 AM (CT)');
 
+    //getting the current date and time in the given timezone
+     CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+  // const now4 = new Date();
+  // const options9 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+  // const formatter9 = new Intl.DateTimeFormat('en-US', options9);
+  // var Time9 = formatter9.format(now4);
   
-  const now4 = new Date();
-  const options9 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
-  const formatter9 = new Intl.DateTimeFormat('en-US', options9);
-  var Time9 = formatter9.format(now4);
-  
-  const options10 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
-  const formatter10 = new Intl.DateTimeFormat('en-US', options10);
-  var Time10 = formatter10.format(now4);
-  Time9 = Time9.replace(/^0+/, '');
-  Time10 = Time10.replace(/^0+/, '');
-  let ReviewCompletedOn= Time10 + ' ' + Time9 + ' ' +  '(' +  timezone  + ')';
+  // const options10 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+  // const formatter10 = new Intl.DateTimeFormat('en-US', options10);
+  // var Time10 = formatter10.format(now4);
+  // Time9 = Time9.replace(/^0+/, '');
+  // Time10 = Time10.replace(/^0+/, '');
+  // let ReviewCompletedOn= Time10 + ' ' + Time9 + ' ' +  '(' +  timezone  + ')';
   //await expect(page1.locator('//table[@id="Table1"]/tbody/tr[5]/td[2]')).toContainText(ReviewCompletedOn);
   //const RCO= await page1.locator('//table[@id="Table1"]/tbody/tr[5]/td[2]').textContent();
   //console.log('RCOvalue:', RCO.trim());
   //await expect(RCO.trim()).toContain(ReviewCompletedOn);
   //console.log(ReviewCompletedOn);
 
-  const now5 = new Date();
-  const options11 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
-  const formatter11 = new Intl.DateTimeFormat('en-US', options11);
-  var Time11 = formatter11.format(now5);
+    //getting the current date and time in the given timezone
+CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+  // const now5 = new Date();
+  // const options11 = { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit', hour12: true };
+  // const formatter11 = new Intl.DateTimeFormat('en-US', options11);
+  // var Time11 = formatter11.format(now5);
   
-  const options12 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
-  const formatter12 = new Intl.DateTimeFormat('en-US', options12);
-  var Time12 = formatter12.format(now5);
-  Time11 = Time11.replace(/^0+/, '');
-  Time12 = Time12.replace(/^0+/, '');
-  let FirstContactDate = Time12 + ' ' + Time11 + ' ' +  '(' +  timezone  + ')';
+  // const options12 = { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' };
+  // const formatter12 = new Intl.DateTimeFormat('en-US', options12);
+  // var Time12 = formatter12.format(now5);
+  // Time11 = Time11.replace(/^0+/, '');
+  // Time12 = Time12.replace(/^0+/, '');
+  // let FirstContactDate = Time12 + ' ' + Time11 + ' ' +  '(' +  timezone  + ')';
   //const FCO= await page1.locator('//table[@class="clsWorklist"]//tr[2]/td[1]').textContent();
   //console.log('FCOvalue:', FCO.trim());
   //await expect(FCO.trim()).toContain(FirstContactDate);

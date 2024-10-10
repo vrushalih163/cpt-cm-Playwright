@@ -76,16 +76,9 @@ await EPS.AddPaymentSource('54562');
   //Navigation to Forms & Attachments
   await page1.getByRole('link', { name: 'Forms and Attachments' }).click();
   await page1.locator('#m_MasterFormsList').selectOption('1_1_4640');
-  await page1.waitForTimeout(15000);
- // await page1.getByRole('button', { name: 'Add' }).click();
   await page1.getByRole('button', { name: 'Add' }).click();
-  await page1.locator('#m_MasterFormsList').selectOption('1_1_8089');
   await page1.waitForTimeout(15000);
-  await page1.getByRole('button', { name: 'Add' }).click();
   await page1.frameLocator('iframe[title="webviewer"]').getByRole('button', { name: 'Save' }).click();
   await expect(page1.locator('#m_FormContentsRow')).toContainText('10/4/2024 6:13 AM (CT)');
-  await expect(page1.locator('#m_FormContentsRow')).toContainText('10/4/2024 6:13 AM (CT)');
-  await page1.locator('#m_MasterFormsList').selectOption('1_1_8089');
-  await page1.getByRole('button', { name: 'Add' }).click();
 });
 
