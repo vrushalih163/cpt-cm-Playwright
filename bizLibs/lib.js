@@ -58,7 +58,7 @@ export class LIB {
      * @param {*} TransPatientName 
      * For referrence: 'Cadence, Anna', 'Clin Doc, Henry', 'Grand Central, John','Optime, Omar','Nelson, Kyle'
      * @param {*} TransPatientMRN 
-     * For reference: E2651, E1703, 3228, E3350, E3734
+     * For reference: E2651, E1703, E3228, E3350, E3734
      * @param {*} TransNavigationOption 
      * Navigator options on Transition Dignosis page: Manage Referrals, Patient Choice, Tasks
      * @returns 

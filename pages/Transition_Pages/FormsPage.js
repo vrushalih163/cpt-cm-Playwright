@@ -6,6 +6,10 @@ export class FormsPage {
         this.Form_checkbox = page.locator('xpath=//mat-checkbox[contains(@id,"mat-checkbox")]//label[contains(@class,"mat-checkbox-layout")]//span[contains(@class,"mat-checkbox-inner-container")]');
     }
 
+    /**
+     * This method is used to add the form
+     * @param {*} formName Enter the form name here
+     */
     async SelectAForm(formName){
         await this.page.locator('#anchorExpandMore').click();
         await this.page.getByText(formName, { exact: true }).click();   

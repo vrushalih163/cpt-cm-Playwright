@@ -254,7 +254,7 @@ export class SharedChoice {
     async SharedWith_Validation(Sharedwith) {
         await this.page.waitForTimeout(2000);
         const dataShared = await this.page.locator('td:nth-child(4)').first().textContent();
-        expect(dataShared.trim()).toContainText(Sharedwith);
+        expect(dataShared.trim()).toContain(Sharedwith);
     }
 
     /**

@@ -1,3 +1,4 @@
+//Modified by: Rajakumar Maste, Modified Date: 24 sept 2024
 
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/PageLogin_111';
@@ -205,7 +206,7 @@ test('test', async ({ page }) => {
   await ESD.Level('Acute');
 
   //Enter the Payor Plan which you want to select from the drop down
-  //await ESD.Payorplan('Plan Desc 111 - Plan No 111');
+  await ESD.Payorplan('Plan Decp 111 - Plan No 111');
 
   //Enter the comment into comment text area field
   await ESD.Comment('Playwright Automation test');

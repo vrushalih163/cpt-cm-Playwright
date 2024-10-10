@@ -50,20 +50,21 @@ export class AddEditTaskModal {
         //this.unassignuser = page.locator('//mat-dialog-container[contains(@id, "mat-dialog")]/app-assigned-user/form/mat-dialog-content/div/div[2]//tbody/tr');
 
         //close Assigned user modal
-        this.AssignedUserModal_closeIcon = page.locator('i');
+        this.AssignedUserModal_closeIcon = page.getByRole('heading', { name: '' }).locator('i');
     }
 
     /**
         * Task Category Selection under Add Task modal
         * 
         * **Usage**
-        * Enter the transition category name. Example: 'Transition Admission'
+        * Enter the transition category name. Example: 'Transition Admission' or 'Transition Referral'
         * 
         */
-    async taskCategory(Category) {
+    async TaskCategory(Category) {
         try {
             await this.TransitionCategory_field.click();
-            await this.page.getByText(Category).click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.getByText(Category, { exact: true }).click();
         } catch {
             console.error('Error during test execution of Task Category:', error.message);
         }
@@ -93,7 +94,7 @@ export class AddEditTaskModal {
     * Enter the Task name. Example: 'Transition task'
     * 
     */
-    async taskName(TaskName) {
+    async TaskName(TaskName) {
         try {
             await this.Taskname_field.click();
             await this.page.waitForLoadState('domcontentloaded');
@@ -113,7 +114,7 @@ export class AddEditTaskModal {
            * Enter the Owner name. Example: 'Maste, Rajakumar'
            * 
            **/
-    async ownerName(TaskOwnerName) {
+    async OwnerName(TaskOwnerName) {
         try {
             await this.TaskOwner_field.click();
             await this.page.waitForLoadState('domcontentloaded');
@@ -133,7 +134,7 @@ export class AddEditTaskModal {
             * **Note:**
             * Task notes field accepts max 500 characters.
             */
-    async taskNote(TaskNote) {
+    async TaskNote(TaskNote) {
         try {
             await this.LastTasknote_field.fill(TaskNote);
         } catch {
@@ -163,7 +164,7 @@ export class AddEditTaskModal {
         * You are going to override the start on date.
         * 
         */
-    async startOnDate(startdate) {
+    async StartOnDate(startdate) {
         try {
             await this.StartDate.fill('');
             await this.StartDate.fill(startdate);
@@ -181,7 +182,7 @@ export class AddEditTaskModal {
         * You are going to override the start on time.
         * 
         */
-    async startOnTime(starttime) {
+    async StartOnTime(starttime) {
         try {
             await this.StartTime.fill('');
             await this.StartTime.fill(starttime);
@@ -197,7 +198,7 @@ export class AddEditTaskModal {
         * You are going to override the due date. Make sure that due by date should always be greater than start on date.
         * 
         */
-    async dueBy(DueDate) {
+    async DueBy(DueDate) {
         try {
             await this.Duedate.fill('');
             await this.Duedate.fill(DueDate);
@@ -215,7 +216,7 @@ export class AddEditTaskModal {
         * You are going to override the due by time.
         * 
         */
-    async dueByTime(DueByTime) {
+    async DueByTime(DueByTime) {
         try {
             await this.Duetime.fill('');
             await this.Duetime.fill(DueByTime);
@@ -348,7 +349,7 @@ export class AddEditTaskModal {
         //         // Get the text content of the current row
         //         const row = rows.nth(i);
         //         const rowText = (await row.textContent()).trim();
-        
+
         //         console.log(`Row ${i} text: ${rowText}`);
         //         // Check if the row contains the specified user name
         //         if (await row.locator('text=' + UnAssignUserName).count() > 0) {
@@ -362,7 +363,7 @@ export class AddEditTaskModal {
         // } catch (error) {
         //     console.error('Error during test execution of Unassign users:', error.message);
         // }
-      
+
         // try {
         //     await this.page.pause();
         //     // Locate all rows in the table
@@ -380,7 +381,7 @@ export class AddEditTaskModal {
         //         // Get the text content of the current row
         //         const row = rows.nth(i);
         //         const rowText = await row.textContent();
-        
+
         //         console.log(`Row ${i} text: ${rowText}`);
         //         // Check if the row contains the specified user name
         //         if (await row.locator('text=' + UnAssignUserName).count() > 0) {
@@ -395,7 +396,7 @@ export class AddEditTaskModal {
         // } catch (error) {
         //     console.error('Error during test execution of Unassign users:', error.message);
         // }
-        
+
         try {
             await this.page.pause();
             // Locate all rows in the table
@@ -435,7 +436,7 @@ export class AddEditTaskModal {
         } catch (error) {
             console.error('Error during test execution of Unassign users:', error.message);
         }
-        
+
     }
     async CloseAssignedUserModal() {
         await this.AssignedUserModal_closeIcon.click();
