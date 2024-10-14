@@ -5,7 +5,7 @@ import { PatientdefaultviewPage } from '../../pages/patientdefaultviewpage_631';
 import { PatientdetailsPage } from '../../pages/patientdetailspage_52';
 import { AdmissiondetailsPage } from '../../pages/admissiondetailspage_54';
 import { EditPaymentSource } from '../../pages/EditPaymentSourcePage_165';
-import { AdmissionFinancialInformation } from '../../pages/AdmissionFinancialInformationPage_55';
+import { AdmissionFinancialInformationPage } from '../../pages/AdmissionFinancialInformationPage_55';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { Diagnoses } from '../../pages/DiagnosesPage_1017';
@@ -66,7 +66,7 @@ await MCN.NavigateToFinancial();
 await page1.waitForLoadState('networkidle');
 
 //Clicking on Add Financial
-const FS = new AdmissionFinancialInformation(page1);
+const FS = new AdmissionFinancialInformationPage(page1);
 await FS.clickaddfinancial();
 
 //Adding Payment Source
@@ -77,8 +77,21 @@ await EPS.AddPaymentSource('54562');
   await page1.getByRole('link', { name: 'Forms and Attachments' }).click();
   await page1.locator('#m_MasterFormsList').selectOption('1_1_4640');
   await page1.getByRole('button', { name: 'Add' }).click();
-  await page1.waitForTimeout(15000);
+  await page1.waitForTimeout(30000);
   await page1.frameLocator('iframe[title="webviewer"]').getByRole('button', { name: 'Save' }).click();
-  await expect(page1.locator('#m_FormContentsRow')).toContainText('10/4/2024 6:13 AM (CT)');
+  //getting the current date and time in the given timezone
+  var  CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+  await page1.waitForTimeout(5000);
+  var  PSCDT = await page1.locator("(//td[text()=\"                                        qa automation\"])[1]").textContent();
+  console.log(CDT);
+  console.log(PSCDT);
+  // Validate the CreatedOn Date and Time with tolerance
+  expect(CDT).toContain(PSCDT);
+
+  PSCDT = await page1.locator('//*[@id="Td1"]/table/tbody/tr[2]/td[4]/text()[2]"]').textContent();
+   
+  // Validate the ModifiedOn Date and Time with tolerance
+  expect(CDT).toContain(PSCDT);
+ // await expect(page1.locator('#m_FormContentsRow')).toContainText('10/4/2024 6:13 AM (CT)');
 });
 

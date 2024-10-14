@@ -116,10 +116,20 @@ await EPS.AddPaymentSource('54562');
   await page1.locator('#m_ApprovedLOCList').selectOption('12958');
   await page1.getByRole('button', { name: 'Complete' }).click();
   await page1.waitForTimeout(2000);
-
+ // await page1.waitForTimeout(90000);
   //getting the current date and time in the given timezone
- var  CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
-   console.log(CDT);
+  var  CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
+  
+  var PSCDT = await page1.locator('//*[@id="dgCommunications_ctl03_lnkContactDateValue"]').textContent();
+
+   // Validate the Diagnosis Date and Time with tolerance
+  expect(CDT).toContain(PSCDT);
+
+  PSCDT = await page1.locator('//*[@id="dgReviewVersion_ctl03_lblReviewSavedOnValue"]').textContent();
+
+      // Validate the Diagnosis Date and Time with tolerance
+  expect(CDT).toContain(PSCDT);
+
   await page1.getByRole('button', { name: 'Finish', exact: true }).click();
   await page1.waitForTimeout(2000);
 
