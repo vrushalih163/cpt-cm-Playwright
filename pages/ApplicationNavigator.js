@@ -103,8 +103,7 @@ export class ApplicationNavigator {
     await this.changeOrg_link.click();
     await this.page.waitForTimeout(2000);
     //await this.page.getByRole('link', { name: orgName }).click();
-    await this.page.getByRole('link', { name: 'Allscripts QA Provider 50 -' }).click();
-    // await this.page.locator("//a[text()='${orgName}']").click();
+    await this.page.locator("//a[text()='${orgName}']").click();
     await this.page.waitForLoadState('domcontentloaded')
     await this.page.waitForTimeout(7000);
     return this.page;
