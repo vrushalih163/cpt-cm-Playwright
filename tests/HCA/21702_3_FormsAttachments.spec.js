@@ -82,16 +82,7 @@ await EPS.AddPaymentSource('54562');
   //getting the current date and time in the given timezone
   var  CDT = await library.getCurrentDateTimeInTimeZone(timeZone, format);
   await page1.waitForTimeout(5000);
-  var  PSCDT = await page1.locator("(//td[text()=\"                                        qa automation\"])[1]").textContent();
-  console.log(CDT);
-  console.log(PSCDT);
-  // Validate the CreatedOn Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
+  await expect(page1.locator('#m_FormContentsRow')).toContainText(CDT);
 
-  PSCDT = await page1.locator('//*[@id="Td1"]/table/tbody/tr[2]/td[4]/text()[2]"]').textContent();
-   
-  // Validate the ModifiedOn Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
- // await expect(page1.locator('#m_FormContentsRow')).toContainText('10/4/2024 6:13 AM (CT)');
 });
 
