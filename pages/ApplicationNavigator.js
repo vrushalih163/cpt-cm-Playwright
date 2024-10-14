@@ -65,6 +65,9 @@ export class ApplicationNavigator {
 
     //Referral lookup link
     this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
+
+    //Save Popup Modal Controls
+    this.SaveContinue_button = page.locator(`//div[@class='ion-modal-footer-panel']/button[.='Save and Continue']`);
   }
 
   async clickRefresh() {
@@ -102,8 +105,8 @@ export class ApplicationNavigator {
     await this.page.waitForTimeout(2000);
     await this.changeOrg_link.click();
     await this.page.waitForTimeout(2000);
-    //await this.page.getByRole('link', { name: orgName }).click();
-    await this.page.locator("//a[text()='${orgName}']").click();
+    await this.page.getByRole('link', { name: orgName, exact: true }).click();
+    //await this.page.locator("//a[text()='${orgName}']").click();
     await this.page.waitForLoadState('domcontentloaded')
     await this.page.waitForTimeout(7000);
     return this.page;
@@ -248,6 +251,16 @@ async adminOrgLookupNavigation(){
   this.orglookup_link.click();
   this.page.waitForTimeout(2000);
 }
+
+/**
+ * Click on the Save and Continue button on the Save Popup Modal
+ */
+async SaveContinue() {
+  await this.page.waitForTimeout(2000);
+  await this.SaveContinue_button.click();
+  await this.page.waitForTimeout(2000);
+}
+
 } 
 
 

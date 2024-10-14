@@ -123,8 +123,8 @@ test('DP Notifications for deferred referral', async ({ page }) => {
     // Click on Save button
     await page1.locator('//acm-dropdown[@id="placement"]//div[contains(@class,"ui-dropdown-trigger")]//span[contains(@class,"ui-dropdown-trigger-icon")]').first().click(); 
     await page1.getByText(QAProvider1).first().click();
-    await DischargePlanning.ClickNoteLink(0);
-    await DischargePlanning.AddNote('Test Note 1');
+    // await DischargePlanning.ClickNoteLink(0);
+    // await DischargePlanning.AddNote('Test Note 1');
     await DischargePlanning.ClickApply();
 
     //Step 8 - Verify the fax generated email (Fax generated for QA Provider #4 & QA Provider #8)
@@ -138,8 +138,8 @@ test('DP Notifications for deferred referral', async ({ page }) => {
     // Click on Save button
     await page1.locator('//acm-dropdown[@id="placement"]//div[contains(@class,"ui-dropdown-trigger")]//span[contains(@class,"ui-dropdown-trigger-icon")]').first().click(); 
     await page1.getByText(QAOfflineProv1).first().click();
-    await DischargePlanning.ClickNoteLink(0);
-    await DischargePlanning.AddNote('Test Note 2');
+    // await DischargePlanning.ClickNoteLink(0);
+    // await DischargePlanning.AddNote('Test Note 2');
     await DischargePlanning.ClickApply();
 
     //Step 11 - Verify the Email generated notification for QA Provider #1

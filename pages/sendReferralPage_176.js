@@ -28,8 +28,8 @@ export class SendReferralPage {
       }
 
       async unMaskAllPatientInfo() {
-            await this.page.reload();
-            this.page.waitForLoadState('domcontentloaded');
+            // await this.page.reload();
+            // this.page.waitForLoadState('domcontentloaded');
             await this.page.locator('#ApiGridSelectedRecipients_action_2').click();
       }
 

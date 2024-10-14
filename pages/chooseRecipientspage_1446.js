@@ -10,6 +10,8 @@ export class ChooseRecipientsPage {
             this.firstSearchResult_checkBox = page.locator('xpath=(//body[@id="body"]//app-root//form//provider-search-results//form//provider-search-result-item//label//span)[1]')
             this.AddToReferral_Button = page.getByRole('button', { name: 'Add 1 to Referral' });
             this.Next_button = page.locator('#ButtonBarNext');
+            this.Back_button = page.locator('#ButtonBarBack');
+            this.Apply_button = page.locator('#ButtonBarApply');
 
             //Provider Side Controls
             this.State_select = page.locator('#m_StatesList_States');
@@ -42,6 +44,24 @@ export class ChooseRecipientsPage {
        */
       async ClickNext() {
             this.Next_button.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+      }
+
+      /**
+       * Click on Back button
+       */
+      async ClickBack() {
+            this.Back_button.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+      }
+
+      /**
+       * Click on Apply button
+       */
+      async ClickApply() {
+            this.Apply_button.click();
             await this.page.waitForLoadState('domcontentloaded');
             await this.page.waitForTimeout(2000);
       }

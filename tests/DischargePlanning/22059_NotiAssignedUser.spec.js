@@ -76,11 +76,11 @@ test('DP Notifications  : When user is configured only for Assigned User.', asyn
     startIndex = QAOfflineProv2.length - 15;
     await ChooseRecipients.choose1Recipient(QAOfflineProv2.substring(startIndex));
     await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(2000);
+    await page1.waitForTimeout(4000);
 
     await ManageContextNav.NavigateToSendReferrals()
     await page1.waitForLoadState('domcontentloaded');
-    await page1.waitForTimeout(4000);
+    await page1.waitForTimeout(2000);
 
     await SendReferral.unMaskAllPatientInfo();
     await SendReferral.clickSendReferralButton();
@@ -112,8 +112,9 @@ test('DP Notifications  : When user is configured only for Assigned User.', asyn
     await Appnav.NavigateToChangeOrg(Hospital1);
     await Appnav.NavigateToPatientsDefaultView();
     await PatientDefaultView.SearchPatientByMRN(result);
-    await PatientDefaultView.NavigateActionDDBox('Discharge Planning');
-
+    await PatientDefaultView.NavigateActionDDBox('Most Recent Admission');
+    await ManageContextNav.NavigateToDischargePlanning();
+    
     //Step 6 - 1. Click on the Placements tab 
     // 2. Click on the Recipient dropdown for the Referral ID which has been used in the workflow  and select QA Provider #1 as the placement provider
     // 3. Click on the [edit] link for Selection Factor.
@@ -143,8 +144,8 @@ test('DP Notifications  : When user is configured only for Assigned User.', asyn
 
     // await DischargePlanning.ClickSelectionFactorLink(1);
     // await DischargePlanning.SelectSelectionFactor(2);
-    await DischargePlanning.ClickNoteLink(0);
-    await DischargePlanning.AddNote('Test Note 2');
+    // await DischargePlanning.ClickNoteLink(0);
+    // await DischargePlanning.AddNote('Test Note 2');
     await DischargePlanning.ClickApply();
 
     await Appnav.NavigateToChangeOrg(QAProvider1);

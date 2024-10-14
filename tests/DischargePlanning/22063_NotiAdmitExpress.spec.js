@@ -73,7 +73,6 @@ test('DP Notifications for referral created through Admit Express', async ({ pag
     // Click on Save button
     const DischargePlanning = new DischargePlanningPage(page1);
 
-    await page1.pause();
     await page1.locator('//acm-dropdown[@id="placement"]//div[contains(@class,"ui-dropdown-trigger")]//span[contains(@class,"ui-dropdown-trigger-icon")]').first().click(); 
     await page1.getByText(QAProvider1).click();
     // await DischargePlanning.SelectPlacement(1, QAProvider1);
@@ -89,8 +88,8 @@ test('DP Notifications for referral created through Admit Express', async ({ pag
     // Click on Save button
     await page1.locator('//acm-dropdown[@id="placement"]//div[contains(@class,"ui-dropdown-trigger")]//span[contains(@class,"ui-dropdown-trigger-icon")]').first().click(); 
     await page1.getByText(QAOfflineProv1).first().click();
-    await DischargePlanning.ClickNoteLink(0);
-    await DischargePlanning.AddNote('Test Note 2');
+    // await DischargePlanning.ClickNoteLink(0);
+    // await DischargePlanning.AddNote('Test Note 2');
     await DischargePlanning.ClickApply();
    
     //Step 11 - Verify the Email generated notification for QA Provider #1

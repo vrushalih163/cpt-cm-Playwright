@@ -87,8 +87,9 @@ test('Verify the user is able to forward referral from the referral centre to th
   await ChooseRecipients.SearchProviderName(QAOfflineProv1)
   await ChooseRecipients.SelectProvider(1);
   await ChooseRecipients.ClickNext();
-  
+
   await ChooseRecipients.SearchProviderName(QAOfflineProv2)
+  await AppNav.SaveContinue();
   await ChooseRecipients.SelectProvider(1);
   await ChooseRecipients.ClickNext();
 

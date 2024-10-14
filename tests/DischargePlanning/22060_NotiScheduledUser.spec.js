@@ -116,15 +116,15 @@ test('DP Notifications  : When user is configured only as Schedule user.', async
 
     // await DischargePlanning.ClickSelectionFactorLink(1);
     // await DischargePlanning.SelectSelectionFactor(2);
-    await DischargePlanning.ClickNoteLink(0);
-    await DischargePlanning.AddNote('Test Note 2');
+    // await DischargePlanning.ClickNoteLink(0);
+    // await DischargePlanning.AddNote('Test Note 2');
     await DischargePlanning.ClickApply();
     
     await Appnav.NavigateToChangeOrg(QAProvider3);
 
     //Step 9 - Verify the Email generated notification for QA Provider #1
     const filePath = 'NotificationDetails.txt';
-    var content = 'NEW Referral ' + referralId +' for '+ QAProvider1 +' from '+ Hospital1 +'|Referral ' + referralId +' from '+ Hospital1 +' was placed elsewhere.|Referral ' + referralId +' from '+ Hospital1 +' was placed with you.|CarePort Care Management Alert';
+    var content = 'NEW Referral ' + referralId +' for '+ QAProvider3 +' from '+ Hospital1 +'|Referral ' + referralId +' from '+ Hospital1 +' was placed elsewhere.|Referral ' + referralId +' from '+ Hospital1 +' was placed with you.|CarePort Care Management Alert';
     await fs.writeFile(filePath, content, 'utf8');
 
 });
