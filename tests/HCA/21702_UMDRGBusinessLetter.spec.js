@@ -7,7 +7,7 @@ import { PatientdefaultviewPage } from '../../pages/patientdefaultviewpage_631';
 import { PatientdetailsPage } from '../../pages/patientdetailspage_52';
 import { AdmissiondetailsPage } from '../../pages/admissiondetailspage_54';
 import { EditPaymentSource } from '../../pages/EditPaymentSourcePage_165';
-import { AdmissionFinancialInformation } from '../../pages/AdmissionFinancialInformationPage_55';
+import { AdmissionFinancialInformationPage } from '../../pages/AdmissionFinancialInformationPage_55';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { Diagnoses } from '../../pages/DiagnosesPage_1017';
@@ -68,7 +68,7 @@ test('test', async ({ page }) => {
   await page1.waitForLoadState('networkidle');
 
   //Clicking on Add Financial
-  const FS = new AdmissionFinancialInformation(page1);
+  const FS = new AdmissionFinancialInformationPage(page1);
   await FS.clickaddfinancial();
 
   //Adding Payment Source
@@ -77,7 +77,7 @@ test('test', async ({ page }) => {
 
   //Inactivating Payment Source
   //Navigation to Admission Financial Information
-  const AdmFinInfo = new AdmissionFinancialInformation(page1);
+  const AdmFinInfo = new AdmissionFinancialInformationPage(page1);
 
   //Clicking on Edit Icon
   await AdmFinInfo.EditIcon_Click();

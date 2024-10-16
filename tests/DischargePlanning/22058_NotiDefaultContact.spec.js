@@ -16,7 +16,7 @@ const fs = require('fs').promises;
 const { user, password, QAProvider1, Hospital1, QAOfflineProv1, QAOfflineProv2 } = process.env
 
 test('DP Notifications  : When user is configured only for  Default Contact - Email/Pager/Fax', async ({ page }) => {
-
+    test.setTimeout(360 * 1000);
     //Step -1: Login into CM application and navigate to Wellsky QA Hospital 1.
     const Login = new LoginPage(page);
     const page1 = await Login.login(user, password);

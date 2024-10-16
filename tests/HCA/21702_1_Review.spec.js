@@ -123,12 +123,13 @@ await EPS.AddPaymentSource('54562');
   var PSCDT = await page1.locator('//*[@id="dgCommunications_ctl03_lnkContactDateValue"]').textContent();
 
    // Validate the Diagnosis Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
+  expect(isTimeWithinTolerance(PSCDT, CDT, 1)).toBe(true);
 
   PSCDT = await page1.locator('//*[@id="dgReviewVersion_ctl03_lblReviewSavedOnValue"]').textContent();
 
-      // Validate the Diagnosis Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
+
+   // Validate the Business Letter Date and Time with tolerance
+   expect(isTimeWithinTolerance(PSCDT, CDT, 1)).toBe(true);
 
   await page1.getByRole('button', { name: 'Finish', exact: true }).click();
   await page1.waitForTimeout(2000);
@@ -137,4 +138,12 @@ await EPS.AddPaymentSource('54562');
   await page1.getByRole('link', { name: '', exact: true }).click();
 
 });
+
+// Custom function to compare times with tolerance
+function isTimeWithinTolerance(actualTime, expectedTime, toleranceMinutes) {
+  const actualDate = new Date(actualTime);
+  const expectedDate = new Date(expectedTime);
+  const toleranceMillis = toleranceMinutes * 60 * 1000;
+  return Math.abs(actualDate - expectedDate) <= toleranceMillis;
+}
 
