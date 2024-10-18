@@ -18,7 +18,7 @@ test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications 
     const Appnav = new ApplicationNavigator(page1);
 
     //Calling & Passing Org name to NavigateToChangeOrg method
-   // await Appnav.NavigateToChangeOrg('Allscripts QA Hospital 1 (');
+    //await Appnav.NavigateToChangeOrg('CM Automation Hospital');
 
     //Navigating to Mangage -> Admissions -> Admission Default View
     await Appnav.NavigateToAdmissionDefaultView();
@@ -76,15 +76,19 @@ test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications 
 
     // Verify checkbox for creator and Owner is checked for Notify When Task is Completed
     await TaskDetails.clickCheckboxNotifyWhenTaskIsCompleted();
-    await page.pause();
-
+    
     // Veirfy Modal dialog is displayed with Note textbox, add a not and click on Save button
     await TaskDetails.verifyModalAndAddTaskNote('Automation- Regression Admission Task Note');
 
     // Click on Apply button
     await TaskDetails.clickApplyButton();
 
-    // Verify all the fields are displayed correctly
+    // Verify Task is created successfully
+    await TaskDetails.verifyTaskCreatedDetailsPage();
+    
+
+    // Verify Task is created successfully
+    //await TaskDetails.verifyTaskNotesSection('Automation- Regression Admission Task Note', 'admissionTaskCreator');
 
   
 
