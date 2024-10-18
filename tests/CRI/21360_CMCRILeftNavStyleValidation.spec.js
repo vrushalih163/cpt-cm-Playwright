@@ -5,7 +5,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const {user, password} = process.env
 
-test('CM: CRI Left Navigation Style Guide Changes', async ({ page }) => {
+test('Verify CRI Left Navigation Style Guide Changes', async ({ page }) => {
 
   // Login to Application
   const Login = new LoginPage(page);

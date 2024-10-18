@@ -5,7 +5,7 @@ import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { YourCompanyProfileFacilityPage } from '../../pages/yourcompanyprofilefacilityPage_268';
 const {user, password} = process.env
-test('CM: Verify the Updated RM Contact Information page', async ({ page }) => {
+test('CM- Verify the Updated RM Contact Information page', async ({ page }) => {
   // Login to Org
   const Login = new LoginPage(page);
   const page1 = await Login.login(user, password);

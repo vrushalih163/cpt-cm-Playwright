@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('CM- HCA to Support', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/');
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
