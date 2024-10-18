@@ -52,10 +52,10 @@ export class TaskDetailsPage {
 
         // Task created Details unser Task note section
         this.createdOn_link = page.locator('#dgTaskNotesList_ctl02_lnkCreatedOn');
-        this.createdBy_text = (loggedInUser) => page.locator('td.clsLabelNormalText', { hasText: loggedInUser });
+        this.createdBy_text = (loggedInUser) => page.locator('td.clsLabelNormalText', { hasText: loggedInUser }).first();
         //this.menu_bar_links = (menuName) => page.locator(`a[class="ion-submenu-link"]:has-text("${menuName}")`);
         //this.createdBy_text = page.locator('td.clsLabelNormalText[data-attribute="value"]');
-        this.note_text = (expectedNote) => page.locator('div[style="white-space:normal;"]', { hasText: expectedNote});
+        this.note_text = (expectedNote) => page.locator('div[style="white-space:normal;"]', { hasText: expectedNote}).first();
         //this.note_text = page.locator('div[style="white-space:normal;"][data-attribute="value"]');
         this.delete_button = page.locator('#dgTaskNotesList_ctl02_ibDelete');
 
@@ -494,7 +494,23 @@ export class TaskDetailsPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    // Verify the Task Details page
+    /**
+     * Verifies the details on the task creation page.
+     * 
+     * This method performs the following checks:
+     * - Ensures the category dropdown is disabled.
+     * - Ensures the task input dropdown is disabled.
+     * - Ensures the owner/assign dropdown is enabled.
+     * - Ensures the start on date input is enabled.
+     * - Ensures the start on time input is enabled.
+     * - Ensures the due by date input is enabled.
+     * - Ensures the due by time input is enabled.
+     * - Ensures the priority dropdown is enabled.
+     * - Ensures the status dropdown is enabled.
+     * 
+     * @async
+     * @returns {Promise<void>} A promise that resolves when all assertions have been made.
+     */
     async verifyTaskCreatedDetailsPage() {
         // Category should be disabled
         const isCategoryDisabled = await this.category_dropdown.isDisabled();
@@ -571,18 +587,17 @@ export class TaskDetailsPage {
         await this.page.waitForLoadState('domcontentloaded');
 
         // Verify the 'Created By' user
-        const createdByText = await this.createdBy_text(loggedInUser).textContent();
+        const createdByText = await this.createdBy_text(loggedInUser).textContent(loggedInUser);
         console.assert(createdByText.trim() === loggedInUser, 'Created By user does not match the logged in user');
 
         // Verify the note content in the Task Details page
-        const noteTextInTaskDetails = await this.note_text.textContent(expectedNote);
+        const noteTextInTaskDetails = await this.note_text(expectedNote).textContent(expectedNote);
         console.assert(noteTextInTaskDetails.trim() === expectedNote, 'Note text in Task Details does not match the expected note');
 
         // Verify the delete button is enabled
         const isDeleteButtonEnabled = await this.delete_button.isEnabled();
         console.assert(isDeleteButtonEnabled, 'Delete button is not enabled');
     }
-
 
     // Verify Task History Section
     async verifyTaskHistorySection() {

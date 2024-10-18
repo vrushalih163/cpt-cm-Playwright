@@ -10,7 +10,7 @@ const { admissionTaskCreatorUser, password } = process.env
 
 
 test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications by Pager and Email', async ({ page }) => {
-    //Step -1: Login into CM application and navigate to Wellsky QA Hospital 1.
+    // Step -1: Login into CM application and navigate to Wellsky QA Hospital 1.
     const Login = new LoginPage(page);
     const page1 = await Login.login(admissionTaskCreatorUser, password);
 
@@ -20,33 +20,33 @@ test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications 
     //Calling & Passing Org name to NavigateToChangeOrg method
     //await Appnav.NavigateToChangeOrg('CM Automation Hospital');
 
-    //Navigating to Mangage -> Admissions -> Admission Default View
+    // Step 2 - Navigating to Mangage -> Admissions -> Admission Default View
     await Appnav.NavigateToAdmissionDefaultView();
 
-    //Creating a object to AdmissionDefaultViewPage class
+    // Creating a object to AdmissionDefaultViewPage class
     const AdmissionDefaultView = new AdmissionDefaultViewPage(page1);
 
-    //Search for an admission
+    // Step 3 - Search for an admission
     await AdmissionDefaultView.SearchAdmission('123456');
 
-    // Select Edit Admission from the Actions drop down and click Go
+    // Step 4 - Select Edit Admission from the Actions drop down and click Go
     await AdmissionDefaultView.navigateActionDDBox('Edit Admission');
     
     //Creating a object to AdmissionFaceSheet class
     const AdmiFaceSheet = new AdmissionFaceSheet(page1);
 
-    // Click on Task Details link
+    // Step 5- Click on Task Details link
     await AdmiFaceSheet.TaskDetailsLinkClick();
 
     // create an object to TaskDetailsPage class
     const TaskDetails = new TaskDetailsPage(page1);
    
-    // Select Category as Admission, Task as Regressionadmission, Owner/AssingTo as from the precondtion on Task Details Page 
+    // Step 6 - Select Category as Admission, Task as Regressionadmission, Owner/AssingTo as from the precondtion on Task Details Page 
     await TaskDetails.selectCategory('Admission');
     await TaskDetails.selectTaskItem('Regressionadmission');
     await TaskDetails.selectAssignTo('Owner, AdmissionTask');
 
-    
+    // Step 7
     // Verify Start on date is populated correctly based on the precondition - Start on date will be displayed as Next day.
     await TaskDetails.verifyStartOnDate();
 
@@ -77,18 +77,18 @@ test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications 
     // Verify checkbox for creator and Owner is checked for Notify When Task is Completed
     await TaskDetails.clickCheckboxNotifyWhenTaskIsCompleted();
     
-    // Veirfy Modal dialog is displayed with Note textbox, add a not and click on Save button
+    // Step 8 - Click on the Add task note, Veirfy Modal dialog is displayed, add a note and click on Save button
     await TaskDetails.verifyModalAndAddTaskNote('Automation- Regression Admission Task Note');
 
-    // Click on Apply button
+    // Step 9 - Click on Apply button
     await TaskDetails.clickApplyButton();
 
-    // Verify Task is created successfully
+    // Step 10 - Verify Task is created successfully
     await TaskDetails.verifyTaskCreatedDetailsPage();
     
+    //  // Verify Task Notes link, Creaetd By, Note Section is displayed with the note added in Step 8
+    await TaskDetails.verifyTaskNotesSection('Automation- Regression Admission Task Note', 'admissionTaskCreator');
 
-    // Verify Task is created successfully
-    //await TaskDetails.verifyTaskNotesSection('Automation- Regression Admission Task Note', 'admissionTaskCreator');
 
   
 
