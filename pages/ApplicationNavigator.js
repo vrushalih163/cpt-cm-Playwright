@@ -84,6 +84,7 @@ export class ApplicationNavigator {
   }
 
   async NavigateToAdmissionDefaultView() {
+    await this.page.waitForTimeout(3000);
     await this.manage_link.click();
     await this.Admission_link.click();
     await this.page.waitForTimeout(500);
