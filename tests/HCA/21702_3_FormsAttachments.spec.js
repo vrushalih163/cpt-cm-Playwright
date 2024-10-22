@@ -23,7 +23,7 @@ const { user, password } = process.env;
 const timeZone = 'CT';
 const format = '12hr';
 
-test('CM- HCA to Support', async ({ page }) => {
+test('CM- HCA to Support3', async ({ page }) => {
  
 //Login to the application
 const login = new LoginPage(page);

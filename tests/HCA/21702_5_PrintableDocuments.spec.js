@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('CM- HCA to Support', async ({ page }) => {
+test('CM- HCA to Support5', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/professional/home/logon.aspx');
   await page.locator('#UserNameTextBox').fill('srikannan');
   await page.locator('#PasswordTextBox').click();
