@@ -23,7 +23,7 @@ const { user, password } = process.env;
 const timeZone = 'CT';
 const format = '12hr';
 
-test('CM- HCA to Support1', async ({ page }) => {
+test('CM- HCA to Support7', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/');
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
