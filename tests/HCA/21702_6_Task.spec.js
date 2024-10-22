@@ -23,8 +23,7 @@ const { user, password } = process.env;
 const timeZone = 'CT';
 const format = '12hr';
 
-<<<<<<< Updated upstream
-test('CM- HCA to Support', async ({ page }) => {
+test('CM- HCA to Support2', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/');
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
@@ -63,113 +62,6 @@ test('CM- HCA to Support', async ({ page }) => {
   await page1.locator('#txtPrimaryDiagnosis').fill('OTB');
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.locator('li').filter({ hasText: 'Documentation Interdisciplinary Documentation Business Letters DRG' }).locator('i').first().click();
-=======
-test('test', async ({ page }) => {
-  //Login to the application
-const login = new LoginPage(page);
-const page1 = await login.login(user, password);
-await page1.waitForTimeout(2000);
-//Generating Unique Text
-var library = new LIB(page1);
-const uniquetext = await library.generateUniqueText(10);
-//const MRN = MRN + '-' + uniquetext;
-
-// Patient creation
-//Navigation to Patient Default View
-const AppNav = new ApplicationNavigator(page1);
-await AppNav.NavigateToPatientsDefaultView();
-await page1.waitForTimeout(2000);
-
-//Clicking on Add Patient
-const patientdefViewpg = new PatientdefaultviewPage(page1);
-await patientdefViewpg.clickaddapatient();
-
-//Creating a Patient
-const patientdetailspg = new PatientdetailsPage(page1);
-await patientdetailspg.CreatePatient(uniquetext);
-
-// Admission Creation
-//Navigation to Manage Context Navigator
-const MCN = new ManageContextNavigator(page1);
-
-//Clicking on Admission '+' icon
-await MCN.clickadmissionplusicon();
-await page1.waitForTimeout(2000);
-
-//Creating an Admission
-const adm = new AdmissiondetailsPage(page1);
-await adm.createAdmission(uniquetext);
-
-// Financial Creation
-//Navigation to Financial
-await MCN.NavigateToFinancial();
-await page1.waitForLoadState('networkidle');
-
-//Clicking on Add Financial
-const FS = new AdmissionFinancialInformationPage(page1);
-await FS.clickaddfinancial();
-
-//Adding Payment Source
-const EPS = new EditPaymentSource(page1);
-await EPS.AddPaymentSource('54562');
-
-  await page1.getByRole('link', { name: ' Configure' }).click();
-  await page1.getByRole('link', { name: 'Workflow ' }).click();
-  await page1.getByRole('link', { name: 'Task Library' }).click();
-  await page1.getByRole('link', { name: 'Add Task Item' }).click();
-  await page1.getByLabel('Yes').check();
-  await page1.locator('#txtTiName').click();
-  await page1.locator('#txtTiName').fill('TEst Task');
-  await page1.locator('#txtDescription').click();
-  await page1.locator('#txtDescription').fill('Desc123task');
-  await page1.locator('#ddlDefaultStatus').selectOption('1295');
-  await page1.locator('#eneDefaultStartOnOffsetDays_Number').click();
-  await page1.locator('#eneDefaultStartOnOffsetDays_Number').fill('0');
-  await page1.locator('#eneDefaultStartOnOffsetHrs_Number').click();
-  await page1.locator('#eneDefaultStartOnOffsetHrs_Number').fill('0');
-  await page1.locator('#eneDefaultDueDateOffsetDays_Number').click();
-  await page1.locator('#eneDefaultDueDateOffsetDays_Number').fill('0');
-  await page1.locator('#eneDefaultDueDateOffsetHrs_Number').click();
-  await page1.locator('#eneDefaultDueDateOffsetHrs_Number').fill('0');
-  await page1.locator('#cbDefaultNotifyCreatorWhenAssigned').check();
-  await page1.locator('#cbDefaultNotifyOwnerWhenAssigned').check();
-  await page1.locator('#cbDefaultNotifyCreatorWhenPastDue').check();
-  await page1.locator('#cbDefaultNotifyOwnerWhenPastDue').check();
-  await page1.locator('#cbDefaultNotifyCreatorWhenCompleted').check();
-  await page1.locator('#cbDefaultNotifyOwnerWhenCompleted').check();
-  await page1.locator('#txtAssignedMessagePager_ddlIVIT_ddl_variables').selectOption('TaskID');
-  await page1.locator('#txtAssignedMessagePager_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_ddl_variables').selectOption('TaskCompletedOn');
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_ddl_variables').selectOption('ActualTime');
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_ddl_variables').selectOption('ProjectedTime');
-  await page1.locator('#txtAssignedMessageEmail_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_ddl_variables').selectOption('ActualTime');
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_ddl_variables').selectOption('TaskCompletedOn');
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_btn_add').click();
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_ddl_variables').selectOption('ProjectedTime');
-  await page1.locator('#txtAssignedMessageSysAlert_ddlIVIT_btn_add').click();
-  await page1.locator('#txtCompletedMessagePager_ddlIVIT_ddl_variables').selectOption('ActualTime');
-  await page1.locator('#txtCompletedMessagePager_txtTextArea').click();
-  await page1.locator('#txtCompletedMessagePager_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.locator('#txtCompletedMessageEmail_txtTextArea').click();
-  await page1.locator('#txtCompletedMessageEmail_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.locator('#txtCompletedMessageSysAlert_txtTextArea').click();
-  await page1.locator('#txtCompletedMessageSysAlert_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.locator('#txtPastDueMessagePager_txtTextArea').click();
-  await page1.locator('#txtPastDueMessagePager_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.locator('#txtPastDueMessageEmail_txtTextArea').click();
-  await page1.locator('#txtPastDueMessageEmail_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.locator('#txtPastDueMessageSysAlert_txtTextArea').click();
-  await page1.locator('#txtPastDueMessageSysAlert_txtTextArea').fill('$[ActualTime]$$[TaskCompletedOn]$$[ProjectedTime]$');
-  await page1.getByRole('button', { name: 'Save' }).click();
-  await page1.getByRole('link', { name: ' Manage' }).click();
-  await page1.getByRole('link', { name: 'Patients ' }).click();
-  await page1.getByRole('link', { name: 'Patients Default View' }).click();
-  await page1.locator('li').filter({ hasText: 'Documentation Avoidable Days' }).locator('i').first().click();
->>>>>>> Stashed changes
   await page1.getByRole('link', { name: 'Tasks' }).click();
   await page1.getByRole('link', { name: 'Add' }).click();
   await page1.locator('#ddlTaskItemId').selectOption('3016');
