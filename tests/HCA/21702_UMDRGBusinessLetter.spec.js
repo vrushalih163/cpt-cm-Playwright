@@ -77,7 +77,7 @@ test('CM- HCA to Support', async ({ page }) => {
 
   //Inactivating Payment Source
   //Navigation to Admission Financial Information
-  const AdmFinInfo = new AdmissionFinancialInformation(page1);
+  const AdmFinInfo = new AdmissionFinancialInformationPage(page1);
 
   //Clicking on Edit Icon
   await AdmFinInfo.EditIcon_Click();

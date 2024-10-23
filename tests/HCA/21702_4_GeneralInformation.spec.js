@@ -7,9 +7,11 @@ test('CM- HCA to Support4', async ({ page }) => {
   await page.locator('#UserNameTextBox').press('Tab');
   await page.locator('#PasswordTextBox').fill('Organization=20');
   await page.getByText('Log In').click();
+  await page.waitForTimeout(3000);
   await page.getByRole('link', { name: ' Home' }).click();
   await page.getByRole('link', { name: 'Change Organization' }).click();
   await page.getByRole('link', { name: '`Allscripts QA Hospital 124 (' }).click();
+  await page.waitForTimeout(3000);
   await page.getByRole('link', { name: ' Manage' }).click();
   await page.getByRole('link', { name: 'Patient Favorites ' }).click();
   await page.getByRole('link', { name: 'Patient Favorites ' }).click();

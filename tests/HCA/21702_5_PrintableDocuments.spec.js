@@ -6,6 +6,7 @@ test('CM- HCA to Support5', async ({ page }) => {
   await page.locator('#PasswordTextBox').click();
   await page.locator('#PasswordTextBox').fill('Organization=20');
   await page.getByText('Log In').click();
+  await page.waitForTimeout(3000);
   await page.getByRole('link', { name: ' Home' }).click();
   await page.getByRole('link', { name: 'Change Organization' }).click();
   await page.getByRole('link', { name: '`Allscripts QA Hospital 124 (' }).click();
