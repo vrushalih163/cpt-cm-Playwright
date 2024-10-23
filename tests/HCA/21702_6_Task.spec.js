@@ -24,44 +24,53 @@ const timeZone = 'CT';
 const format = '12hr';
 
 test('CM- HCA to Support6', async ({ page }) => {
-  await page.goto('https://pv02.extendedcare.health/');
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Log In' }).click();
-  const page1 = await page1Promise;
-  await page1.locator('#UserNameTextBox').fill('srikannan');
-  await page1.locator('#PasswordTextBox').click();
-  await page1.locator('#PasswordTextBox').fill('Organization=20');
-  await page1.getByText('Log In').click();
-  await page1.getByRole('link', { name: ' Home' }).click();
-  await page1.getByRole('link', { name: 'Change Organization' }).click();
-  await page1.getByRole('link', { name: '`Allscripts QA Hospital 124 (' }).click();
-  await page1.getByRole('link', { name: ' Manage' }).click();
-  await page1.getByRole('link', { name: 'Patients ' }).click();
-  await page1.getByRole('link', { name: 'Patients Default View' }).click();
-  await page1.getByRole('link', { name: 'Add a Patient' }).click();
-  await page1.getByLabel('MRN:').click();
-  await page1.getByLabel('MRN:').fill('123456');
-  await page1.getByLabel('First Name:', { exact: true }).click();
-  await page1.getByLabel('First Name:', { exact: true }).fill('sri');
-  await page1.getByLabel('Last Name:', { exact: true }).click();
-  await page1.getByLabel('Last Name:', { exact: true }).fill('kannan');
-  await page1.locator('#ECINCalendarDateOfBirth_CalImg').click();
-  await page1.frameLocator('iframe[name="CalIFrame"]').getByRole('cell', { name: '11', exact: true }).click();
-  await page1.getByLabel('Sex at Birth:').selectOption('1');
-  await page1.getByRole('button', { name: 'Save' }).click();
-  await page1.getByRole('link', { name: '' }).click();
-  await page1.getByLabel('Create Admission').check();
-  await page1.getByRole('button', { name: 'Ok' }).click();
-  await page1.locator('#txtHospitalAdmissionID').click();
-  await page1.locator('#txtHospitalAdmissionID').fill('adm123');
-  await page1.locator('#dtPatientAdmission_CalImg').click();
-  await page1.frameLocator('iframe[name="CalIFrame"]').getByRole('cell', { name: '12', exact: true }).click();
-  await page1.locator('#dtPatientAdmission_Time').click();
-  await page1.locator('#dtPatientAdmission_Time').fill('12:45');
-  await page1.locator('#txtPrimaryDiagnosis').click();
-  await page1.locator('#txtPrimaryDiagnosis').fill('OTB');
-  await page1.getByRole('button', { name: 'Save' }).click();
-  await page1.locator('li').filter({ hasText: 'Documentation Interdisciplinary Documentation Business Letters DRG' }).locator('i').first().click();
+    //Login to the application
+    const login = new LoginPage(page);
+    const page1 = await login.login(user, password);
+    await page1.waitForTimeout(2000);
+    //Generating Unique Text
+    var library = new LIB(page1);
+    const uniquetext = await library.generateUniqueText(10);
+    //const MRN = MRN + '-' + uniquetext;
+  
+    // Patient creation
+    //Navigation to Patient Default View
+    const AppNav = new ApplicationNavigator(page1);
+    await AppNav.NavigateToPatientsDefaultView();
+    await page1.waitForTimeout(2000);
+  
+    //Clicking on Add Patient
+    const patientdefViewpg = new PatientdefaultviewPage(page1);
+    await patientdefViewpg.clickaddapatient();
+  
+    //Creating a Patient
+    const patientdetailspg = new PatientdetailsPage(page1);
+    await patientdetailspg.CreatePatient(uniquetext);
+  
+    // Admission Creation
+    //Navigation to Manage Context Navigator
+    const MCN = new ManageContextNavigator(page1);
+  
+    //Clicking on Admission '+' icon
+    await MCN.clickadmissionplusicon();
+    await page1.waitForTimeout(2000);
+  
+    //Creating an Admission
+    const adm = new AdmissiondetailsPage(page1);
+    await adm.createAdmission(uniquetext);
+  
+    // Financial Creation
+    //Navigation to Financial
+    await MCN.NavigateToFinancial();
+    await page1.waitForLoadState('networkidle');
+  
+    //Clicking on Add Financial
+    const FS = new AdmissionFinancialInformationPage(page1);
+    await FS.clickaddfinancial();
+  
+    //Adding Payment Source
+    const EPS = new EditPaymentSource(page1);
+    await EPS.AddPaymentSource('54562');
   await page1.getByRole('link', { name: 'Tasks' }).click();
   await page1.getByRole('link', { name: 'Add' }).click();
   await page1.locator('#ddlTaskItemId').selectOption('3016');

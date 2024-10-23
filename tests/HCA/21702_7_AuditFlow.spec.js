@@ -24,22 +24,53 @@ const timeZone = 'CT';
 const format = '12hr';
 
 test('CM- HCA to Support7', async ({ page }) => {
-  await page.goto('https://pv02.extendedcare.health/');
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Log In' }).click();
-  const page1 = await page1Promise;
-  await page1.locator('#UserNameTextBox').click();
-  await page1.locator('#UserNameTextBox').fill('srikannan');
-  await page1.locator('#PasswordTextBox').click();
-  await page1.locator('#PasswordTextBox').fill('Organization=20');
-  await page1.getByText('Log In').click();
-  await page1.getByRole('link', { name: ' Home' }).click();
-  await page1.getByRole('link', { name: 'Change Organization' }).click();
-  await page1.getByRole('link', { name: '`Allscripts QA Hospital 124 (' }).click();
-  await page1.getByRole('link', { name: ' Manage' }).click();
-  await page1.getByRole('link', { name: 'Patient Favorites ' }).click();
-  await page1.getByRole('link', { name: 'M R, SRIKANNAN (974246)' }).click();
-  await page1.getByRole('link', { name: 'TEST12345 (7/9/2024)' }).click();
+  //Login to the application
+  const login = new LoginPage(page);
+  const page1 = await login.login(user, password);
+  await page1.waitForTimeout(2000);
+  //Generating Unique Text
+  var library = new LIB(page1);
+  const uniquetext = await library.generateUniqueText(10);
+  //const MRN = MRN + '-' + uniquetext;
+
+  // Patient creation
+  //Navigation to Patient Default View
+  const AppNav = new ApplicationNavigator(page1);
+  await AppNav.NavigateToPatientsDefaultView();
+  await page1.waitForTimeout(2000);
+
+  //Clicking on Add Patient
+  const patientdefViewpg = new PatientdefaultviewPage(page1);
+  await patientdefViewpg.clickaddapatient();
+
+  //Creating a Patient
+  const patientdetailspg = new PatientdetailsPage(page1);
+  await patientdetailspg.CreatePatient(uniquetext);
+
+  // Admission Creation
+  //Navigation to Manage Context Navigator
+  const MCN = new ManageContextNavigator(page1);
+
+  //Clicking on Admission '+' icon
+  await MCN.clickadmissionplusicon();
+  await page1.waitForTimeout(2000);
+
+  //Creating an Admission
+  const adm = new AdmissiondetailsPage(page1);
+  await adm.createAdmission(uniquetext);
+
+  // Financial Creation
+  //Navigation to Financial
+  await MCN.NavigateToFinancial();
+  await page1.waitForLoadState('networkidle');
+
+  //Clicking on Add Financial
+  const FS = new AdmissionFinancialInformationPage(page1);
+  await FS.clickaddfinancial();
+
+  //Adding Payment Source
+  const EPS = new EditPaymentSource(page1);
+  await EPS.AddPaymentSource('54562');
   await page1.getByTitle('Create a new audit').click();
   await page1.locator('#ddlAuditType').selectOption('13093');
   await page1.locator('#ddlPlanDescription').selectOption('307844815');
