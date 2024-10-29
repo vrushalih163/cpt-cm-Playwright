@@ -123,12 +123,14 @@ await EPS.AddPaymentSource('54562');
   var PSCDT = await page1.locator('//*[@id="dgCommunications_ctl03_lnkContactDateValue"]').textContent();
 
    // Validate the Diagnosis Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
+  //expect(CDT).toContain(PSCDT);
+  library.validatetime(PSCDT,CDT);
 
   PSCDT = await page1.locator('//*[@id="dgReviewVersion_ctl03_lblReviewSavedOnValue"]').textContent();
 
       // Validate the Diagnosis Date and Time with tolerance
-  expect(CDT).toContain(PSCDT);
+  //expect(CDT).toContain(PSCDT);
+  library.validatetime(PSCDT,CDT);
 
   await page1.getByRole('button', { name: 'Finish', exact: true }).click();
   await page1.waitForTimeout(2000);

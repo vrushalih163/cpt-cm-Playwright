@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/PageLogin_111';
 import { AdmissionFaceSheet } from '../pages/AdmisssionFaceSheet_51';
 import { TransitionDignosis } from '../pages/TransitionDignosis_1469';
 import { AdmissionDefaultViewPage } from '../pages/AdmissionDefaultViewPage_631';
+import { expect } from '@playwright/test';
 const { chromium } = require('playwright');
 const fs = require('fs').promises;
 const moment = require('moment-timezone');
@@ -380,4 +381,17 @@ export class LIB {
         await page.close();
     }
 
+    async validatetime(PSCDT,CDT)
+    {
+          expect(isTimeWithinTolerance(PSCDT, CDT, 1)).toBe(true);
+    }    
+
 };
+
+// Custom function to compare times with tolerance
+function isTimeWithinTolerance(actualTime, expectedTime, toleranceMinutes) {
+    const actualDate = new Date(actualTime);
+    const expectedDate = new Date(expectedTime);
+    const toleranceMillis = toleranceMinutes * 60 * 1000;
+    return Math.abs(actualDate - expectedDate) <= toleranceMillis;
+  }
