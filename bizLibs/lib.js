@@ -17,7 +17,7 @@ const fs = require('fs').promises;
 const moment = require('moment-timezone');
 const os = require('os');
 const path = require('path');
-const { FhirLaunchUrl, TransitionlaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
+const { timeZone, format, FhirLaunchUrl, TransitionlaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
 
 
 
