@@ -2,11 +2,14 @@
 // Modified by: Rajakumar Maste, Modified on: 24 Sept 2024
 
 import { Page, Locator, test, expect } from '@playwright/test';
+import { ApplicationNavigator } from './ApplicationNavigator';
 
 export class ManageContextNavigator {
 
   constructor(page) {
     this.page = page;
+    // Create an instance of ApplicationNavigator
+    this.appNav = new ApplicationNavigator(page); 
 
     //Admission Controls
     this.admissionplusicon_link = page.getByRole('link', { name: '' });
@@ -43,6 +46,13 @@ export class ManageContextNavigator {
 
     //Discharge Planning Controls
     this.DischargePlanning_link = page.getByRole('link', { name: 'Discharge Planning' })
+    
+
+    // Tasks Default View
+    this.task_link = page.locator('#Manage_Header_Manage_Header_Menu_Tasks');
+    this.taskDefaultView_link = page.locator('[name="tasks_tasks_default_view"]');
+    
+        
   }
 
 
@@ -171,4 +181,19 @@ export class ManageContextNavigator {
   async BusinessLetter_Click() {
     await this.BusinessLetter_link.click();
   }
+
+
+   // Navigate to Task Default View
+   async navigateToTaskDefaultView() {
+    // Navigate to Manage > Tasks > Task Default View
+    await this.appNav.manage_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.task_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.taskDefaultView_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+}
+
+
+  
 }

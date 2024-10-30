@@ -262,22 +262,6 @@ async SaveContinue() {
   await this.page.waitForTimeout(2000);
 }
 
-   /**
-    * Navigates to Facilities page
-    */ 
-   async NavigatetoFacilities() {  
-    await this.page.waitForLoadState('domcontentloaded');
-    await this.page.waitForTimeout(5000);
-    await this.configure_link.click();
-    await this.page.waitForTimeout(2000);
-    await this.Facilities_link.click();
-    await this.page.waitForLoadState('domcontentloaded');
-    await this.page.waitForTimeout(3000);
-  }
-
-
-
-
 } 
 
 

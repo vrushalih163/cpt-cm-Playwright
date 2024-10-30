@@ -5,6 +5,7 @@ import { AdmissionDefaultViewPage } from '../../pages/AdmissionDefaultViewPage_6
 import { LoginPage } from '../../pages/PageLogin_111';
 import { AdmissionFaceSheet } from '../../pages/AdmisssionFaceSheet_51';
 import { TaskDetailsPage } from '../../pages/TaskDetailsPage_767';
+import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 
 const { admissionTaskCreatorUser, password } = process.env
 
@@ -86,12 +87,48 @@ test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications 
     // Step 10 - Verify Task is created successfully
     await TaskDetails.verifyTaskCreatedDetailsPage();
     
-    //  // Verify Task Notes link, Creaetd By, Note Section is displayed with the note added in Step 8
+    // Step 11-  Verify Task Notes link, Creaetd By, Note Section is displayed with the note added in Step 8
     await TaskDetails.verifyTaskNotesSection('Automation- Regression Admission Task Note', 'admissionTaskCreator');
+
+    // Creating a object to ManageContextNavigator class
+    const ManageContextNav = new ManageContextNavigator(page1);
+    await page.pause();
+
+    // Step 12 - Navigate to Manage>Tasks>Task Default View and 
+    await ManageContextNav.navigateToTaskDefaultView();
+
+    // Step 13 - locate the task that was created in step 10 
+    await AdmissionDefaultView.SearchAdmission('123456');
+
+    // Step 14 - Select "Mark as Complete" from the Actions drop down. Click Go
+
+    // Step 15 - verify Task is Assigned - Pager Notification is received by creator, Owner and other user.
+
+    // Step 16 - verify Task is Assigned - Email Notification is received by creator, Owner and other user.
+    
+    const expectedNote = 'Wellsky Note from Tasking: Past Due: ';
+    const loggedInUser = 'admissionTaskCreator';
+    const recipientEmail = 'recipient-email@gmail.com';
+    const emailSubject = 'Regressionadmission : Assigned';
+
+    // Verify email notification
+    //const assignedEmailVerified = await TaskDetails.verifyTaskEmailNotification(emailSubject, expectedNote);
+    //expect(assignedEmailVerified).toBe(true);
+
+    // Step 17 - verify Task is Past Due - Pager Notification is received by creator, Owner and other user.
+
+    // Step 18 - verify Task is Past Due - Email Notification is received by creator, Owner and other user.
+    //const pastDueEmailVerified = await TaskDetails.verifyTaskEmailNotification(emailSubject, expectedNote);
+    //expect(pastDueEmailVerified).toBe(true);
+
+    // Step 19 - verify Task is Completed - Pager Notification is received by creator, Owner and other user.
+
+    // Step 20 - verify Task is Completed - Email Notification is received by creator, Owner and other user.
+    //const completedEmailVerified = await TaskDetails.verifyTaskEmailNotification(emailSubject, expectedNote);
+    //expect(completedEmailVerified).toBe(true);
 
 
   
-
 
 
 });
