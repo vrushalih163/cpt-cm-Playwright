@@ -3,6 +3,9 @@
 import { expect } from '@playwright/test';
 import moment from 'moment-timezone';
 import { AdmissionFaceSheet } from './AdmisssionFaceSheet_51';
+const imaps = require('imap-simple');
+const { simpleParser } = require('mailparser');
+
 export class TaskDetailsPage {
     constructor(page) {
         this.page = page;
@@ -53,15 +56,13 @@ export class TaskDetailsPage {
         // Task created Details unser Task note section
         this.createdOn_link = page.locator('#dgTaskNotesList_ctl02_lnkCreatedOn');
         this.createdBy_text = (loggedInUser) => page.locator('td.clsLabelNormalText', { hasText: loggedInUser }).first();
-        //this.menu_bar_links = (menuName) => page.locator(`a[class="ion-submenu-link"]:has-text("${menuName}")`);
-        //this.createdBy_text = page.locator('td.clsLabelNormalText[data-attribute="value"]');
-        this.note_text = (expectedNote) => page.locator('div[style="white-space:normal;"]', { hasText: expectedNote}).first();
-        //this.note_text = page.locator('div[style="white-space:normal;"][data-attribute="value"]');
+        this.note_text = (expectedNote) => page.locator('div[style="white-space:normal;"]', { hasText: expectedNote }).first();
         this.delete_button = page.locator('#dgTaskNotesList_ctl02_ibDelete');
 
         // Task note on page - 768
         this.noteText_area = page.locator('#txtNote');
         this.cancel_button = page.locator('#ButtonBarCancel');
+
 
 
     }
@@ -449,7 +450,7 @@ export class TaskDetailsPage {
         const isSaveButtonEnabled = await this.taskNoteModal_saveButton.isEnabled({ state: 'enabled', timeout: 9000 });
         const isCancelButtonVisible = await this.taskNoteModal_cancelButton.isVisible({ state: 'visible', timeout: 9000 });
         const isCancelButtonEnabled = await this.taskNoteModal_cancelButton.isEnabled({ state: 'enabled', timeout: 9000 });
-        
+
 
         if (!isSaveButtonVisible || !isSaveButtonEnabled) {
             throw new Error('The save button is not visible or not enabled.');
@@ -603,6 +604,47 @@ export class TaskDetailsPage {
     async verifyTaskHistorySection() {
         // Verify the Task History Section
     }
+
+    // Verify Task is Assigned, Past Due, and Task is Completed - Email Notification is received by creator, Owner and other user.
+
+    async verifyTaskEmailNotification(subject, from) {
+        const config = {
+            imap: {
+                user: 'your-email@gmail.com',
+                password: 'your-email-password',
+                host: 'imap.gmail.com',
+                port: 993,
+                tls: true,
+                authTimeout: 3000
+            }
+        };
+
+        const connection = await imaps.connect(config);
+        await connection.openBox('INBOX');
+
+        const searchCriteria = ['UNSEEN', ['HEADER', 'SUBJECT', subject], ['FROM', from]];
+        const fetchOptions = { bodies: ['HEADER', 'TEXT'], markSeen: true };
+
+        const messages = await connection.search(searchCriteria, fetchOptions);
+
+        if (messages.length > 0) {
+            const parts = messages[0].parts;
+            const email = await simpleParser(parts[0].body);
+            console.log('Email found:', email);
+            return true;
+        } else {
+            console.log('Email not found');
+            return false;
+        }
+    }
+
+
+    // Verify Task is Assigned, Task Past Due and Task is Completed - Pager Notification is received by creator, Owner and other user.
+    async verifyTasPagerNotification() {
+    // Verify the Task Assigned Pager Notification
+}
+
+
 
 }
 
