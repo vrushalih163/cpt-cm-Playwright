@@ -74,8 +74,9 @@ await EPS.AddPaymentSource('54562');
  await page1.locator('li').filter({ hasText: 'Printable Documents Admission' }).locator('i').first().click();
  await page1.getByRole('link', { name: 'Admission Timeline' }).click();
  //await expect(page1.getByRole('cell', { name: '7/9/2024 12:40 PM (CT)', exact: true })).toBeVisible();
- const page11Promise = page1.waitForEvent('popup');
+ await page1.waitForTimeout(3000);
+ await page1.getByRole('link', { name: 'Call List' }).click();
  await page1.getByRole('button', { name: 'Generate' }).click();
- const page12 = await page11Promise;
+ await page1.waitForTimeout(3000);
   
 });
