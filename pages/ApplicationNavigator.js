@@ -18,6 +18,9 @@ export class ApplicationNavigator {
     this.Admission_link = page.getByRole('link', { name: 'Admissions ' });
     this.AdmissionDefaultView_link = page.getByRole('link', { name: 'Admissions Default View' });
 
+    this.ReferralActivity_link = page.getByRole('link', { name: 'Referral Activity ' , exact: true});
+    this.ReferralActivityDefaultView_link = page.getByRole('link', { name: 'Referral Activity Default View' });
+
     this.IncomingReferrals_link = page.getByRole('link', { name: 'Incoming Referrals ' });
     this.IncomingReferralsEnhancedView_link = page.getByRole('link', { name: 'Incoming Referrals View -' });
 
@@ -111,6 +114,21 @@ export class ApplicationNavigator {
     await this.page.waitForLoadState('domcontentloaded')
     await this.page.waitForTimeout(7000);
     return this.page;
+  }
+
+  /**
+   * Navigate to Referral Activity  -> Referral Activity Default View
+   */
+  async NavigateToReferralActivityDefaultViewPage(){
+    await this.manage_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.ReferralActivity_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.ReferralActivityDefaultView_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
   }
 
   /**

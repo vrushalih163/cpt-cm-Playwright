@@ -9,7 +9,7 @@ import { OrganizationLookup } from '../../pages/OrganizationLookupPage_595.js';
 import {OrganizationDetailsPage} from '../../pages/organizationDetailsPage_287.js';
 import {EditCompanyProfilePage} from '../../pages/editCompanyProfilePage_350.js';
 
-test('CM: Prevent Saving Non Unique Provider IDs', async ({ page }) => {
+test('CM- Prevent Saving Non Unique Provider IDs', async ({ page }) => {
     
         //Step 1: login to the app
         const Login = new LoginPage(page);

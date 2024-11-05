@@ -73,6 +73,12 @@ export class ManageContextNavigator {
 
   }
 
+  async GetAUTReferralLink() {
+    await this.page.locator(`//tr//td//a[contains(text(),'AUT - ')]`).click();    
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
+
   async NavigateToAdmissionDetails() {
     await this.page.locator('li').filter({ hasText: 'Admission Admission Details' }).locator('i').first().click();
     await this.page.getByRole('link', { name: 'Admission Details' }).click();
