@@ -19,9 +19,7 @@ import { PayorAuthorization } from '../../pages/PayorAuthorizationPage_812';
 import { AddEditUMNotes } from '../../pages/AddEditUMNotesPage_746'
 import { DRGDocumentationLetters } from '../../pages/DRGDocumentationLettersPage_918';
 import { DRGDocumentationLettersGenerator } from '../../pages/DRGDocumentationLettersGeneratorPage_919';
-const { user, password } = process.env;
-const timeZone = 'CT';
-const format = '12hr';
+const { user, password, timeZone, format  } = process.env;
 
 test('CM- HCA to Support6', async ({ page }) => {
     //Login to the application
