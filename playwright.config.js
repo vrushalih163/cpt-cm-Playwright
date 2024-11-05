@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 require('dotenv').config({
   //path: `./env/.env.${process.env.ENV}`,
-   path: './env/.env.training',
+   path: './env/.env.pv02',
 });
 
 /**

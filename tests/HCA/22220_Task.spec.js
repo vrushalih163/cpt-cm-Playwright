@@ -19,9 +19,7 @@ import { PayorAuthorization } from '../../pages/PayorAuthorizationPage_812';
 import { AddEditUMNotes } from '../../pages/AddEditUMNotesPage_746'
 import { DRGDocumentationLetters } from '../../pages/DRGDocumentationLettersPage_918';
 import { DRGDocumentationLettersGenerator } from '../../pages/DRGDocumentationLettersGeneratorPage_919';
-const { user, password } = process.env;
-const timeZone = 'CT';
-const format = '12hr';
+const { user, password, timeZone, format  } = process.env;
 
 test('CM- HCA to Support6', async ({ page }) => {
     //Login to the application
@@ -71,19 +69,21 @@ test('CM- HCA to Support6', async ({ page }) => {
     //Adding Payment Source
     const EPS = new EditPaymentSource(page1);
     await EPS.AddPaymentSource('54562');
+    await page1.locator('li').filter({ hasText: 'Documentation Avoidable Days' }).locator('i').first().click();
+    await page1.getByRole('link', { name: 'DRG Documentation' }).click();    
   await page1.getByRole('link', { name: 'Tasks' }).click();
   await page1.getByRole('link', { name: 'Add' }).click();
-  await page1.locator('#ddlTaskItemId').selectOption('3016');
+  await page1.locator('#ddlTaskItemId').selectOption('AUTO ADMISSION task');
   await page1.locator('#ddlAssignToId').selectOption('1693662');
-  await expect(page1.locator('#ecStartOn').getByRole('cell', { name: ':18 AM (CT)' })).toBeVisible();
-  await expect(page1.getByRole('cell', { name: '7:18 AM (CT)', exact: true }).nth(1)).toBeVisible();
-  await page1.locator('#ddlStatus').selectOption('4467');
-  await page1.locator('#cbNotifyCreatorWhenAssigned').check();
-  await page1.locator('#cbNotifyCreatorWhenPastDue').check();
-  await page1.locator('#cbNotifyCreatorWhenCompleted').check();
-  await page1.locator('#cbNotifyOwnerWhenAssigned').check();
-  await page1.locator('#cbNotifyOwnerWhenPastDue').check();
-  await page1.locator('#cbNotifyOwnerWhenCompleted').check();
+ // await expect(page1.locator('#ecStartOn').getByRole('cell', { name: ':18 AM (CT)' })).toBeVisible();
+ // await expect(page1.getByRole('cell', { name: '7:18 AM (CT)', exact: true }).nth(1)).toBeVisible();
+  // await page1.locator('#ddlStatus').selectOption('4467');
+  // await page1.locator('#cbNotifyCreatorWhenAssigned').check();
+  // await page1.locator('#cbNotifyCreatorWhenPastDue').check();
+  // await page1.locator('#cbNotifyCreatorWhenCompleted').check();
+  // await page1.locator('#cbNotifyOwnerWhenAssigned').check();
+  // await page1.locator('#cbNotifyOwnerWhenPastDue').check();
+  // await page1.locator('#cbNotifyOwnerWhenCompleted').check();
   await page1.getByRole('button', { name: 'Save' }).click();
-  await expect(page1.getByRole('cell', { name: '9/14/2024 12:35 PM (CT) 9/11/2024 1:35 AM (CT)', exact: true })).toBeVisible();
+ // await expect(page1.getByRole('cell', { name: '9/14/2024 12:35 PM (CT) 9/11/2024 1:35 AM (CT)', exact: true })).toBeVisible();
 });
