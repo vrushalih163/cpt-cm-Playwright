@@ -12,7 +12,7 @@ import { OrganizationLookup } from '../../pages/OrganizationLookupPage_595.js';
 import { associatedOrganizationsPage } from '../../pages/associatedOrganizationsPage_1177.js';
 
 
-test('User Admin', async ({ page }) => {
+test('Move Edit Associations to Top of page', async ({ page }) => {
     //Step 1: Login to the app
     const Login = new LoginPage(page);
     const page1 = await Login.login(user, password);
