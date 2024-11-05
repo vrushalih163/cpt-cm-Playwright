@@ -10,7 +10,7 @@ import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 const { admissionTaskCreatorUser, password } = process.env
 
 
-test('Tasking - Admission Task (Assigned, Pastdue and Completed), Notifications by Pager and Email', async ({ page }) => {
+test('87563_2050006 Tasking - Admission Task - Assigned Pastdue and Completed Notifications by Pager and Email', async ({ page }) => {
     // Step -1: Login into CM application and navigate to Wellsky QA Hospital 1.
     const Login = new LoginPage(page);
     const page1 = await Login.login(admissionTaskCreatorUser, password);

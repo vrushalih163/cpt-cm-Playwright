@@ -24,7 +24,7 @@ const fs = require('fs').promises;
 
 const { user, user2, password, QAProvider1, Hospital1, QAOfflineProv1, QAOfflineProv2 } = process.env
 
-test('To verify the notification is sent when referral is created updated closed and  when hospital sends the response', async ({ page }) => {
+test('To verify the notification is sent when referral is created updated closed and when hospital sends the response', async ({ page }) => {
 
   //Step -1: Launch ACM test URL
   const Login = new LoginPage(page);

@@ -6,7 +6,7 @@ import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage'
 
 import { LIB } from '../../bizLibs/lib';
 
-test('Manage Referrals - Create Referral', async ({ }) => {
+test('95685_Manage Referrals - Referral Type Cards', async ({ }) => {
 
   test.setTimeout(5 * 60 * 1000);//5mins in milliseconds
 

@@ -5,7 +5,7 @@ import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const {user, password} = process.env
-test('test', async ({ page }) => {
+test('CRI Reports Left Navigation Icon - MVP', async ({ page }) => {
   
   // This method is created for wait execution for given time in milliseconds
   async function customWait(page,TimeInMilliSeconds){

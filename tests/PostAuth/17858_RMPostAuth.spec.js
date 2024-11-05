@@ -16,7 +16,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 
 let referralId;
 
-test('Create RM Post Auth', async ({ page }) => {
+test('100771_CM Post Acute Authorization in RM - Summary Page Attachments Modal', async ({ page }) => {
   
   //Step -1: Login to the app
   const Login = new LoginPage(page);

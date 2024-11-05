@@ -6,7 +6,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const { user, password } = process.env;
 
-test('test', async ({ page }) => {
+test('CRI Referrals Left Navigation Icon', async ({ page }) => {
 
   async function customWait(page, TimeInMilliSeconds) {
     await page1.waitForTimeout(TimeInMilliSeconds);

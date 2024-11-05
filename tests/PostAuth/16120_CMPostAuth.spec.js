@@ -10,7 +10,7 @@ import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { CmPostauthSummaryPage } from '../../pages/cmPostauthSummaryPage_1467';
 import { LoginPage } from '../../pages/PageLogin_111';
 
-test('CM Post Auth', async ({ page }) => {
+test('87411_6785175 To verify that user is able to exclude the Post auth for a Provider', async ({ page }) => {
   
     //Step -1: Login to the app
     const Login = new LoginPage(page);

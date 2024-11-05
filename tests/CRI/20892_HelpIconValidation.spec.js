@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 
 
 
-test('CM: CRI Help Icon', async ({ page }) => {
+test('CRI Help Icon', async ({ page }) => {
 
   await page.goto('https://pv02.extendedcare.health/professional/home/logon.aspx');
   await page.waitForTimeout(2000);

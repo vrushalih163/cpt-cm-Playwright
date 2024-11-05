@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 
 
 
-test('CM: CRI Info Left Navigation Icon', async ({ page }) => {
+test('CRI Info Left Navigation Icon', async ({ page }) => {
 
   await page.goto('https://pv02.extendedcare.health/professional/home/logon.aspx');
   await page.waitForTimeout(2000);

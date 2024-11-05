@@ -3,7 +3,7 @@ import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const {user, password} = process.env
-test('CM: CRI Logout', async ({ page }) => {
+test('CRI Logout', async ({ page }) => {
   
   // Login to Org
   const Login = new LoginPage(page);

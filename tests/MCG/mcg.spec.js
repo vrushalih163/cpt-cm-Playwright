@@ -1,56 +1,56 @@
-// Author - Vrushali Honnatti Date:22nd July, 2024
-const { user, password } = process.env
-import { LIB } from '../../bizLibs/lib';
-import { test, expect } from '../../pages/PageStart';
-import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
-import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
-import { ReviewFaceSheetPage } from '../../pages/reviewFaceSheetPage_662';
-import { ReviewCriteriaPage } from '../../pages/reviewCriteriaPage_663';
-import { CommunicationsPage } from '../../pages/communicationsPage_664';
-import { ReviewSummaryPage } from '../../pages/reviewSummaryPage_678';
-import { LoginPage } from '../../pages/PageLogin_111';
+// // Author - Vrushali Honnatti Date:22nd July, 2024
+// const { user, password } = process.env
+// import { LIB } from '../../bizLibs/lib';
+// import { test, expect } from '../../pages/PageStart';
+// import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
+// import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
+// import { ReviewFaceSheetPage } from '../../pages/reviewFaceSheetPage_662';
+// import { ReviewCriteriaPage } from '../../pages/reviewCriteriaPage_663';
+// import { CommunicationsPage } from '../../pages/communicationsPage_664';
+// import { ReviewSummaryPage } from '../../pages/reviewSummaryPage_678';
+// import { LoginPage } from '../../pages/PageLogin_111';
 
-test.fixme('MCG POC', async ({ page }) => {
+// test.fixme('MCG POC', async ({ page }) => {
   
-  //Step -1: Login to the app
-  const Login = new LoginPage(page);
-  const page1 = await Login.login(user, password);
+//   //Step -1: Login to the app
+//   const Login = new LoginPage(page);
+//   const page1 = await Login.login(user, password);
 
-  const AppNav = new ApplicationNavigator(page1);
+//   const AppNav = new ApplicationNavigator(page1);
 
-  //Step 1 -Change org to Allscripts QA Hos 1
-  await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (')
+//   //Step 1 -Change org to Allscripts QA Hos 1
+//   await AppNav.NavigateToChangeOrg('Allscripts QA Hospital 1 (')
 
-  const ManageContextNav = new ManageContextNavigator(page1);
-  const ReviewFaceSheet = new ReviewFaceSheetPage(page1);
-  const ReviewCriteria = new ReviewCriteriaPage(page1);
-  const Communications = new CommunicationsPage(page1);
-  const ReviewSummary = new ReviewSummaryPage(page1);
+//   const ManageContextNav = new ManageContextNavigator(page1);
+//   const ReviewFaceSheet = new ReviewFaceSheetPage(page1);
+//   const ReviewCriteria = new ReviewCriteriaPage(page1);
+//   const Communications = new CommunicationsPage(page1);
+//   const ReviewSummary = new ReviewSummaryPage(page1);
 
-  //Step 2 - Create a new patient and admission
-  const lib1 = new LIB(page1);
-  await lib1.createptandadm();
-  await page1.waitForTimeout(2000);
+//   //Step 2 - Create a new patient and admission
+//   const lib1 = new LIB(page1);
+//   await lib1.createptandadm();
+//   await page1.waitForTimeout(2000);
 
-  //Step 3 - Click on Create a new Review Button
-  await ManageContextNav.ClickCreateNewReview();
+//   //Step 3 - Click on Create a new Review Button
+//   await ManageContextNav.ClickCreateNewReview();
 
-  //Step 4 - Select a Review type and click on Next
-  await ReviewFaceSheet.SelectReviewType('2258')
-  await ReviewFaceSheet.ClickNext();
+//   //Step 4 - Select a Review type and click on Next
+//   await ReviewFaceSheet.SelectReviewType('2258')
+//   await ReviewFaceSheet.ClickNext();
 
-  //Step 5 - Navigate to Review Criteria
-  await ManageContextNav.NavigateToReviewCriteria();
+//   //Step 5 - Navigate to Review Criteria
+//   await ManageContextNav.NavigateToReviewCriteria();
 
-  //Step 6 - Launch MCG and get data from MCG
-  await ReviewCriteria.LaunchMCGAndGetData();
+//   //Step 6 - Launch MCG and get data from MCG
+//   await ReviewCriteria.LaunchMCGAndGetData();
 
-  //Step 7 - Validate MCG data and click on Next
-  await ReviewCriteria.ValidateMCGData('NCD Heart Transplants (260.9) Version 3');
-  await ReviewCriteria.ClickNext();
+//   //Step 7 - Validate MCG data and click on Next
+//   await ReviewCriteria.ValidateMCGData('NCD Heart Transplants (260.9) Version 3');
+//   await ReviewCriteria.ClickNext();
 
-  //Step 8 - Navigate to Communications and click on Finish
-  await ManageContextNav.NavigateToCommunications();
-  await Communications.clickFinish();
+//   //Step 8 - Navigate to Communications and click on Finish
+//   await ManageContextNav.NavigateToCommunications();
+//   await Communications.clickFinish();
 
-});
+// });
