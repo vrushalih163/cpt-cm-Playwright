@@ -1,4 +1,4 @@
-// Author - Nikhil Hiwarkhede: Story ID: CCM:20280
+// Author - Nikhil Hiwarkhede: Story ID: CCM:20280 - Referrals Icon Validation for CRI Orgs
 
 import { LIB } from '../../bizLibs/lib';
 import { test, expect } from '../../pages/PageStart';
