@@ -69,6 +69,7 @@ const FS = new AdmissionFinancialInformationPage(page1);
 await FS.clickaddfinancial();
 
 //Adding Payment Source
+//Creating a object for Edit Payment Source
 const EPS = new EditPaymentSource(page1);
 await EPS.AddPaymentSource('54562');
   await page1.locator('li').filter({ hasText: 'Documentation Avoidable Days' }).locator('i').first().click();
