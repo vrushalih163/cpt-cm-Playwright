@@ -11,7 +11,7 @@ import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 import { ViewOnlineReferralPage } from '../../pages/viewOnlineReferralPage_1473';
 
-const { user, password, QAProvider1} = process.env
+const { user, password, QAProvider1, TransitionlaunchUrl} = process.env
 
 test('102794_Validating the workflow of sharing a referral via direct method of share in Transition', async ({ }) => {
 
@@ -23,7 +23,7 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
     await Library.CreateNewAdmissionForTransPatient('E3350','6572');
 
     //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-    const newPage = await Library.HandleAppLaunch('Optime, Omar', 'E3350', 'Manage Referrals');
+    const newPage = await Library.HandleAppLaunch('Optime, Omar', 'E3350', 'Manage Referrals', TransitionlaunchUrl);
 
     const ManageRef = new ManageReferral(newPage);
     const ProviderSearch = new ProviderSearchPage(newPage);
@@ -108,7 +108,7 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
     await page2.close();
 
     //Step 19 - Login to Transition and click on the same referral card
-    const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+    const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
     const ManageRef1 = new ManageReferral(page5);
     await ManageRef1.ClickFirstReferral();
@@ -147,7 +147,7 @@ test('102794_Validating the workflow of sharing a referral via direct method of 
     //Step 24 - Observe that the response sent from the provider's side is displayed
     //Step 25 - Observe that the recently sent referral is listed at top of the list and the 'share method' column shows the entry as 'Direct'
     //Step 26 - Observe the 'Date of Sharing' and '# Providers' columns
-    const page7 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+    const page7 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
     const ProviderSearch2 = new ProviderSearchPage(page7);
     const TransContextNav2 = new TransitionContextNavigator(page7);

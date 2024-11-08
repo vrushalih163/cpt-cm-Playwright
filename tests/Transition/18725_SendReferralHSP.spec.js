@@ -12,7 +12,7 @@ import { TransitionContextNavigator } from '../../pages/Transition_Pages/Transit
 import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 
-const { user, password, HSPProvider1, HSPProvider2 } = process.env
+const { user, password, HSPProvider1, HSPProvider2, TransitionlaunchUrl } = process.env
 
 test('98515_To verify the Updated referral when the new providers are added to the referral', async ({ }) => {
 
@@ -23,7 +23,7 @@ test('98515_To verify the Updated referral when the new providers are added to t
   const Library = new LIB();
 
   //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);
@@ -152,7 +152,7 @@ test('98515_To verify the Updated referral when the new providers are added to t
  await page2.close();
 
   //Step 31 - Navigate back to  the Transition application
-  const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+  const page5 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef1 = new ManageReferral(page5);
   const ProviderSearch1 = new ProviderSearchPage(page5);

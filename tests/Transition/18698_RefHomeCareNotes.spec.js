@@ -12,7 +12,7 @@ import { ManageContextNavigator } from '../../pages/ManageContextNavigator';
 import { AdmissiondetailsPage } from '../../pages/admissiondetailspage_54';
 import { LoginPage } from '../../pages/PageLogin_111';
 
-const {TransitionOrg1, user, password} = process.env
+const {TransitionOrg1, user, password, TransitionlaunchUrl} = process.env
 
 test('Referral - Information Tab - Referral Type is configured for Homecare and Notes and consults', async ({ page }) => {
 
@@ -52,7 +52,7 @@ test('Referral - Information Tab - Referral Type is configured for Homecare and 
 
  //Step 1 - Access : https://fhir.epic.com/. Log into Epic on FHIR with following credentials: Tslusher / Halloween1. click on 'Launching your App from Epic' under Documentation. Click on Try it. Select a Patient 'Lopez,Camila' by choosing an EPIC to test with and enter Launch URL 'https://pv05.acm.health/professional/Transition/SmartSessions.aspx'; and Token as below 'dob =% DOB % &user =% SYSLOGIN % &csn =% CSN % &user_first_name =% FNAME % &user_last_name =% LNAME % &user_provider_fhir_id =% USERPROVFHIRID % &epic_patient_id =% FHIRPATID % &encounter_date =% ENCDATE % &b2bCode = TQAH1 and click on Launch'
  //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
- const page1 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+ const page1 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef = new ManageReferral(page1);
   const TransContextNav = new TransitionContextNavigator(page1);

@@ -11,7 +11,7 @@ import { AddEditSearchCriteria } from '../../pages/AddEditSearchCriteriaPage_561
 // Override the configuration to use a single worker
 test.use({ workers: 1 });
 test.setTimeout(5 * 60 * 1000);
-const { user, password, TransitionOrg1, TransitionOrg2 } = process.env
+const { user, password, TransitionOrg1, TransitionOrg2, TransitionlaunchUrl } = process.env
 
 test('T2- ECIN Configuration for Sending Patient Choice in T2 without a Referral', async ({ page }) => {
 
@@ -126,7 +126,7 @@ test('T2- ECIN Configuration for Sending Patient Choice in T2 without a Referral
     var Library = new LIB();
 
     //Step 10: Launch Transition through EPIC FHIR for patient "Cadence, Anna"
-    const newPage = await Library.HandleAppLaunch('Clin Doc, Henry', 'E1703', 'Patient Choice');
+    const newPage = await Library.HandleAppLaunch('Clin Doc, Henry', 'E1703', 'Patient Choice', TransitionlaunchUrl);
 
     // Land on the shared choice page in Transition
     await expect(newPage.locator('#referralsPageTitle')).toBeVisible();
@@ -235,7 +235,7 @@ test('T2- ECIN Configuration for Sending Patient Choice in T2 without a Referral
     await page2.close();
 
     //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-    const newPage1 = await Library.HandleAppLaunch('Clin Doc, Henry', 'E1703', 'Manage Referrals');
+    const newPage1 = await Library.HandleAppLaunch('Clin Doc, Henry', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
     await expect(newPage1.locator('#referralsPageTitle')).toBeVisible();
 

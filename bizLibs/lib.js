@@ -17,7 +17,7 @@ const fs = require('fs').promises;
 const moment = require('moment-timezone');
 const os = require('os');
 const path = require('path');
-const { timeZone, format, FhirLaunchUrl, TransitionlaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
+const { timeZone, format, FhirLaunchUrl, Tokens, LaunchThroughEPIC, user, password, TransitionOrg1 } = process.env
 
 
 
@@ -62,9 +62,12 @@ export class LIB {
      * For reference: E2651, E1703, E3228, E3350, E3734
      * @param {*} TransNavigationOption 
      * Navigator options on Transition Dignosis page: Manage Referrals, Patient Choice, Tasks
+     * @param {*} TransURL 
+     * Enter the URL to launch the application, lets say you want to launch manage referral page then pass 'TransitionlaunchUrl'
+     * and if you want to launch worklist then pass 'TransitionWorklistURL'
      * @returns 
      */
-    async HandleAppLaunch(TransPatientName, TransPatientMRN, TransNavigationOption) {
+    async HandleAppLaunch(TransPatientName, TransPatientMRN, TransNavigationOption, TransURL) {
         if (LaunchThroughEPIC === 'true') {
             //EPIC Oauth popup details fill up and logging into Transition
             //getting persistant context
@@ -102,7 +105,7 @@ export class LIB {
             await page.waitForLoadState('domcontentloaded');
             await page.getByLabel('Select a patient').selectOption(TransPatientName);
 
-            await page.locator('#txtOAuth2LaunchUrl').fill(TransitionlaunchUrl);
+            await page.locator('#txtOAuth2LaunchUrl').fill(TransURL);
             await page.locator('#txtTokens').fill(Tokens);
             const [newPage] = await Promise.all([
                 page.waitForEvent('popup'),

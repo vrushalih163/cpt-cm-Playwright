@@ -3,8 +3,8 @@
 import { test, chromium } from '@playwright/test';
 import { TransitionContextNavigator } from '../../pages/Transition_Pages/TransitionContextNavigator';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
-
 import { LIB } from '../../bizLibs/lib';
+const { TransitionlaunchUrl } = process.env;
 
 test('95682_Manage Referrals - Create Referral', async ({ }) => {
 
@@ -14,7 +14,7 @@ test('95682_Manage Referrals - Create Referral', async ({ }) => {
  const Library = new LIB();
 
  //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
- const page1 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+ const page1 = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef = new ManageReferral(page1);
   const TransContextNav = new TransitionContextNavigator(page1);

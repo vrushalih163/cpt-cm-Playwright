@@ -5,6 +5,7 @@ import { test, expect, Browser, BrowserContext, chromium, Page } from '@playwrig
 import { AddEditTaskModal } from '../../pages/Transition_Pages/AddEditTaskModal';
 import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
 import { LIB } from '../../bizLibs/lib';
+const { TransitionlaunchUrl } = process.env;
 
 test('CM- Transition Management Page - User Can Add Tasks on the Transition Referral Landing Page and Within a Referral', async ({ }) => {
     test.setTimeout( 5 * 60 * 1000);//5mins in milliseconds
@@ -13,7 +14,7 @@ test('CM- Transition Management Page - User Can Add Tasks on the Transition Refe
     const Library = new LIB();
 
     //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-    const newPage = await Library.HandleAppLaunch('Cadence, Anna','E1703','Manage Referrals');
+    const newPage = await Library.HandleAppLaunch('Cadence, Anna','E1703','Manage Referrals', TransitionlaunchUrl);
 
     //Click on patient task worklist icon manage referral page.
     const PTaskWorklist = new ManageReferral(newPage);
