@@ -1,8 +1,10 @@
-//Author Asha Fernandes Story ID: CCM:20468
+//Author Asha Fernandes Story ID: CCM:20468 CM CRI Logout
+
 import { test, expect } from '../../pages/PageStart';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
 const {user, password} = process.env
+
 test('CRI Logout', async ({ page }) => {
   
   // Login to Org
@@ -13,8 +15,11 @@ test('CRI Logout', async ({ page }) => {
   await page2.waitForTimeout(5000);
   await expect(page1.getByRole('heading', { name: 'CarePort Referral Intake' })).toBeVisible();
   await expect(page1.locator('h3')).toContainText('CarePort Referral Intake');
+
   // Verify Logoff link is visible
   await expect(page1.getByRole('link', { name: '' })).toBeVisible();
+
   //Click on Logoff link
   await page1.getByRole('link', { name: '' }).click();
+
 });
