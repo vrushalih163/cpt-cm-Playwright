@@ -25,7 +25,9 @@ export class IncomingReferralsEnhancedViewPage {
     let isVisible = await this.page.isVisible(elementSelector);
 
     do {
-      await this.page.getByRole('link', { name: 'Maximize Panel' }).click();
+      if (await this.page.locator('#viewsearchmaximizedlink'))
+        await this.page.locator('#viewsearchmaximizedlink').click();
+      await this.page.waitForTimeout(2000);
       await this.page.getByRole('button', { name: 'Defaults' }).click();
       await this.page.locator('#ViewSearchBar_ReferralID').click();
       await this.page.locator('#ViewSearchBar_ReferralID').fill((await referralId).toString());

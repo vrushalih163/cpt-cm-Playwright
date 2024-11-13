@@ -1,18 +1,40 @@
+//Author - Nagapradeep Kolasani Date: 11th November 2024
+//Modified - Rajakumar Maste Date: 13th November, 2024
 import { test, expect } from '@playwright/test';
+import { LIB } from '../../bizLibs/lib';
+import { ManageReferral } from '../../pages/Transition_Pages/ManageReferralPage';
+import { ProviderSearchPage } from '../../pages/Transition_Pages/ProviderSearchPage';
+import { ProviderTab } from '../../pages/Transition_Pages/ProviderTabPage';
 
-test('test', async ({ page }) => {
-  await page.goto('https://pv02.extendedcare.health/');
-  const page1Promise = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Log In' }).click();
-  const page1 = await page1Promise;
-  await page1.locator('#UserNameTextBox').click();
-  await page1.locator('#UserNameTextBox').fill('nkolasani');
-  await page1.locator('#UserNameTextBox').press('Tab');
-  await page1.locator('#PasswordTextBox').fill('Organization=17');
-  await page1.getByText('Log In').click();
-  await page1.goto('https://pv02.extendedcare.health/professional/AngularPages/Home/Dashboard.aspx/home/dashboard');
-  await page1.goto('https://pv02.extendedcare.health/professional/AngularPages/Home/Dashboard.aspx/home/dashboard');
-  await page1.getByRole('heading', { name: 'Automation Selection Factor' }).click();
+
+const { QAProvider1, QAProvider2 } = process.env;
+const ReferralType = 'Automation - With Selection Factor';
+const SelectionFactor = 'Active with Agency';
+
+test('Transition - Support Selection Factors', async ({ }) => {
+  // Step 1: Launch EPIC on FHIR or Transition application
+  const Library = new LIB();
+
+  const newPage = await Library.HandleAppLaunch('Grand Central, John', 'E3228', 'Manage Referrals');
+  const MngReferral = new ManageReferral(newPage);
+
+  // Step 2: Click on Create referral and select 'Automation - Transportation' referral type and click on Create Referral.
+  await MngReferral.CreateNewReferral(ReferralType);
+
+  // Select the provider and send the referral
+  const providerSearch = new ProviderSearchPage(newPage);
+  await providerSearch.ClickSearchProviderButton();
+  await providerSearch.SearchProvider(QAProvider1);
+  //await providerSearch.SelectProvider(QAProvider2);
+  await providerSearch.SendReferral();
+  await MngReferral.ClickFirstReferral();
+
+  const Provdertab = new ProviderTab(newPage);
+  await Provdertab.Click_EllipseIcon(1);
+  await Provdertab.SelectedProvider_Dropdown(QAProvider1);
+  await Provdertab.SelectionFactor_OptionSelection(SelectionFactor);
+
+
   await page1.getByRole('row', { name: 'QA Provider #1 (80891)   555-' }).locator('#anchorMenu').click();
   await page1.getByRole('menuitem', { name: 'Place Referral' }).click();
   await expect(page1.locator('div').filter({ hasText: /^Selection Factors \*$/ }).nth(3)).toBeVisible();

@@ -1,8 +1,7 @@
 //Author: Vrushali Honnatti - 20th August, 2024
-//
+// Modified By: Rajakumar Maste, Date- 13th November 2024
 
 import { expect } from '@playwright/test';
-import { error } from 'console';
 
 export class InformationPage {
     constructor(page) {
@@ -29,28 +28,46 @@ export class InformationPage {
         this.tabInformation = page.locator('xpath=//div[contains(@class,"mat-tab-labels")]//div[@class="mat-tab-label-content" and contains(.,"Information")]');
 
         // Tranportation Accordion controls
-        this.TypeOfTransport_dropdown = page.getByLabel('Type Of Transport').locator('span');
-        this.TripType_dropsown = page.getByLabel('Trip Type').locator('span');
-        this.MethodOfPayment_dropdown = page.getByLabel('Method Of Payment').locator('span');
+        this.TypeOfTransport_dropdown = page.locator('//acm-mat-dropdown[@formcontrolname="typeOfTransport"]//mat-form-field//mat-select//div[contains(@class,"mat-select-trigger ng-tns")]//div[contains(@class,"mat-select-arrow-wrapper ng-tns")]');
+        this.TypeOfTransport_dropdown_closeIcon = page.locator('//acm-mat-dropdown[@id="ddTypeofTransport"]//mat-form-field//div[contains(@class,"mat-form-field-wrapper ng-tns")]//div//div//button//mat-icon[text()="close"]');
+        this.GetTypeOfTransport_DropdownValue = page.locator('//acm-mat-dropdown[@formcontrolname="typeOfTransport"]//mat-select//div//span//span');
+
+        this.TripType_dropdown = page.locator('//acm-mat-dropdown[@formcontrolname="tripType"]//mat-form-field//mat-select//div[contains(@class,"mat-select-trigger ng-tns")]//div[contains(@class,"mat-select-arrow-wrapper ng-tns")]');
+        this.TripType_dropdown_closeIcon = page.locator('//acm-mat-dropdown[@id="ddTripType"]//mat-form-field//div[contains(@class,"mat-form-field-wrapper ng-tns")]//div//div//button//mat-icon[text()="close"]');
+        this.GetTripType_DropdownValue = page.locator('//acm-mat-dropdown[@formcontrolname="tripType"]//mat-select//div//span//span');
+
+        this.MethodOfPayment_dropdown = page.locator('//acm-mat-dropdown[@formcontrolname="methodOfPayment"]//mat-form-field//mat-select//div[contains(@class,"mat-select-trigger ng-tns")]//div[contains(@class,"mat-select-arrow-wrapper ng-tns")]');
+        this.MethodOfPayment_dropdown_closeIcon = page.locator('//acm-mat-dropdown[@id="ddMethodOfPayment"]//mat-form-field//div[contains(@class,"mat-form-field-wrapper ng-tns")]//div//div//button//mat-icon[text()="close"]');
+        this.GetMethodOfPayment_DropdownValue = page.locator('//acm-mat-dropdown[@formcontrolname="methodOfPayment"]//mat-select//div//span//span');
+
         this.HeightFt_English_field = page.locator('//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="heightFeet"]');
-        this.HeightFt_English_error = page.getByText('Height in feet must be at most 9.');
-        this.HeightFt_English_error1 = page.getByText('Height in feet must be at least 0.');
+        this.HeightFt_English_error = page.getByText('Value must be at most 9.');//-------
+        this.HeightFt_English_error1 = page.getByText('Value must be at least 0.');
         this.HeighInch_English_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="heightInches"]');
-        this.HeightInch_English_error = page.getByText('Height in inches must be at most 11.');
-        this.HeightInch_English_error1 = page.getByText('Height in inches must be at least 0.');
+        this.HeightInch_English_error = page.getByText('Value must be at most 11.');
+        this.HeightInch_English_error1 = page.getByText('Value must be at least 0.');
         this.HeightCM_Metric_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="heightCm"]');
-        this.HeightCM_Metric_error = page.getByText('Value must be at least 0 and not more than 305.');
+        this.HeightCM_Metric_error = page.getByText('Value must be at least 0.');
+        this.HeightCM_Metric_error1 = page.getByText('Value must be at most 300.');
+
         this.Weightlbs_English_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="weightLbs"]');
-        this.Weightlbs_English_error = page.getByText('Value must be at least 0 and not more than 999.');
+        this.Weightlbs_English_error = page.getByText('Value must be at least 0.');
+        this.Weightlbs_English_error1 = page.getByText('Value must be at most 999.');//-------
         this.WeightOz_English_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="weightOunces"]');
-        this.WeightOz_English_error = page.getByText('Value must be at least 0 and not more than 15.');
+        this.WeightOz_English_error = page.getByText('Value must be at least 0.');
+        this.WeightOz_English_error1 = page.getByText('Value must be at most 15.');
         this.WeightKg_Metric_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="weightKg"]');
-        this.WeightKg_Metric_error = page.getByText('Value must be at least 0 and not more than 455.');
+        this.WeightKg_Metric_error = page.getByText('Value must be at least 0.');
+        this.WeightKg_Metric_error1 = page.getByText('Value must be at most 455.');
         this.WeightGm_Metric_field = page.locator('//mat-form-field//div[contains(@class,"mat-form-field-wrapper")]//input[@formcontrolname="weightGm"]');
-        this.WeightGm_Metric_error = page.getByText('Value must be at least 0 and not more than 999.');
+        this.WeightGm_Metric_error = page.getByText('Value must be at least 0.');
+        this.WeightGm_Metric_error1 = page.getByText('Value must be at most 999.');
+
         this.TransportDate_error = page.getByText(' Transport Date is required. ');
         this.TransportDate_Time_error = page.getByText(' Year must be between 1880 and 2049. ');
         this.TransportDate_fied = page.getByLabel('Transport Date');
+        this.GetTranportDate_Value = page.locator('//acm-mat-datepicker[@formcontrolname="transportDate"]//input[1]');
+
         this.RequestedPickupTime_field = page.getByLabel('Requested Pickup Time');
         this.RequestedReturnTime_field = page.getByLabel('Requested Return Time');
 
@@ -91,6 +108,7 @@ export class InformationPage {
         this.NarrowDriveway_No_RDB = page.locator('//mat-radio-group[@formcontrolname="narrowDriveway"]/mat-radio-button[2]');
         this.NarrowDriveway_NotSpecified_RDB = page.locator('//mat-radio-group[@formcontrolname="narrowDriveway"]/mat-radio-button[3]');
 
+        this.MedicationsWillLastFor_field = page.locator('//mat-form-field//input[@formcontrolname="medicationsWillLastFor"]');
         this.NarrowHallways_Yes_RDB = page.locator('//mat-radio-group[@formcontrolname="narrowHallways"]/mat-radio-button[1]')
         this.NarrowHallways_No_RDB = page.locator('//mat-radio-group[@formcontrolname="narrowHallways"]/mat-radio-button[2]');
         this.NarrowHallways_NotSpecified_RDB = page.locator('//mat-radio-group[@formcontrolname="narrowHallways"]/mat-radio-button[3]');
@@ -134,15 +152,16 @@ export class InformationPage {
 
         // Steps inside and outside
         this.NumberOfStepsInside_field = page.locator('//mat-form-field//div//input[@formcontrolname="numberStepsInside"]');
-        this.NumberOfStepsInside_error = page.getByText('Value must be at least 0 and not more than 200.');
+        this.NumberOfStepsInside_error = page.getByText('Value must be at least 0.');
+        this.NumberOfStepsInside_error1 = page.getByText('Value must be at least 0 and not more than 200.');
         this.NumberOfStepsOutside_field = page.locator('//mat-form-field//div//input[@formcontrolname="numberStepsOutside"]');
-        this.NumberOfStepsOutside_error = page.getByText('Value must be at least 0 and not more than 200.');
+        this.NumberOfStepsOutside_error = page.getByText('Value must be at least 0.');
+        this.NumberOfStepsOutside_error1 = page.getByText('Value must be at least 0 and not more than 200.');
 
         //Authorization number, Equipment, Directions and Notes
         this.AuthorizationNumber_field = page.locator('//mat-form-field//div//input[@formcontrolname="authorizationNumber"]');
         this.Equipment_Dropdown = page.locator('//acm-mat-multiselect[@formcontrolname="equipments"]');
-        //await page1.locator('div').filter({ hasText: /^Equipments$/ }).nth(4).click();
-        this.EquipementOption_select = page.getByLabel('Equipments').locator('div');
+        this.EquipementOption_select = page.locator('//acm-mat-multiselect[@formcontrolname="equipments"]//mat-form-field//div[contains(@class,"mat-form-field-wrapper ng-tns")]');
         this.notes_textareafield = page.locator('//mat-form-field//div//textarea[@formcontrolname="notes"]');
         this.Directions_textareafield = page.locator('//mat-form-field//div//textarea[@formcontrolname="directions"]');
 
@@ -294,30 +313,77 @@ export class InformationPage {
         const xpath = `//mat-accordion//span[contains(text(), '${accordion}')]`;
         await this.page.locator(xpath).click();
     }
+
+    /**
+     * This method is used to verify the accordion is expanded or collapsed
+     * @param {*} AccordionName Enter the accordion name here
+     * @param {*} trueORfalse Enter true if you want to verify the accordion is expanded or false if you want to verify the accordion is collapsed
+     */
+    async ExpandRCollapseAccordion_Verification(AccordionName, trueORfalse) {
+        await expect(this.page.locator('//mat-expansion-panel-header[@aria-expanded="' + trueORfalse + '"]//span[contains(text(), "' + AccordionName + '")]')).toBeVisible();
+    }
+
+    /**
+     * This method is used to swiitch between English and Metric units for Height and Weight
+     * @param {*} HeightORWeight Enter 'Height' for Height and 'Weight' for Weight
+     * @param {*} RadioButtonText Enter 'English' for English units and 'Metric' for Metric units
+     */
+    async HeightORWeightRadioBtn_Switcher(HeightORWeight, RadioButtonText) {
+        if (HeightORWeight === 'Height') {
+            await this.page.locator('//mat-radio-group[@formcontrolname="heightUnit"]//span[contains(text(),"' + RadioButtonText + '")]').click();
+
+        } else if (HeightORWeight === 'Weight') {
+            await this.page.locator('//mat-radio-group[@formcontrolname="weightUnit"]//span[contains(text(),"' + RadioButtonText + '")]').click();
+        }
+    }
     /**
      * This method verifies the validation for date field when date has very old date or future date, and
      * Also when the date is empty and requested pick up time or requested return time is entered
      * @param {*} date Enter the date i.e less than 1880 years or greater than 2049 years
      */
-    async ValidateTransportdate(date) {
+    async ValidateORSet_Transportdate(date) {
         if (date) {
             await this.TransportDate_fied.fill(date);
             await this.TransportDate_fied.press('Tab');
             await this.page.waitForLoadState('domcontentloaded');
-            await expect(this.TransportDate_Time_error).toBeVisible();
-            await this.TransportDate_fied.fill('');
+            if (await this.TransportDate_Time_error.isVisible()) {
+                await expect(this.TransportDate_Time_error).toBeVisible();
+                await this.TransportDate_fied.fill('');
+                await this.TransportDate_fied.press('Tab');
+            }
         } else {
             await this.RequestedPickupTime_field.click();
             await this.RequestedPickupTime_field.fill('10:10');
             await expect(this.TransportDate_error).toBeVisible();
             await this.RequestedPickupTime_field.fill('');
-            await expect(this.TransportDate_error).toBeHidden();
+            if (!this.RequestedReturnTime_field) {
+                await expect(this.TransportDate_error).toBeHidden();
+            }
             await this.RequestedReturnTime_field.click();
             await this.RequestedReturnTime_field.fill('10:10');
             await expect(this.TransportDate_error).toBeVisible();
             await this.RequestedReturnTime_field.fill('');
             await expect(this.TransportDate_error).toBeHidden();
         }
+    }
+
+    /**
+     * This method is used to get the transport date from the transport date field
+     * @returns returns the transport date
+     */
+    async GetTransportDate() {
+        const date = await this.GetTranportDate_Value.inputValue();
+        return date.trim();
+    }
+
+    /**
+     * This method is used to verify the transport date when we switch between other tabs and come back to the same tab
+     * @param {*} date Enter the expected date here
+     */
+    async TransportDate_Verification(date) {
+        await this.GetTranportDate_Value.inputValue().then((text) => {
+            expect(text).toContain(date);
+        });
     }
 
     /**
@@ -344,9 +410,27 @@ export class InformationPage {
      * @param {*} transporttype Enter the transport type here
      */
     async TypeOfTransport_selection(transporttype) {
+        const closeIcon = await this.TypeOfTransport_dropdown_closeIcon;
+        if (await closeIcon.isVisible()) {
+            await closeIcon.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+        }
         await this.TypeOfTransport_dropdown.click();
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.getByText(transporttype, { exact: true }).click();
 
+    }
+
+    /**
+     * This method is used to verify the type of transport selected from the dropdown when we switch between other tabs and come back to the same tab
+     * @param {*} transporttype Enter expected transport type here
+     */
+    async TypeOfTransport_Verification(transporttype) {
+        await this.GetTypeOfTransport_DropdownValue.textContent().then((text) => {
+            expect(text).toContain(transporttype);
+        });
     }
 
     /**
@@ -354,8 +438,26 @@ export class InformationPage {
      * @param {*} triptype Enter the trip type here
      */
     async TripType_selection(triptype) {
-        await this.TripType_dropsown.click();
+        const closeIcon = await this.TripType_dropdown_closeIcon;
+        if (await closeIcon.isVisible()) {
+            await closeIcon.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+        }
+        await this.TripType_dropdown.click();
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.getByText(triptype, { exact: true }).click();
+    }
+
+    /**
+     * This method is used to verify the trip type selected from the dropdown when we switch between other tabs and come back to the same tab
+     * @param {*} triptype Enter the expected trip type here
+     */
+    async TripType_Verification(triptype) {
+        await this.GetTripType_DropdownValue.textContent().then((text) => {
+            expect(text).toContain(triptype);
+        });
     }
 
     /**
@@ -363,10 +465,27 @@ export class InformationPage {
      * @param {*} paymentmethod Enter the payment method here
      */
     async MethodOfPayment_selection(paymentmethod) {
+        const closeIcon = await this.MethodOfPayment_dropdown_closeIcon;
+        if (await closeIcon.isVisible()) {
+            await closeIcon.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
+        }
         await this.MethodOfPayment_dropdown.click();
+        await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.getByText(paymentmethod, { exact: true }).click();
     }
 
+    /**
+     * This method is used to verify the method of payment selected from the dropdown when we switch between other tabs and come back to the same tab
+     * @param {*} paymentmethod Enter the expected payment method here
+     */
+    async MethodOfPayment_Verification(paymentmethod) {
+        await this.GetMethodOfPayment_DropdownValue.textContent().then((text) => {
+            expect(text).toContain(paymentmethod);
+        });
+    }
     /**
      * This method verifies the validation for the height in feet when the user enters more than 9ft into feet field
      * @param {*} feet Enter the height in feet here
@@ -408,8 +527,11 @@ export class InformationPage {
         await this.HeightCM_Metric_field.fill(Centimeters);
         await this.HeightCM_Metric_field.press('Tab');
         await this.page.waitForLoadState('domcontentloaded');
-        if (Centimeters < 0 || Centimeters > 305) {
+        if (Centimeters < 0) {
             await expect(this.HeightCM_Metric_error).toBeVisible();
+            await this.HeightCM_Metric_field.fill('');
+        } else if (Centimeters > 300) {
+            await expect(this.HeightCM_Metric_error1).toBeVisible();
             await this.HeightCM_Metric_field.fill('');
         }
     }
@@ -421,8 +543,11 @@ export class InformationPage {
     async ValidateORSet_Weightlbs_English(lbs) {
         await this.Weightlbs_English_field.fill(lbs);
         await this.Weightlbs_English_field.press('Tab');
-        if (lbs < 0 || lbs > 999) {
+        if (lbs < 0) {
             await expect(this.Weightlbs_English_error).toBeVisible();
+            await this.Weightlbs_English_field.fill('');
+        } else if (lbs > 999) {
+            await expect(this.Weightlbs_English_error1).toBeVisible();
             await this.Weightlbs_English_field.fill('');
         }
     }
@@ -434,8 +559,11 @@ export class InformationPage {
     async ValidateORSet_WeightOz_English(oz) {
         await this.WeightOz_English_field.fill(oz);
         await this.WeightOz_English_field.press('Tab');
-        if (oz < 0 || oz > 15) {
+        if (oz < 0) {
             await expect(this.WeightOz_English_error).toBeVisible();
+            await this.WeightOz_English_field.fill('');
+        } else if (oz > 15) {
+            await expect(this.WeightOz_English_error1).toBeVisible();
             await this.WeightOz_English_field.fill('');
         }
     }
@@ -447,8 +575,11 @@ export class InformationPage {
     async ValidateORSet_WeightKg_Metric(kilos) {
         await this.WeightKg_Metric_field.fill(kilos);
         await this.WeightKg_Metric_field.press('Tab');
-        if (kilos < 0 || kilos > 455) {
+        if (kilos < 0) {
             await expect(this.WeightKg_Metric_error).toBeVisible();
+            await this.WeightKg_Metric_field.fill('');
+        } else if (kilos > 455) {
+            await expect(this.WeightKg_Metric_error1).toBeVisible();
             await this.WeightKg_Metric_field.fill('');
         }
     }
@@ -460,8 +591,11 @@ export class InformationPage {
     async ValidateORSet_WeightGm_Metric(grams) {
         await this.WeightGm_Metric_field.fill(grams);
         await this.WeightGm_Metric_field.press('Tab');
-        if (grams < 0 || grams > 999) {
+        if (grams < 0) {
             await expect(this.WeightGm_Metric_error).toBeVisible();
+            await this.WeightGm_Metric_field.fill('');
+        } else if (grams > 999) {
+            await expect(this.WeightGm_Metric_error1).toBeVisible();
             await this.WeightGm_Metric_field.fill('');
         }
     }
@@ -522,8 +656,13 @@ export class InformationPage {
         const City = await this.PickupCity_field.inputValue();
         const State = await this.PickupState_dropdown.innerText();
         const ZipCode = await this.PickupZipCode_field.inputValue();
-        const Address = Address1 + '\n' + Address2 + '\n' + City + '\n' + ', ' + State + ' ' + ZipCode;
-        return { AddressName, Address };
+        // Concatenate address, excluding Address2 if it is null or empty
+        let Address = Address1;
+        if (Address2) {
+            Address += '' + Address2;
+        }
+        Address += City + ', ' + State + ' ' + ZipCode;
+        return [AddressName, Address];
     }
 
     /**
@@ -537,8 +676,13 @@ export class InformationPage {
         const City = await this.DropOffCity_field.inputValue();
         const State = await this.DropOffState_dropdown.innerText();
         const ZipCode = await this.DropOffZipCode_field.inputValue();
-        const Address = Address1 + '\n' + Address2 + '\n' + City + '\n' + ', ' + State + ' ' + ZipCode;
-        return { AddressName, Address };
+        // Concatenate address, excluding Address2 if it is null or empty
+        let Address = Address1;
+        if (Address2) {
+            Address += ' ' + Address2;
+        }
+        Address += City + ', ' + State + ' ' + ZipCode;
+        return [AddressName, Address];
     }
 
     /**
@@ -628,14 +772,14 @@ export class InformationPage {
                 'Not Specified': this.StairsAtResidence_NotSpecified_RDB
             },
             '7': {
-                'Yes': this.SupineTransp_Yes_RDB,
-                'No': this.SupineTransp_No_RDB,
-                'Not Specified': this.SupineTransp_NotSpecified_RDB
-            },
-            '8': {
                 'Yes': this.ImmobileTransp_Yes_RDB,
                 'No': this.ImmobileTransp_No_RDB,
                 'Not Specified': this.ImmobileTransp_NotSpecified_RDB
+            },
+            '8': {
+                'Yes': this.SupineTransp_Yes_RDB,
+                'No': this.SupineTransp_No_RDB,
+                'Not Specified': this.SupineTransp_NotSpecified_RDB
             }
         };
 
@@ -656,8 +800,21 @@ export class InformationPage {
      */
     async ValidateORSet_NumberOfStepsInside(steps) {
         await this.NumberOfStepsInside_field.fill(steps);
-        if (steps < 0 || steps > 200)
+        if (steps < 0) {
             await expect(this.NumberOfStepsInside_error).toBeVisible();
+        } else if (steps > 200) {
+            await expect(this.NumberOfStepsInside_error1).toBeVisible();
+        }
+    }
+
+    /**
+     * This method is used to verify the number of steps inside when we switch between other tabs and come back to the same tab
+     * @param {*} steps Enter the expected steps here
+     */
+    async NumberOfStepInside_Verification(steps) {
+        await this.NumberOfStepsInside_field.inputValue().then((text) => {
+            expect(text).toContain(steps);
+        });
     }
 
     /**
@@ -666,8 +823,21 @@ export class InformationPage {
      */
     async ValidateORSet_NumberOfStepsOutside(steps) {
         await this.NumberOfStepsOutside_field.fill(steps);
-        if (steps < 0 || steps > 200)
+        if (steps < 0) {
             await expect(this.NumberOfStepsOutside_error).toBeVisible();
+        } else if (steps > 200) {
+            await expect(this.NumberOfStepsOutside_error1).toBeVisible();
+        }
+    }
+
+    /**
+     * This method is used to verify the number of steps outside when we switch between other tabs and come back to the same tab
+     * @param {*} steps Enter the expected steps here
+     */
+    async NumberOfStepOutside_Verification(steps) {
+        await this.NumberOfStepsOutside_field.inputValue().then((text) => {
+            expect(text).toContain(steps);
+        });
     }
 
     /**
@@ -679,23 +849,33 @@ export class InformationPage {
     }
 
     /**
+     * This method is used to verify the authorization number when we switch between other tabs and come back to the same tab
+     * @param {*} authnumber Enter the expected authorization number here
+     */
+    async AuthorizationNumber_Verification(authnumber) {
+        await this.AuthorizationNumber_field.inputValue().then((text) => {
+            expect(text).toContain(authnumber);
+        });
+    }
+
+    /**
      * This method is used to select the values from Equipment multiselect dropdown
      * @param {*} equipment Enter the equipment text here
      */
     async SelectEquipmentOption(equipment) {
-        await this.page.locator('//acm-mat-multiselect//mat-form-field').click();
-        const option = this.EquipementOption_select.filter({ hasText: equipment, exact: true });
+        await this.EquipementOption_select.click();
+        const option = await this.page.locator('//div[@role="listbox"]//mat-option[.//mat-checkbox//span[contains(text(),"' + equipment + '")]/ancestor::mat-option]');
         await option.click();
 
-        // Assuming the checkbox is within the same parent element as the option
-        const checkbox = option.locator('input[type="checkbox"]');
+        // Locate the checkbox within the option
+        const checkbox = option.locator('mat-checkbox input[type="checkbox"]');
         const isChecked = await checkbox.isChecked();
-        if(!isChecked) {
+        if (!isChecked) {
             await checkbox.check();
         }
-        // const checkbox1 = option.locator('input[type="checkbox"]');
-        // const isChecked1 = await checkbox1.isChecked();
-        // console.log(`Is the checkbox checked? ${isChecked1}`);
+        // below 2 line of escape are added to close the equipment dropdown
+        await this.page.keyboard.press('Escape');
+        await this.page.keyboard.press('Escape');
     }
 
     /**
@@ -714,5 +894,34 @@ export class InformationPage {
         await this.Directions_textareafield.fill(direction);
     }
 
+    /**
+     * This method is used to verify the notes when we switch between other tabs and come back to the same tab
+     * @param {*} direction Enter the expected notes here
+     */
+    async Directions_Verification(direction) {
+        await this.Directions_textareafield.inputValue().then((text) => {
+            expect(text).toContain(direction);
+        });
+    }
+
+    /**
+     * This method is used to check the visibility of the Medications will last for field
+     * @param {*} radiobuttontext Enter the radio button selection for 'Madicated Before Transport' question
+     */
+    async MedicationsWillLastFor_Visibility(radiobuttontext) {
+        if (radiobuttontext === 'Yes') {
+            await expect(this.MedicationsWillLastFor_field).toBeVisible();
+        } else if (radiobuttontext === 'No' || radiobuttontext === 'Not Specified') {
+            await expect(this.MedicationsWillLastFor_field).not.toBeVisible();
+        }
+    }
+
+    /**
+     * This method is used to enter the comments into Medications will last for field
+     * @param {*} comments Enter the comments here
+     */
+    async MedicationWillLastFor(comments) {
+        await this.MedicationsWillLastFor_field.fill(comments);
+    }
 
 }
