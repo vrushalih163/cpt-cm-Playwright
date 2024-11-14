@@ -82,7 +82,7 @@ export class RmPostauthSummaryPage {
 
     async selectLOC() {
         await this.page.getByLabel('Level of Care *').locator('div').nth(2).click();
-        await this.page.locator('xpath=//mat-option//span[@class="mat-option-text" and contains(.,"COVID-19: Willing/Equipped to accept")]').click();
+        await this.page.locator('xpath=//mat-option//span[@class="mat-option-text"]').first().click();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
     }

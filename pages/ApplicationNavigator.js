@@ -65,6 +65,14 @@ export class ApplicationNavigator {
 
     this.logOff_link = page.locator('//a[@title="Logoff"]');
 
+    // UM Configuration Links
+    this.UtilizationReview_link = page.getByRole('link', { name: 'Utilization Review ' });
+    this.UMConfig_link = page.getByRole('link', { name: 'Utilization Management Configuration' });
+
+    // Report links
+    this.reports_link = page.getByRole('link', { name: ' Reports' });
+    this.reportLibrary_link = page.getByRole('link', { name: 'Report Library' });
+
 
     //Referral lookup link
     this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
@@ -120,11 +128,10 @@ export class ApplicationNavigator {
    * Navigate to Referral Activity  -> Referral Activity Default View
    */
   async NavigateToReferralActivityDefaultViewPage(){
+    await this.page.waitForTimeout(2000);
     await this.manage_link.click();
-    await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
     await this.ReferralActivity_link.click();
-    await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
     await this.ReferralActivityDefaultView_link.click();
     await this.page.waitForLoadState('domcontentloaded');
@@ -172,7 +179,35 @@ export class ApplicationNavigator {
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
   }
+
   /**
+   * Navigate to Configure -> Utilization Review -> Utilization Management Configuration
+   * 
+   * @returns {Promise<void>}
+   */
+  async NavigateToUMConfiguration() {
+    await this.page.waitForTimeout(3000);
+    await this.configure_link.click();
+    await this.UtilizationReview_link.click();
+    await this.page.waitForTimeout(500);
+    await this.UMConfig_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
+
+  /**
+   * Navigate to Reports -> Report Library
+   */ 
+  async NavigateToReports() {
+    await this.reports_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.reportLibrary_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
+  
+/**
  * Clicks the security navigation elements based on the provided element names.
  */
 async ConfigureSecurityNavigation(elementNames) {

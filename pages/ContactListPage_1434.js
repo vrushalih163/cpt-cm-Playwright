@@ -18,7 +18,8 @@ async  SearchUser(userName){
       await this.searchUsers_dropDown.fill(userName);
       await this.searchUsers_dropDown.press('Enter');
       await this.page.waitForTimeout(1000);
-      await this.page.getByText('automation, qa').click();           
+      await this.page.getByText('automation, qa').first().click();
+      await this.page.waitForTimeout(2000);           
 }
 
 /**
@@ -29,6 +30,7 @@ async  ClickNotificationAssignedUser(flag){
       if(attributeValue !== flag)
       {
             await this.NotificationAssignedUser.click();
+            await this.page.waitForTimeout(2000);
       }
 }
 

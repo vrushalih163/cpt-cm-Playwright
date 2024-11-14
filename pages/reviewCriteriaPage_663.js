@@ -7,6 +7,8 @@ export class ReviewCriteriaPage {
     constructor(page) {
         this.page = page;
         this.next_button = page.getByRole('button', { name: 'Next' });
+        this.apply_button = page.getByRole('button', { name: 'Apply' });
+        this.UMStatus_dropdown = page.locator('#ddlUMStatus');
 
         //MCG Controls
         this.MCG_textbox = page.locator('#MedNecControl_txtGuidelineOutput');
@@ -19,6 +21,19 @@ export class ReviewCriteriaPage {
     async ClickNext() {
 
         await this.next_button.click();
+    }
+
+    async SetUMStatus(status) {
+
+        await this.UMStatus_dropdown.selectOption(status);
+    }
+
+    async ValidateUMStatus(status) {
+            
+            await expect(this.UMStatus_dropdown).toContainText(status);
+    }
+    async ClickApply() {
+        await this.apply_button.click();
     }
 
     async LaunchCermeAdGetData() {
