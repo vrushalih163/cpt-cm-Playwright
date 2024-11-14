@@ -7,7 +7,7 @@ import { TransitionContextNavigator } from '../../pages/Transition_Pages/Transit
 import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { LIB } from '../../bizLibs/lib';
 
-const { user, password, QAProvider1, QAProvider2, QAProvider3 } = process.env
+const { user, password, QAProvider1, QAProvider2, QAProvider3, TransitionlaunchUrl } = process.env
 
 test('103353_To Verify the electronic method of sharing workflow', async ({ }) => {
 
@@ -18,7 +18,7 @@ test('103353_To Verify the electronic method of sharing workflow', async ({ }) =
   const Library = new LIB();
 
   //calling HandleAppLaunch() method and passing - Patient name - MRN - Navigator page name
-  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);

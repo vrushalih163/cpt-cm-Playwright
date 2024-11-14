@@ -12,7 +12,7 @@ import { TransitionContextNavigator } from '../../pages/Transition_Pages/Transit
 import { LoginPage } from '../../pages/PageLogin_111';
 import { LIB } from '../../bizLibs/lib';
 
-const { user, password, QAProvider1, HSPProvider1, HSPProvider2 } = process.env
+const { user, password, QAProvider1, HSPProvider1, HSPProvider2, TransitionlaunchUrl } = process.env
 
 test('96487_Validate user search for providers through Provider Search and bring them back to Transition', async ({ }) => {
 
@@ -23,7 +23,7 @@ test('96487_Validate user search for providers through Provider Search and bring
   const Library = new LIB();
 
   //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals');
+  const newPage = await Library.HandleAppLaunch('Cadence, Anna', 'E1703', 'Manage Referrals', TransitionlaunchUrl);
 
   const ManageRef = new ManageReferral(newPage);
   const ProviderSearch = new ProviderSearchPage(newPage);

@@ -9,7 +9,7 @@ import { SCProviderSearch } from '../../pages/Transition_Pages/SharedChoice_Prov
 import { Mailslurp } from '../../pages/Transition_Pages/Mailslurp';
 import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { SharedChoiceContextNavigator } from '../../pages/Transition_Pages/SharedChoiceContextNavigator';
-const { MailSlurpEMailId } = process.env
+const { MailSlurpEMailId, TransitionlaunchUrl } = process.env
 const Providercount = 5;
 const ReferralType_Name = 'Automation - StandAlone PC';
 
@@ -23,7 +23,7 @@ test('Standalone PC - Shared Choice landing Page - Create Patient Choice and val
   await Library.CreateNewAdmissionForTransPatient('E3350','6572');
 
   //calling HandleAppLaunch() method and passing - Patient name, MRN, Navigator page name
-  const newPage = await Library.HandleAppLaunch('Optime, Omar', 'E3350', 'Patient Choice');
+  const newPage = await Library.HandleAppLaunch('Optime, Omar', 'E3350', 'Patient Choice', TransitionlaunchUrl);
 
   await expect(newPage.locator('#referralsPageTitle')).toBeVisible();
 

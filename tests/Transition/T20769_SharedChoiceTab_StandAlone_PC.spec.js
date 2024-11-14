@@ -8,7 +8,7 @@ import { SharedChoiceHomePage } from '../../pages/Transition_Pages/SharedChoiceH
 import { SharedChoice } from '../../pages/Transition_Pages/SharedChoicePage';
 import { SCProviderSearch } from '../../pages/Transition_Pages/SharedChoice_ProviderSearch';
 import { SharedChoiceContextNavigator } from '../../pages/Transition_Pages/SharedChoiceContextNavigator';
-const { MailSlurpEMailId } = process.env;
+const { MailSlurpEMailId, TransitionlaunchUrl } = process.env;
 const Providercount = 5;
 const ReferralType_Name = 'Automation - StandAlone PC';
 
@@ -17,7 +17,7 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
 
     //Step 1: Launch the Transition application for MRN-E1703
     const lib = new LIB();
-    const newPage = await lib.HandleAppLaunch('Grand Central, John', 'E3228', 'Patient Choice');
+    const newPage = await lib.HandleAppLaunch('Grand Central, John', 'E3228', 'Patient Choice', TransitionlaunchUrl);
     await newPage.waitForTimeout(2000);
 
     await expect(newPage.locator('#referralsPageTitle')).toBeVisible();

@@ -20,13 +20,13 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
 
   //Creating a Patient
   await page1.getByRole('link', { name: ' Manage' }).click();
-  await page1.waitForTimeout(3000);
+  await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'Patients ' }).click();
-  await page1.waitForTimeout(3000);
+  await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'Patients Default View' }).click();
-  await page1.waitForTimeout(3000);
+  await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'Add a Patient' }).click();
-  await page1.waitForTimeout(3000);
+  await page1.waitForTimeout(2000);
   await page1.getByLabel('MRN:').fill(uniquetext);
   await page1.getByLabel('MRN:').press('Tab');
   await page1.getByLabel('First Name:', { exact: true }).click();
@@ -51,7 +51,7 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   await page1.locator('#dtPatientAdmission_Time').fill('10:00 AM');
   await page1.locator('#txtPrimaryDiagnosis').click();
   await page1.locator('#txtPrimaryDiagnosis').fill('Testing - Pavan');
-  await page1.locator('#ddFacilityTypes').selectOption('874');
+  await page1.locator('#ddFacilityTypes').selectOption('3254');
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.waitForLoadState('domcontentloaded');
   await page1.waitForTimeout(2000);
@@ -59,11 +59,8 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
 //Assign facility to user in Myprofile page
   await page1.getByRole('link', { name: ' Info' }).click();
   await page1.getByRole('link', { name: 'My Profile' }).click();
-  await page1.waitForTimeout(2000);
   await page1.locator('#linkEditFacilityTyypeAssignments').click();
   await page1.getByRole('cell', { name: 'Facility Name Starts With' }).getByRole('textbox').click();
-  await page1.getByRole('cell', { name: 'Facility Name Starts With' }).getByRole('textbox').fill('Auto');
-  await page1.getByRole('button', { name: 'Filter' }).click();
   await page1.getByRole('row', { name: 'AUTO Facility1', exact: true }).getByRole('checkbox').check();
   page1.once('dialog', dialog => {
     console.log(`Dialog message: ${dialog.message()}`);
@@ -71,7 +68,6 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   });
   await page1.getByRole('button', { name: 'Save' }).click();
   await page1.waitForTimeout(2000);
-
   // Change Org to ECIN to enable Privacy settings org Cap
 
   await page1.getByRole('link', { name: ' Home' }).click();
@@ -79,10 +75,12 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'ECIN Administrative' }).click();
-  await page1.waitForTimeout(3000);
+  await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: ' Admin' }).click();
+  await page1.waitForTimeout(2000);
   await page1.getByRole('link', { name: 'Organization Lookup' }).click();
-  await page1.locator('#txtName').fill('CM Automation');
+  await page1.waitForTimeout(1000);
+  await page1.locator('#txtName').fill('CM Automation Hospital new');
   await page1.getByRole('button', { name: 'Search' }).click();
   await page1.waitForTimeout(2000);
   await page1.locator('#OrganizationsGrid-data-row-entity-index-0').getByRole('link', { name: '' }).click();
@@ -98,19 +96,25 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   await page1.getByRole('link', { name: ' Home' }).click();
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.waitForTimeout(2000);
-  await page1.getByRole('link', { name: 'CM Automation Hospital', exact: true }).click();
-  await page1.waitForTimeout(2000);
+  await page1.getByRole('link', { name: 'CM Automation Hospital New' }).click();
+  await page1.waitForTimeout(3000);
 
   
   //search Admission and verify the facility related admission is displayed.
   await page1.getByRole('link', { name: ' Manage' }).click();
+  await page1.waitForTimeout(1000);
   await page1.getByRole('link', { name: 'Admissions ' }).click();
-  await page1.getByRole('link', { name: 'Admissions Default View' }).click();
+  await page1.waitForTimeout(1000);
+  await page1.getByRole('link', { name: 'Pavan Admissions Default View' }).click();
+  await page1.waitForTimeout(1000);
   await page1.getByRole('link', { name: 'Maximize Panel' }).click();
+  await page1.waitForTimeout(1000);
   await page1.locator('#ViewSearchBar_AccountNumber').click();
   await page1.locator('#ViewSearchBar_AccountNumber').fill(Accnumber);
   await page1.getByRole('button', { name: 'Search' }).click();
-  await expect(page1.getByRole('cell', { name: 'Testing - Pavan', exact: true })).toBeVisible();
+  await page1.waitForTimeout(1000);
+  await expect(page1.locator('tr:nth-child(5) > td:nth-child(6)')).toBeVisible();
+  await expect(page1.locator('#ucViewGrid_dgView')).toContainText('Testing - Pavan');
 
   // Change Org to ECIN to disable Privacy settings org Cap
 
@@ -123,7 +127,7 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
  await page1.getByRole('link', { name: ' Admin' }).click();
  await page1.waitForTimeout(2000);
  await page1.getByRole('link', { name: 'Organization Lookup' }).click();
- await page1.locator('#txtName').fill('CM Automation');
+ await page1.locator('#txtName').fill('CM Automation Hospital new');
  await page1.getByRole('button', { name: 'Search' }).click();
  await page1.waitForTimeout(2000);
  await page1.locator('#OrganizationsGrid-data-row-entity-index-0').getByRole('link', { name: '' }).click();
@@ -140,7 +144,7 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   await page1.getByRole('link', { name: ' Home' }).click();
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.waitForTimeout(2000);
-  await page1.getByRole('link', { name: 'CM Automation Hospital', exact: true }).click();
+  await page1.getByRole('link', { name: 'CM Automation Hospital New' }).click();
   await page1.waitForTimeout(2000);
  
 //Unassign facility to user in myprofile page
@@ -169,7 +173,8 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
    await page1.waitForTimeout(2000);
    await page1.getByRole('link', { name: ' Admin' }).click();
    await page1.getByRole('link', { name: 'Organization Lookup' }).click();
-   await page1.locator('#txtName').fill('CM Automation');
+   //await page1.locator('#txtName').fill('CM Automation');
+   await page1.locator('#txtName').fill('CM Automation Hospital new');
    await page1.getByRole('button', { name: 'Search' }).click();
    await page1.waitForTimeout(2000);
    await page1.locator('#OrganizationsGrid-data-row-entity-index-0').getByRole('link', { name: '' }).click();
@@ -182,20 +187,27 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
    await page1.waitForTimeout(3000);
  
    //Naviagte back to test org
-   await page1.getByRole('link', { name: ' Home' }).click();
-   await page1.getByRole('link', { name: 'Change Organization' }).click();
-   await page1.waitForTimeout(2000);
-   await page1.getByRole('link', { name: 'CM Automation Hospital', exact: true }).click();
-   await page1.waitForTimeout(2000);
+  await page1.getByRole('link', { name: ' Home' }).click();
+  await page1.getByRole('link', { name: 'Change Organization' }).click();
+  await page1.waitForTimeout(2000);
+  //await page1.getByRole('link', { name: 'CM Automation Hospital', exact: true }).click();
+  await page1.getByRole('link', { name: 'CM Automation Hospital New' }).click();
+  await page1.waitForTimeout(2000);
+
 
   //search Admission and verify the facility related admission is not displayed
   await page1.getByRole('link', { name: ' Manage' }).click();
+  await page1.waitForTimeout(1000);
   await page1.getByRole('link', { name: 'Admissions ' }).click();
-  await page1.getByRole('link', { name: 'Admissions Default View' }).click();
+  await page1.waitForTimeout(1000);
+  await page1.getByRole('link', { name: 'Pavan Admissions Default View' }).click();
+  await page1.waitForTimeout(1000);
   await page1.getByRole('link', { name: 'Maximize Panel' }).click();
+  await page1.waitForTimeout(1000);
   await page1.locator('#ViewSearchBar_AccountNumber').click();
   await page1.locator('#ViewSearchBar_AccountNumber').fill(Accnumber);
   await page1.getByRole('button', { name: 'Search' }).click();
+  await page1.waitForTimeout(1000);
   await expect(page1.locator('p').filter({ hasText: 'No records found.' })).toBeVisible();
   await page1.waitForTimeout(2000);
 
@@ -206,10 +218,11 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
  await page1.getByRole('link', { name: 'Change Organization' }).click();
  await page1.waitForTimeout(2000);
  await page1.getByRole('link', { name: 'ECIN Administrative' }).click();
+  await page1.waitForTimeout(2000);
  await page1.getByRole('link', { name: ' Admin' }).click();
  await page1.waitForTimeout(2000);
  await page1.getByRole('link', { name: 'Organization Lookup' }).click();
- await page1.locator('#txtName').fill('CM Automation');
+ await page1.locator('#txtName').fill('CM Automation Hospital new');
  await page1.getByRole('button', { name: 'Search' }).click();
  await page1.waitForTimeout(2000);
  await page1.locator('#OrganizationsGrid-data-row-entity-index-0').getByRole('link', { name: '' }).click();

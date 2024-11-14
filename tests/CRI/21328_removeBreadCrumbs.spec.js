@@ -39,5 +39,6 @@ if (await page1.locator('#txtbxComments').isEnabled()) {
   await page1.getByRole('link', { name: ' Home' }).click();
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.getByRole('link', { name: 'Allscripts QA Provider 50 -' }).click();
+  // Verify the breadcrumbs for CRI Homepage breadcrumbs are not visble
   await expect(page1.locator('#PagePathID')).not.toBeVisible()
 });
