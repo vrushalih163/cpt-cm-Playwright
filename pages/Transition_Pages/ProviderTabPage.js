@@ -9,13 +9,17 @@ export class ProviderTab {
 
         //selection factor controller
         this.Place_Referral = page.locator('//div//a[contains(text(), "Place Referral")]');
+        this.Unplace_Referral = page.locator('//div//a[contains(text(), "Place Referral")]');
         this.SelectedProvider_dropdown = page.locator('//div//mat-select[@formcontrolname="providerNameControl"]//div[contains(@class, "mat-select-trigger ng-tns")]');
         this.SelectionFactor_dropdown = page.locator('//acm-mat-multiselect[@caption="Selection Factors"]');
         this.SelectionFactor_materror = page.getByText(' Please select at least one factor. ', { exact: true });
         this.Place_Btn = page.getByRole('button', { name: 'Place', exact: true });
         this.Placed_label = page.locator('//p//label[contains(text(), "Placed")]');
         this.Edit_icon = page.locator('//p//mat-icon[contains(text(), "edit")]');
-        this.UpdateSelFact_btn = page.getByRole('Button', {name: 'Update Selection Factors',exact: true});
+        this.UpdateSelFact_btn = page.getByRole('button', {name: 'Update Selection Factors',exact: true});
+        this.Unplace_Btn = page.getByRole('button', { name: 'Unplace'});
+        this.ReferralPlaced_Toast = page.getByText('Success: Referral placed');
+        this.ReferralUnplaced_Toast = page.getByText('Success: Referral Unplaced');
         
 
     }
@@ -33,6 +37,13 @@ export class ProviderTab {
      */
     async Click_PlaceReferral() {
         await this.Place_Referral.click();
+    }
+
+    /**
+     * This method is used to click on unplace referral option
+     */
+    async Click_UnPlaceReferral() {
+        await this.Unplace_Referral.click();
     }
 
     /**
@@ -87,6 +98,31 @@ export class ProviderTab {
         await this.page.keyboard.press('Escape');
         expect(this.SelectionFactor_materror).toBeVisible();
     }
+
+    /**
+     * This method is used to validate the Selection Factors dropdown validation message on Edit modal
+     */
+    async  SelectionFactor_ValidationOnEditModal() {
+        // Click to open the dropdown
+        await this.SelectionFactor_dropdown.click();
+    
+        // Locate all options within the dropdown
+        const options = await this.page.locator('//div[@role="listbox"]//mat-option');
+    
+        // Iterate through each option and uncheck the checkbox if it is checked
+        for (let i = 0; i < await options.count(); i++) {
+            const option = options.nth(i);
+            const checkbox = option.locator('mat-checkbox input[type="checkbox"]');
+            const isChecked = await checkbox.isChecked();
+            if (isChecked) {
+                await checkbox.uncheck();
+            }
+        }
+    
+        // Close the dropdown
+        await this.page.keyboard.press('Escape');
+        expect(this.SelectionFactor_materror).toBeVisible();
+    }
     
     /**
      * This method is used to check the Place button is disabled or not
@@ -113,14 +149,14 @@ export class ProviderTab {
      * This method is used to validate the toast message after placing the referral
      */
     async ReferralPlaced_ToastMessage() {
-        await expect(this.page.getByText('Success: Referral placed')).toBeVisible();
+        await expect(this.ReferralPlaced_Toast).toBeVisible();
     }
 
     /**
      * This method is used to validate the toast message after unplacing the referral
      */
     async ReferralUnPlaced_ToastMessage() {
-        await expect(this.page.getByText('Success: Referral Unplaced')).toBeVisible();
+        await expect(this.ReferralUnplaced_Toast).toBeVisible();
     }
 
     /**
@@ -144,5 +180,11 @@ export class ProviderTab {
         await this.UpdateSelFact_btn.click();
     }
 
+    /**
+     * This method is used to click on unplace button on unplace referral modal
+     */
+    async UnPlaceBtn_Click() {
+        await this.Unplace_Btn.click();
+    }
 
 }
