@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('88073_2051111 Reporting Solution - User Activity and Productivity', async ({ page }) => {
   await page.goto('https://pv02.extendedcare.health/');
   const page1Promise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Log In' }).click();
@@ -30,41 +30,20 @@ test('test', async ({ page }) => {
   await page1.getByRole('link', { name: 'Report Library' }).click();
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
-  await page1.getByRole('link', { name: ' Management' }).click();
+  await page1.getByRole('link', { name: ' User Activity and' }).click();
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
-  await expect(page1.locator('#ApiGridReports-data-row-entity-index-14')).toContainText('Post Acute Authorization Report');
+  await expect(page1.locator('#ApiGridReports-data-row-entity-index-1')).toContainText('Form Processing Time Report');
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
+  await page1.goto('https://pv02.extendedcare.health/professional/Reports/Management/FormProcessingTimeFilter.aspx');
   const page2Promise = page1.waitForEvent('popup');
   await page.waitForTimeout(2000);
   await page.waitForLoadState('domcontentloaded');
-  await page1.locator('#ApiGridReports-data-row-entity-index-14').getByRole('link', { name: '' }).click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  const page2 = await page2Promise;
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.locator('#reportViewer_ctl08_ctl05_ctl01').click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.frameLocator('iframe[name="reportViewer_ctl08_ctl05_ctl02"]').locator('[id="\\32 0241001"]').click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.locator('#reportViewer_ctl08_ctl07_ctl01').click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.frameLocator('iframe[name="reportViewer_ctl08_ctl07_ctl02"]').getByRole('link', { name: '16', exact: true }).click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.locator('#reportViewer_ctl08_ctl09_ctl01').click();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.getByLabel('(Select All)').check();
-  await page.waitForTimeout(2000);
-  await page.waitForLoadState('domcontentloaded');
-  await page2.getByRole('button', { name: 'View Report' }).click();
+  await page1.getByRole('button', { name: 'Generate' }).click();
   await page.waitForTimeout(4000);
   await page.waitForLoadState('domcontentloaded');
-  await expect(page2.getByLabel('Report text')).toContainText('Post Acute Authorization Report');
+  const page2 = await page2Promise;
+  await expect(page2.locator('#ReportHeader_lblReportTitle')).toContainText('Form Processing Time Report');
+  await page1.getByRole('link', { name: '', exact: true }).click();
 });
