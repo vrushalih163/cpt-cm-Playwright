@@ -12,7 +12,7 @@ export class ProviderTab {
         this.Unplace_Referral = page.locator('//div//a[contains(text(), "Place Referral")]');
         this.SelectedProvider_dropdown = page.locator('//div//mat-select[@formcontrolname="providerNameControl"]//div[contains(@class, "mat-select-trigger ng-tns")]');
         this.SelectionFactor_dropdown = page.locator('//acm-mat-multiselect[@caption="Selection Factors"]');
-        this.SelectionFactor_materror = page.getByText(' Please select at least one factor. ', { exact: true });
+        this.SelectionFactor_materror = page.getByText(' Please select at least one factor. ');
         this.Place_Btn = page.getByRole('button', { name: 'Place', exact: true });
         this.Placed_label = page.locator('//p//label[contains(text(), "Placed")]');
         this.Edit_icon = page.locator('//p//mat-icon[contains(text(), "edit")]');
@@ -72,6 +72,13 @@ export class ProviderTab {
     }
 
     /**
+     * This method is used to check the visibility of Selection Factor dropdown
+     */
+    async SelectionFactor_dropdown_NotVisible() {
+        await this.SelectionFactor_dropdown.not.toBeVisible();
+    }
+
+    /**
      * This method is used to select the Selection Factors from the dropdown
      * @param {*} SelectionFactors Enter the Selection Factors to select from the dropdown
      */
@@ -118,7 +125,6 @@ export class ProviderTab {
                 await checkbox.uncheck();
             }
         }
-    
         // Close the dropdown
         await this.page.keyboard.press('Escape');
         expect(this.SelectionFactor_materror).toBeVisible();
