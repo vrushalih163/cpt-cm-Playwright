@@ -215,6 +215,10 @@ export class ManageContextNavigator {
     await this.BusinessLetter_link.click();
   }
 
+  async PayorAuthorizations_Click(){
+
+    await this.PayorAuthorizations_link.click();
+  }
 
    // Navigate to Task Default View
    async navigateToTaskDefaultView() {
