@@ -1,4 +1,5 @@
-// Author - Rajakuamr Maste, Date: 13th August, 2024
+// Author - Rajakuamr Maste, Date: 13th Nov, 2024
+// Modified By - Rajakumar Maste, Date: 19th Nov, 2024
 
 import { expect } from '@playwright/test';
 
@@ -9,18 +10,19 @@ export class ProviderTab {
 
         //selection factor controller
         this.Place_Referral = page.locator('//div//a[contains(text(), "Place Referral")]');
-        this.Unplace_Referral = page.locator('//div//a[contains(text(), "Place Referral")]');
+        this.Unplace_Referral = page.locator('//div//a[contains(text(), "Unplace Referral")]');
         this.SelectedProvider_dropdown = page.locator('//div//mat-select[@formcontrolname="providerNameControl"]//div[contains(@class, "mat-select-trigger ng-tns")]');
         this.SelectionFactor_dropdown = page.locator('//acm-mat-multiselect[@caption="Selection Factors"]');
         this.SelectionFactor_materror = page.getByText(' Please select at least one factor. ');
         this.Place_Btn = page.getByRole('button', { name: 'Place', exact: true });
         this.Placed_label = page.locator('//p//label[contains(text(), "Placed")]');
         this.Edit_icon = page.locator('//p//mat-icon[contains(text(), "edit")]');
-        this.UpdateSelFact_btn = page.getByRole('button', {name: 'Update Selection Factors',exact: true});
-        this.Unplace_Btn = page.getByRole('button', { name: 'Unplace'});
+        this.UpdateSelFact_btn = page.getByRole('button', { name: 'Update', exact: true });
+        this.Unplace_Btn = page.getByRole('button', { name: 'Unplace' });
         this.ReferralPlaced_Toast = page.getByText('Success: Referral placed');
         this.ReferralUnplaced_Toast = page.getByText('Success: Referral Unplaced');
-        
+        this.SelectAll_DropdownOption = page.getByText('Select All');
+        this.UnselectAll_DropdownOption = page.getByText('Unselect All');
 
     }
 
@@ -75,14 +77,14 @@ export class ProviderTab {
      * This method is used to check the visibility of Selection Factor dropdown
      */
     async SelectionFactor_dropdown_NotVisible() {
-        await this.SelectionFactor_dropdown.not.toBeVisible();
+        await expect(this.SelectionFactor_dropdown).not.toBeVisible();
     }
 
     /**
      * This method is used to select the Selection Factors from the dropdown
      * @param {*} SelectionFactors Enter the Selection Factors to select from the dropdown
      */
-    async SelectionFactor_OptionSelection( SelectionFactors){
+    async SelectionFactor_OptionSelection(SelectionFactors) {
         await this.SelectionFactor_dropdown.click();
         const option = await this.page.locator('//div[@role="listbox"]//mat-option[.//mat-checkbox//span[contains(text(),"' + SelectionFactors + '")]/ancestor::mat-option]');
         await option.click();
@@ -94,6 +96,7 @@ export class ProviderTab {
             await checkbox.check();
         }
         // below line is for close the dropdown
+        await this.page.waitForTimeout(2000);
         await this.page.keyboard.press('Escape');
     }
 
@@ -102,34 +105,26 @@ export class ProviderTab {
      */
     async SelectionFactor_ValidationMessage() {
         await this.SelectionFactor_dropdown.click();
+        await this.page.waitForTimeout(2000);
         await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(2000);
         expect(this.SelectionFactor_materror).toBeVisible();
     }
 
     /**
      * This method is used to validate the Selection Factors dropdown validation message on Edit modal
      */
-    async  SelectionFactor_ValidationOnEditModal() {
+    async SelectionFactor_ValidationOnEditModal() {
         // Click to open the dropdown
         await this.SelectionFactor_dropdown.click();
-    
-        // Locate all options within the dropdown
-        const options = await this.page.locator('//div[@role="listbox"]//mat-option');
-    
-        // Iterate through each option and uncheck the checkbox if it is checked
-        for (let i = 0; i < await options.count(); i++) {
-            const option = options.nth(i);
-            const checkbox = option.locator('mat-checkbox input[type="checkbox"]');
-            const isChecked = await checkbox.isChecked();
-            if (isChecked) {
-                await checkbox.uncheck();
-            }
-        }
-        // Close the dropdown
+        await this.SelectAll_DropdownOption.click();
+        await this.page.waitForTimeout(2000);
+        await this.UnselectAll_DropdownOption.click();
         await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(2000);
         expect(this.SelectionFactor_materror).toBeVisible();
     }
-    
+
     /**
      * This method is used to check the Place button is disabled or not
      */
@@ -169,7 +164,14 @@ export class ProviderTab {
      * This method is used to validate the placed label after placing the referral in the provider
      */
     async PlacedLabel_Visible() {
-        await this.Placed_label.toBeVisible();
+        expect(this.Placed_label).toBeVisible();
+    }
+
+    /**
+     * This method is used to validate the placed label is not visible after unplacing the referral in the provider
+     */
+    async PlaceLabel_NotVisible() {
+        expect(this.Placed_label).not.toBeVisible();
     }
 
     /**
@@ -182,7 +184,8 @@ export class ProviderTab {
     /**
      * This method is used to validate the Edit Selection Factors modal is visible
      */
-    async UpdateSelectionFactorsBtn_Clcick() {
+    async UpdateSelectionFactorsBtn_Click() {
+        await this.page.keyboard.press('Escape');
         await this.UpdateSelFact_btn.click();
     }
 

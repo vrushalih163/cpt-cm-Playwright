@@ -54,7 +54,6 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     await newPage.waitForTimeout(2000);
 
     //------ created a patient choice
-
     await SCHP.Click_FirstSharedChoiceCard();
 
     //Step 2: Verify column names present in shared choice tab
