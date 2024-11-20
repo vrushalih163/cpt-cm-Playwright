@@ -246,7 +246,7 @@ test('HCA Timezone changes related to Admission page payment source Diagnosis Pr
 
   // Adding UM Notes
   //click on Add notes link
-  await PAs.Add_UMNotes();
+  await PAs.AddUMNotes();
 
   const AEUMnotes = new AddEditUMNotes(page1);
   //Enter the UM Notes Type
