@@ -21,9 +21,7 @@ import { PayorAuthorization } from '../../pages/PayorAuthorizationPage_812';
 import { AddEditUMNotes } from '../../pages/AddEditUMNotesPage_746'
 import { DRGDocumentationLetters } from '../../pages/DRGDocumentationLettersPage_918';
 import { DRGDocumentationLettersGenerator } from '../../pages/DRGDocumentationLettersGeneratorPage_919';
-const { user, password } = process.env;
-const timeZone = 'CT';
-const format = '12hr';
+const { user, password, timeZone, format  } = process.env;
 
 test('HCA Timezone changes related to Admission page payment source Diagnosis Procedures Business Letter', async ({ page }) => {
 
@@ -226,7 +224,7 @@ test('HCA Timezone changes related to Admission page payment source Diagnosis Pr
 
   const PAs = new PayorAuthorizations(page1);
   //Click on Add link on the Payor Authorizations page
-  await PAs.Add_PayorAuthorizations();
+  await PAs.AddPayorAuthorizations();
 
   const PA = new PayorAuthorization(page1);
   //Enter the Payor Plan Description
