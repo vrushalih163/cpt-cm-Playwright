@@ -56,7 +56,10 @@ export class ManageContextNavigator {
     this.task_link = page.locator('#Manage_Header_Manage_Header_Menu_Tasks');
     this.taskDefaultView_link = page.locator('[name="tasks_tasks_default_view"]');
     
-        
+     //Manage>Patients>Patients Default View
+    this.manageNavigator_link = page.locator('#MenuBar_Manage_Header');
+    this.patients_link = page.locator('#Manage_Header_Manage_Header_Menu_Patients');
+    this.patientsDefaultView_link = page.locator('[name="patients_patient_default_view_"]');
   }
 
   async clickadmissionplusicon() {
@@ -231,6 +234,19 @@ export class ManageContextNavigator {
     await this.page.waitForLoadState('domcontentloaded');
 }
 
+// Navigate to Patients Default View
+async navigateToPatients() {
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.manageNavigator_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+  await this.patients_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+  await this.patientsDefaultView_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+}
 
   
 }
