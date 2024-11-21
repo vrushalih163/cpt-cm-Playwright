@@ -1,5 +1,5 @@
-import { LIB } from '../bizLibs/lib';
-
+import { test, expect } from '@playwright/test';
+import { LIB } from '../../bizLibs/lib';
 export class Facilities {
     constructor(page) {
         this.page = page;
