@@ -8,6 +8,7 @@ export class PatientdefaultviewPage {
             this.page = page;
             this.addapatient_link = page.getByRole('link', { name: 'Add a Patient' });
             this.action_dropdownbox = page.locator('select[onchange="ValidateAndTriggerPostback();"]');
+            this.action_dropdownbox = page.locator('select[onchange="ValidateAndTriggerPostback();"]');
             this.Default_button = page.locator('#ViewSearchBar_ViewSearchClearButton');
       }
 

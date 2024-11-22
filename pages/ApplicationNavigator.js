@@ -17,7 +17,6 @@ export class ApplicationNavigator {
 
     this.Admission_link = page.getByRole('link', { name: 'Admissions ' });
     this.AdmissionDefaultView_link = page.getByRole('link', { name: 'Admissions Default View' });
-
     this.ReferralActivity_link = page.getByRole('link', { name: 'Referral Activity ' , exact: true});
     this.ReferralActivityDefaultView_link = page.getByRole('link', { name: 'Referral Activity Default View' });
 
@@ -29,7 +28,8 @@ export class ApplicationNavigator {
     this.changeOrg_link = page.getByRole('link', { name: 'Change Organization' });
 
     //Configure icon 
-    this.configure_link = page.locator('#MenuBar_Configure_Header');
+    //this.configure_link = page.locator('#MenuBar_Configure_Header');
+    this.configure_link = page.getByRole('link', { name: ' Configure' })
 
     //Discharge planning link
     this.DischargePlanning_link = page.locator('//a[@data-id="Configure_Header_Configure_Header_Menu_Discharge Planning"]');
@@ -41,12 +41,15 @@ export class ApplicationNavigator {
     this.ReferralConfiguration_link = page.getByRole('link', { name: 'Referral Configuration' });
 
     // configure - Security menu links 
-    this.configure_link = page.locator('#MenuBar_Configure_Header');
-    this.menu_security = page.locator('#Configure_Header_Configure_Header_Menu_Security');
+    //this.configure_link = page.locator('#MenuBar_Configure_Header');
+    this.configure_link = page.getByRole('link', { name: ' Configure' });
+    //this.menu_security = page.locator('#Configure_Header_Configure_Header_Menu_Security');
+    this.menu_security = page.getByRole('link', { name: 'Security ' });
     this.address_filters_link = page.locator('a[name="security_address_filters"]');
     this.certificates_link = page.locator('a[name="security_certificates"]');
     this.security_configuration_link = page.locator('a[name="security_security_configuration"]');
     this.users_link = page.locator('a[name="security_users"]');
+    //this.users_link = page.getByRole('link', { name: 'Users' });
    
     // User Admins navigation back links
     this.top_Nav_Back_Links = page.locator('//td[@class="clsTopNavBackLinks"]/a');
@@ -74,11 +77,24 @@ export class ApplicationNavigator {
     this.reportLibrary_link = page.getByRole('link', { name: 'Report Library' });
 
 
-    //Referral lookup link
+    // Referral lookup link
     this.ReferralLookup_link = page.getByRole('link', { name: 'Referral Lookup' });
 
-    //Save Popup Modal Controls
-    this.SaveContinue_button = page.locator(`//div[@class='ion-modal-footer-panel']/button[.='Save and Continue']`);
+    // Save Popup Modal Controls
+    this.SaveContinue_button = page.locator(`//div[@class='ion-modal-footer-panel']/button[.='Save and Continue']`);    
+
+    // 
+    //this.securityGroupMenu_link = page.locator('[data-id="Configure_Header_Configure_Header_Menu_Security Group"]');
+    this.securityGroupMenu_link = page.getByRole('link', { name: 'Security Group ' });
+    //this.manageSecurityGroups_link = page.locator('[name="security_group_manage_security_groups"]');
+    this.manageSecurityGroups_link = page.getByRole('link', { name: 'Manage Security Groups' })
+
+    // My Profile
+    //this.infoIcon_link = page.locator('a#MenuBar_Info_Header');
+    this.infoIcon_link = page.getByRole('link', { name: ' Info' });
+    //this.myProfile_link = page.locator('[name="info_my_profile"]');
+    this.myProfile_link = page.getByRole('link', { name: 'My Profile' })
+    
   }
 
   async clickRefresh() {
@@ -315,22 +331,67 @@ async SaveContinue() {
   await this.page.waitForTimeout(2000);
 }
 
-
-/**
+   /**
     * Navigates to Facilities page
     */ 
-async NavigatetoFacilities() {  
-  await this.page.waitForLoadState('domcontentloaded');
-  await this.page.waitForTimeout(5000);
-  await this.configure_link.click();
-  await this.page.waitForTimeout(2000);
-  await this.Facilities_link.click();
-  await this.page.waitForLoadState('domcontentloaded');
-  await this.page.waitForTimeout(3000);
-}
+   async NavigatetoFacilities() {  
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(5000);
+    await this.configure_link.click();
+    await this.page.waitForTimeout(2000);
+    await this.Facilities_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(3000);
+  }
+
+  /**
+   * Navigates to Configure / Security Group / Manage Security Groups
+     
+   */
+
+  async NavigateToManageSecurityGroups() {
+    await this.page.waitForTimeout(2000);
+    await this.configure_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.securityGroupMenu_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+    await this.manageSecurityGroups_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+
 
 } 
 
+async clickConfigureSecurityUsers() {
+  // Click the Configure link
+  await this.configure_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
 
+  // Click the Security menu
+  await this.menu_security.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
 
+  // Click the Users link
+  await this.users_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+}
 
+/**
+ * Clicks the Info icon and navigates to My Profile
+ */
+
+async navigateToMyProfile() {
+  await this.infoIcon_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+  await this.myProfile_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+
+}
+
+}
