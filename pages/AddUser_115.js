@@ -36,7 +36,7 @@ export class AddUserPage {
         await this.firstName_textbox.fill(uniqueFirstName);
         return uniqueFirstName;
     }
-    
+
 
     async enterLastName() {
         const uniqueLastName = await this.lib.generateUniqueText(6);
@@ -44,7 +44,7 @@ export class AddUserPage {
         return uniqueLastName;
     }
 
-    async enterDisplayName() {   
+    async enterDisplayName() {
         const uniqueDisplayName = await this.lib.generateUniqueText(6);
         await this.displayName_textbox.fill(uniqueDisplayName);
         return uniqueDisplayName;
@@ -75,16 +75,16 @@ export class AddUserPage {
 
     async fillNewUserInformation() {
         await this.users.clickAddUser();
-        const userName = await this.enterUserName();
-        const password = 'Orginization=17'; // Assuming the password is fixed
-        await this.enterFirstName();
-        await this.enterLastName();
+        const newUserName = await this.enterUserName();
+        const newUserPassword = 'Organization=17'; // Assuming the password is fixed
+        const fName = await this.enterFirstName();
+        const lName = await this.enterLastName();
         await this.enterDisplayName();
         await this.enterEmail();
-        await this.enterPassword(password);
-        await this.enterConfirmPassword(password);
-        return { userName, password };
-        
+        await this.enterPassword(newUserPassword);
+        await this.enterConfirmPassword(newUserPassword);
+        return { newUserName, newUserPassword, fName, lName };
+
     }
 
     async selectMultipleRoles() {
@@ -98,12 +98,12 @@ export class AddUserPage {
             await checkbox.evaluate(node => node.click()); // Use evaluate to click the checkbox
         }
         await this.page.waitForTimeout(2000);
-        
-        
+
+
     }
 
     async createNewUser() {
-        const { userName, password } = await this.fillNewUserInformation();
+        const { newUserName, newUserPassword, fName, lName } = await this.fillNewUserInformation();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
         await this.selectMultipleRoles();
@@ -112,9 +112,9 @@ export class AddUserPage {
         await this.clickSave();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForTimeout(2000);
-        console.log('User created successfully' + '\n' + 'Username:' +  userName + '\n' + 'Passowrd:' + password);
-        return { userName, password };
-    
+        console.log('User created successfully' + '\n' + 'Username:' + newUserName + '\n' + 'Passowrd:' + newUserPassword + '\n' + 'First Name:' + fName + '\n' + 'Last Name:' + lName);
+        return { newUserName, newUserPassword, fName, lName };
+
     }
 
 }

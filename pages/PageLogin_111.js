@@ -34,6 +34,7 @@ export class LoginPage{
         await page1.getByText('Log In').click();
         await page1.waitForLoadState('domcontentloaded');
         await expect(page1.getByText('Welcome Back')).toHaveCount(1);
+        await page1.waitForTimeout(2000);
         return page1;
         //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
     
