@@ -20,7 +20,7 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     const newPage = await lib.HandleAppLaunch('Grand Central, John', 'E3228', 'Patient Choice', TransitionlaunchUrl);
     await newPage.waitForTimeout(2000);
 
-    await expect(newPage.locator('#referralsPageTitle')).toBeVisible();
+    await expect(newPage.getByText('Shared Choice')).toBeVisible();
 
     //step 2: Click on the first shared choice card
     const SCHP = new SharedChoiceHomePage(newPage);
@@ -54,7 +54,6 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     await newPage.waitForTimeout(2000);
 
     //------ created a patient choice
-
     await SCHP.Click_FirstSharedChoiceCard();
 
     //Step 2: Verify column names present in shared choice tab
@@ -108,9 +107,11 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     await newPage.getByRole('button', { name: ' Save as Patient Choice ' }).click();
 
     //Ranks are not dragable on the rank provider modal when the user views the any rows except the first row
+    await newPage.waitForLoadState('domcontentloaded');
+    await newPage.waitForTimeout(2000);
     await SC.validate_ChoiceIsNotDragable(2);
-
-    await newPage.locator('//i[@type="button"]').click();
+    await newPage.waitForTimeout(2000);
+    await newPage.getByRole('heading', { name: '' }).locator('i').click();
 
     //get the rows count which is used to validate the step 5
     var rowscount = await newPage.locator('table#tblShared tbody tr').count();
@@ -130,6 +131,7 @@ test('Standalone PC - Shared Choice tab', async ({ browser }) => {
     await SCPS.GoToTransition();
 
     //shared method verification
+    await newPage.waitForTimeout(2000);
     await SC.SharedMethod_Validation('Print');
 
     //Step 5: verify the rows count after sharing with print

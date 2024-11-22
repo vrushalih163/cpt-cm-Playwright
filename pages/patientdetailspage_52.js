@@ -1,5 +1,6 @@
 
 // Author - Vrushali Honnatti Date:10th July, 2024
+import { expect } from '@playwright/test';
 
 export class PatientdetailsPage {
 
@@ -12,6 +13,7 @@ constructor(page) {
       this.gender_field = page.getByLabel('Sex at Birth:');
       this.save_button = page.getByRole('button', { name: 'Save' });
       this.admissionplusicon_link = page.getByRole('link', { name: '' });
+      this.zip_field = page.locator('#Address1_ZipCode_ZipCode');
 
 }
 
@@ -67,5 +69,12 @@ async  clickadmissionplusicon(){
            
 }
 
+async validatePatientDetails(expectedMRN, expectedFirstName, expectedLastName, expectedDOB, expectedZip) {
+      await expect(this.mrn_field).toHaveValue(expectedMRN, { timeout: 10000 });
+      await expect(this.firstname_field).toHaveValue(expectedFirstName, { timeout: 10000 });
+      await expect(this.lastname_field).toHaveValue(expectedLastName, { timeout: 10000 });
+      await expect(this.dateofbirth_field).toHaveValue(expectedDOB, { timeout: 10000 });
+      await expect(this.zip_field).toHaveValue(expectedZip, { timeout: 10000 });
+}
 
 }

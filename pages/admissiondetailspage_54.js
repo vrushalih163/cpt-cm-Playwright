@@ -3,7 +3,7 @@
 // Modified by - Rajakumar Maste, modified date - 18 Sept 2024
 // comment - updated the createAdmission method
 
-import {Page, Locator, test } from '@playwright/test';
+import {Page, Locator, test, expect } from '@playwright/test';
 export class AdmissiondetailsPage {
 
 constructor(page) {
@@ -19,6 +19,7 @@ constructor(page) {
       this.apply_button = page.getByRole('button', { name: 'Apply' });
       this.PatientTypeOrderDate_field = page.locator('#dtPatientTypeOrder_Date');
       this.PatientTypeOrderTime_field = page.locator('#dtPatientTypeOrder_Time');
+      this.UMStatus_DD = page.locator('#ddlURStatus');
 
 }
 
@@ -79,5 +80,13 @@ async GetProjectedDischargeTime(){
 
 async GetPrimaryDiagnosis(){
       return await this.primarydiagnosis_field.innerText();
+}
+
+async SetUMStatus(umStatus){
+      await this.UMStatus_DD.selectOption(umStatus);
+}
+
+async ValidateUMStatus(umStatus){
+      await expect(this.UMStatus_DD).toContainText(umStatus);
 }
 }

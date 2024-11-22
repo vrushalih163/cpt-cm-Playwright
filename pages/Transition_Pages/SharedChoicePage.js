@@ -202,6 +202,7 @@ export class SharedChoice {
      * @param {*} Sharemethod  Enter Sharedmethod as 'Text/Email' OR 'Print' OR 'AddToReferral
      */
     async SharedMethod_Validation(Sharemethod) {
+        await this.page.waitForTimeout(2000);
         const ElectronicORPrintout = await this.SharedMethod_Text.textContent();
         await this.page.waitForTimeout(2000);
 

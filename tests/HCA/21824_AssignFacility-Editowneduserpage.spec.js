@@ -86,7 +86,7 @@ const Accnumber = 'AutoAccntNo' + uniquetext;
   await page1.getByRole('link', { name: 'Change Organization' }).click();
   await page1.waitForTimeout(1000);
   await page1.getByRole('link', { name: 'CM Automation Hospital New' }).click();
-  await page1.waitForTimeout(1000);
+  await page1.waitForTimeout(5000);
 
   //Assign facility to user in Edit owned page
   await page1.getByRole('link', { name: ' Configure' }).click();

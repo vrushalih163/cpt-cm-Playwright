@@ -42,24 +42,28 @@ export class ManageContextNavigator {
     this.newReview_link = page.getByTitle('Create a new review');
     this.reviewCriteria_link = page.locator('xpath=//ul[@class="ion-navbaritem-list"]/li/div/a[contains(@name, "navbar_step") and contains(@name,"review_criteria")]');
     this.communications_link = page.locator('xpath=//ul[@class="ion-navbaritem-list"]/li/div/a[contains(@name, "navbar_step") and contains(@name,"communications")]');
-    this.typeFacesheet_link = page.locator('xpath=//ul[@class="ion-navbaritem-list"]/li/div/a[contains(@name, "navbar_step") and contains(@name,"type_and_face_sheet")]');
+    this.reviewTypeFacesheet_link = page.locator('xpath=//ul[@class="ion-navbaritem-list"]/li/div/a[contains(@name, "navbar_step") and contains(@name,"type_and_face_sheet")]');
+    this.FirstReview_link = page.locator(`//li[span[contains(text(), 'Reviews')]]/following-sibling::li[1]/div/a`);
+    this.SecondReview_link = page.locator(`//li[span[contains(text(), 'Reviews')]]/following-sibling::li[2]/div/a`);
 
     //Discharge Planning Controls
     this.DischargePlanning_link = page.getByRole('link', { name: 'Discharge Planning' })
     
+    //Printable Documents
+    this.PrintableDocuments_link = page.locator('xpath=//a[text()="Printable Documents"]');
 
     // Tasks Default View
     this.task_link = page.locator('#Manage_Header_Manage_Header_Menu_Tasks');
     this.taskDefaultView_link = page.locator('[name="tasks_tasks_default_view"]');
     
-        
+     //Manage>Patients>Patients Default View
+    this.manageNavigator_link = page.locator('#MenuBar_Manage_Header');
+    this.patients_link = page.locator('#Manage_Header_Manage_Header_Menu_Patients');
+    this.patientsDefaultView_link = page.locator('[name="patients_patient_default_view_"]');
   }
 
-
   async clickadmissionplusicon() {
-
     await this.admissionplusicon_link.click();
-
   }
 
   async NavigateToFinancial() {
@@ -84,6 +88,11 @@ export class ManageContextNavigator {
     await this.page.getByRole('link', { name: 'Admission Details' }).click();
 
   }
+
+  async NavigateToAdmissionDetails1() {
+    await this.page.getByRole('link', { name: 'Admission Details' }).click();
+  }
+
   async NavigateToChooseRecipients() {
 
     await this.chooseRecipients_link.click();
@@ -111,8 +120,6 @@ export class ManageContextNavigator {
     }
 
     this.DocPostAuth_link.click();
-
-
   }
 
   async NavigateTOCMAssessments() {
@@ -134,13 +141,27 @@ export class ManageContextNavigator {
     await this.communications_link.click();
   }
 
-  async NavigateToTypeFaceSheet() {
+  async NavigateToReviewTypeFaceSheet() {
 
-    await this.typeFacesheet_link.click();
+    await this.reviewTypeFacesheet_link.click();
+  }
+
+  async NavigateToFirstReview() {
+    await this.FirstReview_link.click();
+  }
+
+  async NavigateToSecondReview() {
+    await this.SecondReview_link.click();
   }
 
   async NavigateToDischargePlanning() {
     await this.DischargePlanning_link.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
+
+  async NavigateToPrintableDocuments() {
+    await this.PrintableDocuments_link.click();
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForTimeout(2000);
   }
@@ -177,7 +198,16 @@ export class ManageContextNavigator {
   /**
    * This method is used to navigate to Payor Authorizations
    */
-  async PayorAuthorizations_Click() {
+  async NavigateToPayorAuthorizations() {
+    if (await this.OpenNavPanel_link.isVisible()) {
+      await this.OpenNavPanel_link.click();
+    }
+
+    if (await this.PayorAuthorizations_link.isVisible() != true) {
+      await this.ToggleDocumentationFunctions_button.click();
+      await this.page.waitForTimeout(1000);
+    }
+
     await this.PayorAuthorizations_link.click();
   }
 
@@ -188,6 +218,10 @@ export class ManageContextNavigator {
     await this.BusinessLetter_link.click();
   }
 
+  async PayorAuthorizations_Click(){
+
+    await this.PayorAuthorizations_link.click();
+  }
 
    // Navigate to Task Default View
    async navigateToTaskDefaultView() {
@@ -200,6 +234,19 @@ export class ManageContextNavigator {
     await this.page.waitForLoadState('domcontentloaded');
 }
 
+// Navigate to Patients Default View
+async navigateToPatients() {
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.manageNavigator_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+  await this.patients_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+  await this.patientsDefaultView_link.click();
+  await this.page.waitForLoadState('domcontentloaded');
+  await this.page.waitForTimeout(2000);
+}
 
   
 }

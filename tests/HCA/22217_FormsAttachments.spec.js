@@ -19,9 +19,7 @@ import { PayorAuthorization } from '../../pages/PayorAuthorizationPage_812';
 import { AddEditUMNotes } from '../../pages/AddEditUMNotesPage_746'
 import { DRGDocumentationLetters } from '../../pages/DRGDocumentationLettersPage_918';
 import { DRGDocumentationLettersGenerator } from '../../pages/DRGDocumentationLettersGeneratorPage_919';
-const { user, password } = process.env;
-const timeZone = 'CT';
-const format = '12hr';
+const { user, password, timeZone, format  } = process.env;
 
 test('CM- HCA to Support3', async ({ page }) => {
  
@@ -75,7 +73,7 @@ await EPS.AddPaymentSource('54562');
 
   //Navigation to Forms & Attachments
   await page1.getByRole('link', { name: 'Forms and Attachments' }).click();
-  await page1.locator('#m_MasterFormsList').selectOption('1_1_4640');
+  await page1.locator('#m_MasterFormsList').selectOption('1_1_8090');
   await page1.getByRole('button', { name: 'Add' }).click();
   await page1.waitForTimeout(30000);
   await page1.frameLocator('iframe[title="webviewer"]').getByRole('button', { name: 'Save' }).click();

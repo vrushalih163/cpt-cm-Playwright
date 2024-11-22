@@ -5,6 +5,7 @@ export class PayorAuthorization {
         this.page = page;
         this.PlanDescription_dropdown = page.locator('#m_PlanDescriptionList');
         this.ContactMethod_dropdown = page.locator('#m_ContactMethodList');
+        this.UMStatus_dropdown = page.locator('#ddlUMStatus');
         this.Save_button = page.getByRole('button', { name: 'Save' });
 
     }
@@ -24,6 +25,22 @@ export class PayorAuthorization {
      */
     async ContactMethod(ContactMethod) { 
         await this.ContactMethod_dropdown.selectOption(ContactMethod);
+    }
+
+    /**
+     * This method is used to select the UMStatus from the dropdown
+     * @param {*} umStatus Enter the UMStatus which the user wants to select
+     */
+    async UMStatus(umStatus) {
+        await this.UMStatus_dropdown.selectOption(umStatus);
+    }
+
+    /**
+     * this method is used to validate the UMStatus
+     * @param {*} umStatus 
+     */
+    async ValidateUMStatus(umStatus){
+        expect(this.UMStatus_dropdown).toContain(umStatus);
     }
 
     /**

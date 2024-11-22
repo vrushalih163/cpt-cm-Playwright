@@ -1,5 +1,5 @@
 // Author - Rajakumar Maste, Created Date: 29 July 2024
-//Modified By - Vrushali Honnatti, Date: 20th August, 2024 - modified Search Provider method
+// Modified By - Vrushali Honnatti, Date: 20th August, 2024 - modified Search Provider method
 import { expect } from '@playwright/test';
 export class ProviderSearchPage {
     constructor(page) {
