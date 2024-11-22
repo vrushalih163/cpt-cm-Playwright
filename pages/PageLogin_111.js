@@ -1,4 +1,6 @@
 // Author - Vrushali Honnatti Date:10th July, 2024
+// Author - Micho Eshete Date: 08/23/2024
+
 
 const {expect} = require ("@playwright/test")
 const {URL} = process.env
@@ -10,6 +12,8 @@ export class LoginPage{
         // this.username_field = page.locator('#UserNameTextBox');
         // this.password_field = page.locator('#PasswordTextBox');
         // this.login_button = page.getByText('Log In');
+
+        this.cards_queue_count = (cardText) => page.locator(`app-queue-count-card:has-text("${cardText}")`);
     }
 
     /**
@@ -38,6 +42,37 @@ export class LoginPage{
         return page1;
         //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
     
+    }
+
+
+    
+    /**
+     * Clicks on a card on the home page identified by cardText.
+     * 
+     * cardText - The text of the card to click.
+     * pagePromise - A promise that resolves to the page that opened in a new tab, if applicable.
+     */
+    async clickCardsOnHomePage(cardText) {
+        let pagePromise;
+        if (cardText === 'Online Help') {
+            pagePromise = this.page.waitForEvent('popup');
+        }
+        await this.cards_queue_count(cardText).click({timeout: 20000});
+        let page;
+        if (pagePromise) {
+            page = await pagePromise;
+            await page.waitForLoadState('domcontentloaded');
+        }
+        return page;
+    }
+
+    /**
+     * Verifies that the specified card is not displayed on the home page basend on the configeration.
+     * 
+     * cardText - The text of the card to verify is not displayed.
+     */
+    async verifyCardNotDisplayed(cardText) {
+        await expect(this.cards_queue_count(cardText)).not.toBeVisible();
     }
     
 }

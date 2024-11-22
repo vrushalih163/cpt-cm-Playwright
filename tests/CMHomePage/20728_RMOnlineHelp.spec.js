@@ -24,7 +24,7 @@ test('Home Page - RM Online Help - RM Online Help is accessible via the Home Pag
     await AppNav.NavigateToChangeOrg('QA Provider #1');
 
     // Step 3: Click on the "Online Help" card on Home Page
-    const homePagePromise = await homePage.clickCardsOnHomePage('Online Help');
+    const homePagePromise = await Login.clickCardsOnHomePage('Online Help');
 
     // Step 4: Maximize the Online Help page
     await page.setViewportSize({ width: 1920, height: 1080 });
@@ -53,7 +53,7 @@ test('Home Page - RM Online Help - RM Online Help is accessible via the Home Pag
     // Verify Provider #2 is configured with "Can Receive Referrals Online": FALSE
 
     // Step 11: Verfy user does not see the "Online Help" card on the Home Page
-    //await homePage.verifyCardNotDisplayed('Online Help');// this is not working due to a bug in the application
+    await Login.verifyCardNotDisplayed('Online Help');
 
     // Step 12: Click on "Referal Mamangemetn Online Help" option under Help left navigation icon
     const providerTwoHelpPagePromise = await AppNav.navigateToOnlineHelp('Referral Management Online Help');
