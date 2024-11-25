@@ -133,8 +133,9 @@ export class ApplicationNavigator {
     await this.page.waitForTimeout(2000);
     await this.changeOrg_link.click();
     await this.page.waitForTimeout(2000);
-    await this.page.getByRole('link', { name: orgName, exact: true }).click();
+    //await this.page.getByRole('link', { name: orgName, exact: true }).click();
     //await this.page.locator("//a[text()='${orgName}']").click();
+    await this.page.locator(`//a[contains(text(), "${orgName}")]`).click();
     await this.page.waitForLoadState('domcontentloaded')
     await this.page.waitForTimeout(7000);
     return this.page;
