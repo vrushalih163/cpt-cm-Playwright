@@ -9,9 +9,11 @@ export class LoginPage{
 
     constructor(page) {
         this.page = page;
-        // this.username_field = page.locator('#UserNameTextBox');
-        // this.password_field = page.locator('#PasswordTextBox');
-        // this.login_button = page.getByText('Log In');
+        this.username_field = page.locator('#UserNameTextBox');
+        this.password_field = page.locator('#PasswordTextBox');
+        this.AuthenticationProvider_field = page.locator('#ProviderNameTextBox');
+        this.ExternalAuth_errorMsg = page.locator('');
+        this.login_button = page.getByText('Log In');
 
         this.cards_queue_count = (cardText) => page.locator(`app-queue-count-card:has-text("${cardText}")`);
     }
@@ -74,5 +76,34 @@ export class LoginPage{
     async verifyCardNotDisplayed(cardText) {
         await expect(this.cards_queue_count(cardText)).not.toBeVisible();
     }
-    
+
+    async SAMLLogin(provider){
+        await this.page.goto(URL, { waitUntil: 'networkidle' });
+        await this.page.waitForTimeout(1000);
+        const page1Promise = this.page.waitForEvent('popup');
+        await this.page.getByRole('button', { name: 'Log In' }).click();
+        const page1 = await page1Promise;
+        await page1.setViewportSize({ width: 1300, height: 800 });
+        await page1.locator('#ProviderNameTextBox').fill(provider);
+        await page1.getByText('Log In').click();
+        await page1.waitForLoadState('domcontentloaded');
+        //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
+        await page1.waitForTimeout(2000);
+        return page1;
+    }
+
+    async SAMLLoginInvalid(provider){
+        await this.page.goto(URL, { waitUntil: 'networkidle' });
+        await this.page.waitForTimeout(1000);
+        const page1Promise = this.page.waitForEvent('popup');
+        await this.page.getByRole('button', { name: 'Log In' }).click();
+        const page1 = await page1Promise;
+        await page1.setViewportSize({ width: 1300, height: 800 });
+        await page1.locator('#ProviderNameTextBox').fill(provider);
+        await page1.getByText('Log In').click();
+        await page1.waitForLoadState('domcontentloaded');
+        await page1.waitForTimeout(2000);
+        //await expect(this.ExternalAuth_errorMsg).toHaveText('Invalid User Name or Account Locked. Please try again. If you need assistance, contact a Security Administrator at your organization');
+        return page1;
+    }
 }

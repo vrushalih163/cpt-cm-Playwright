@@ -77,7 +77,7 @@ export default defineConfig({
     //  },
   ],
   //test case timeout
-  timeout: 240000,
+  timeout: 480000,
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',

@@ -3,9 +3,6 @@ const { user, password } = process.env;
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/PageLogin_111';
 import { ApplicationNavigator } from '../../pages/ApplicationNavigator';
-import { CMHomePage } from '../../pages/CMHomePage_111';
-
-
 
 test('Home Page - RM Online Help - RM Online Help is accessible via the Home Page', async ({ page }) => {
 
@@ -14,14 +11,12 @@ test('Home Page - RM Online Help - RM Online Help is accessible via the Home Pag
     const Login = new LoginPage(page);
     const page1 = await Login.login(user, password);
     const AppNav = new ApplicationNavigator(page1);
-    const homePage = new CMHomePage(page1);
-
 
     /**
      * Step 2: Login to QA Provider #1 configured with "Org Can Receive Professional Referrals": TRUE and  
      * configured with "Can Receive Referrals Online": TRUE
      */
-    await AppNav.NavigateToChangeOrg('QA Provider #1');
+    await AppNav.NavigateToChangeOrg('QA Provider #1 (80891)');
 
     // Step 3: Click on the "Online Help" card on Home Page
     const homePagePromise = await Login.clickCardsOnHomePage('Online Help');
@@ -48,7 +43,7 @@ test('Home Page - RM Online Help - RM Online Help is accessible via the Home Pag
     *  Step 10: Login to QA Provider #2 configured with Org "Can Receive Professional Referrals": TRUE 
     *  configured with Can "Receive Referrals Online": FALSE
     */
-    await AppNav.NavigateToChangeOrg('QA Provider #2');
+    await AppNav.NavigateToChangeOrg('QA Provider #2 (80925)');
 
     // Verify Provider #2 is configured with "Can Receive Referrals Online": FALSE
 
