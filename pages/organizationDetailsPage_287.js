@@ -6,8 +6,10 @@ export class OrganizationDetailsPage {
     this.page = page;
 
     this.organization_editcompanyprofilelink = page.getByRole('link', { name: 'Edit Company Profile' });
+    this.Comments_textbox = page.locator(`#txtbxComments`);
     this.ExternalAuth_checkbox = page.locator('#chkCanUseExternalAuthentication');
     this.AuthenticationProvider_dropdown = page.locator('#cmbAuthenticationProvider');
+
     this.Save_button = page.locator('#ButtonBarSave');
   }
 
@@ -23,8 +25,41 @@ export class OrganizationDetailsPage {
   /**
    * Click on External Auth Checkbox
    */
-  async ClickExternalAuthCheckbox() {
-    await this.ExternalAuth_checkbox.click();
+  async ClickExternalAuthCheckbox(flag, AuthProvider) {
+
+    var bFlag = '';
+    if(flag === true)
+    {
+      bFlag = 'checked';
+    }
+    else
+    {
+      bFlag = 'unchecked';
+    }
+
+    const attributeValue = await this.page.$eval('#chkCanUseExternalAuthentication', element => element.getAttribute('checked'));
+      if(attributeValue === null && bFlag === 'checked')
+      {
+            
+            this.page.on('dialog', async dialog => {
+              console.log(dialog.message());
+              await dialog.accept(); // Clicks the OK button
+            });
+            await this.ExternalAuth_checkbox.click();
+            await this.page.waitForTimeout(2000);
+            await this.AuthenticationProvider_dropdown.selectOption({ label: AuthProvider });
+      }
+      if(attributeValue === 'checked' && bFlag === 'unchecked')
+        {
+              
+              this.page.on('dialog', async dialog => {
+                console.log(dialog.message());
+                await dialog.accept(); // Clicks the OK button
+              });
+              await this.ExternalAuth_checkbox.click();
+              await this.page.waitForTimeout(2000);
+              await this.AuthenticationProvider_dropdown.selectOption({ label: AuthProvider });
+        }
   }
 
   /**
@@ -33,6 +68,14 @@ export class OrganizationDetailsPage {
   async selectAuthenticationProvider(value) {
     await this.AuthenticationProvider_dropdown.selectOption({ label: value });
 }
+
+/**
+   * Enter Comments
+   */
+async SetComments(value) {
+  await this.Comments_textbox.fill(value);
+}
+  
 
   /**
    * Click on Save Button

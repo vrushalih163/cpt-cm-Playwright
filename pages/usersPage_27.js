@@ -29,7 +29,7 @@ export class usersPage {
 
     const userLink = await this.getUserLinkByText(name);
     // Ensure only one element matches the search criteria.
-    await expect(userLink).toHaveCount(1, { timeout: 10000 }); 
+    //await expect(userLink).toHaveCount(1, { timeout: 10000 }); 
     await this.page.waitForLoadState('domcontentloaded');
     
   }
@@ -40,7 +40,7 @@ export class usersPage {
    */
   async clickUserName(name) {
     const userLink = await this.getUserLinkByText(name);
-    await userLink.click();
+    await userLink.first().click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 

@@ -12,7 +12,7 @@ export class LoginPage{
         this.username_field = page.locator('#UserNameTextBox');
         this.password_field = page.locator('#PasswordTextBox');
         this.AuthenticationProvider_field = page.locator('#ProviderNameTextBox');
-        this.ExternalAuth_errorMsg = page.locator('');
+        this.ExternalAuth_errorMsg = page.locator(`xpath=//form[@id='form1']//div[2]`);
         this.login_button = page.getByText('Log In');
 
         this.cards_queue_count = (cardText) => page.locator(`app-queue-count-card:has-text("${cardText}")`);
@@ -87,7 +87,7 @@ export class LoginPage{
         await page1.locator('#ProviderNameTextBox').fill(provider);
         await page1.getByText('Log In').click();
         await page1.waitForLoadState('domcontentloaded');
-        //await expect(page1.getByText('Welcome Back')).toHaveCount(1);
+        await expect(page1.getByText('Welcome Back')).toHaveCount(1);
         await page1.waitForTimeout(2000);
         return page1;
     }
@@ -103,7 +103,7 @@ export class LoginPage{
         await page1.getByText('Log In').click();
         await page1.waitForLoadState('domcontentloaded');
         await page1.waitForTimeout(2000);
-        //await expect(this.ExternalAuth_errorMsg).toHaveText('Invalid User Name or Account Locked. Please try again. If you need assistance, contact a Security Administrator at your organization');
+        await expect(this.ExternalAuth_errorMsg).toContainText('Invalid User Name or Account Locked.Please try again. If you need assistance, contact a Security Administrator at your organization.');
         return page1;
     }
 }

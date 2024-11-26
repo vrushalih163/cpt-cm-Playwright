@@ -12,7 +12,8 @@ export class editOwnedUser {
         this.securityGroupsModal_test = page.locator('#SecurityGroupsGrid-data-row-entity-index-0');
         this.close_button = page.getByRole('button', { name: 'Close' });
 
-
+        this.ExternalAuth_checkbox = page.locator('#chkCanUseExternalAuthentication');
+        this.Save_button = page.locator('#ButtonBarSave');
 
     }
 
@@ -67,5 +68,51 @@ export class editOwnedUser {
         await this.close_button.click();
     }
 
+    /**
+   * Click on External Auth Checkbox
+   */
+  async ClickExternalAuthCheckbox(flag) {
+
+    var bFlag = '';
+    if(flag === true)
+    {
+      bFlag = 'checked';
+    }
+    else
+    {
+      bFlag = 'unchecked';
+    }
+
+    const attributeValue = await this.page.$eval('#chkCanUseExternalAuthentication', element => element.getAttribute('checked'));
+      if(attributeValue === null && bFlag === 'checked')
+      {
+            
+            this.page.on('dialog', async dialog => {
+              console.log(dialog.message());
+              await dialog.accept(); // Clicks the OK button
+            });
+            await this.ExternalAuth_checkbox.click();
+            await this.page.waitForTimeout(2000);
+      }
+      if(attributeValue === 'checked' && bFlag === 'unchecked')
+        {
+              
+              this.page.on('dialog', async dialog => {
+                console.log(dialog.message());
+                await dialog.accept(); // Clicks the OK button
+              });
+              await this.ExternalAuth_checkbox.click();
+              await this.page.waitForTimeout(2000);
+        }
+  } 
+
+  /**
+   * Click on Save Button
+   */
+  async clickSaveButton() {
+    await this.Save_button.click();
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(2000);
+  }
    
 }
